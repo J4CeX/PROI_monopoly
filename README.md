@@ -1,0 +1,36 @@
+## Klasy
+- Gra
+	- Karta
+		- ulica
+		- szansa
+		- skarb
+	- Plansza
+		- Pole
+			- ulica
+			- szansa
+			- skarb
+			- więzienie
+			- idź do więzienia
+			- pole startu
+			- parking
+	- Gracz
+		- Pionek
+		- pozycja
+		- saldo
+		- posiadane karty
+		- czy w więzieniu
+	- saldo banku
+	- kostki
+- GUI
+
+## Tura
+- znalezienie aktualnego gracza
+- możliwość kupna domku
+- rzut kostką
+- przesunięcie gracza
+- sprawdzenie pola docelowego
+	- jezeli event
+	- jezeli nieposiadana ulica
+		- mozliwosc kupna pola
+	- jezeli ulica innego gracza
+		- zapłata innemu graczowi
