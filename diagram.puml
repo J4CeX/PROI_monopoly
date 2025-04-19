@@ -1,0 +1,161 @@
+@startuml name
+class Game {
+    +turnCounter: int
+    +bankBalance: int
+    +dice: <int, int>
+    +isDiceDoublet: bool
+    +fields: <Field>
+    +chances: EventContainer
+    +communityChests: EventContainer
+    +callMenu()
+    +findCurrentPlayer()
+    +playerHypothecatesField()
+    +waitingMode()
+    +endWaitingMode()
+    +playerBuysHouse()
+    +playerSellsHouse()
+    +rollDice()
+    +movePlayer()
+    +checkTargetField()
+    +playerGoesToJail()
+}
+
+class File {
+    +fileName: string
+    +isGood: bool
+}
+
+class OutFile {
+    +file <ofstream>
+    +saveToFile()
+}
+
+class InFile {
+    +fIle <ifstream>
+    +loadFromFile()
+}
+
+class MainMenu {
+    +loadFile: InFile
+    +startNewGame()
+    +loadGame()
+    +options()
+    +exit()
+}
+
+class GameMenu {
+    +saveFile: OutFile
+    +resume()
+    +saveGame()
+    +options()
+    +exit()
+}
+
+class EventContainer {
+    +events: <Event>
+    +shuffle()
+    +inGameCount()
+}
+
+class Event {
+    +id: int
+    +content: string
+    +action()
+}
+
+class Field {
+    +id: int
+}
+
+class OwnableField {
+    +name: string
+    +purchasePrice: int
+    +trespassingFee: int
+    +isHypothecated: bool
+    +isOwned: bool
+}
+
+class Street {
+    +id: int
+    +houseCount: int
+}
+
+class Station {
+    +id: int
+}
+
+class Utility {
+    +electricPlant
+    +waterworks
+}
+
+class EventField {
+}
+
+class ChanceField {
+    +id: int
+}
+
+class CommunityChestField {
+    +id: int
+}
+
+class Jail {}
+
+class GoToJail {}
+
+class Parking {}
+
+class FinancialField {}
+
+class StartField {}
+
+class IncomeTax {}
+
+class LuxuryTax {}
+
+class Player {
+    +id: int
+    +name: string
+    +isBankrupt: bool
+    +pawn: Pawn
+    +position: int
+    +balance: int
+    +ownedCards: List<Card>
+    +isInJail: bool
+    +turnsInJail: int
+}
+
+MainMenu --> Game
+MainMenu --> InFile
+
+Game --> EventContainer
+Game --> Field
+Game --> Player
+Game --> GameMenu
+
+File --> InFile
+File --> OutFile
+
+GameMenu --> OutFile
+
+EventContainer --> Event
+
+Field --> OwnableField
+Field --> EventField
+Field --> Jail
+Field --> GoToJail
+Field --> Parking
+Field --> FinancialField
+
+OwnableField --> Street
+OwnableField --> Station
+OwnableField --> Utility
+
+EventField --> ChanceField
+EventField --> CommunityChestField
+
+FinancialField --> StartField
+FinancialField --> IncomeTax
+FinancialField --> LuxuryTax
+@enduml
