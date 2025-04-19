@@ -4,15 +4,24 @@
 		- ulica
 		- szansa
 		- skarb
+		- dworzec
+		- elektrownia
+		- wodociągi
 	- Plansza
 		- Pole
 			- ulica
+				- Budynek
 			- szansa
 			- skarb
 			- więzienie
 			- idź do więzienia
 			- pole startu
 			- parking
+			- dworzec
+			- elektrownia
+			- wodociągi
+			- podatek od przychodu
+			- podatek od luksusu
 	- Gracz
 		- Pionek
 		- pozycja
@@ -25,12 +34,15 @@
 
 ## Tura
 - znalezienie aktualnego gracza
+- tryb oczekiwania
 - możliwość kupna domku
 - rzut kostką
 - przesunięcie gracza
 - sprawdzenie pola docelowego
 	- jezeli event
 	- jezeli nieposiadana ulica
-		- mozliwosc kupna pola
+		- kupno pola
+		- pass
 	- jezeli ulica innego gracza
 		- zapłata innemu graczowi
+- koniec trybu oczekiwania
