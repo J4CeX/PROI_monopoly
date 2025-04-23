@@ -44,7 +44,7 @@ The `Player` class represents a player of the game.
 
 `balance` represents the current balance of the player; it can be negative during a round, indicating the need to auction or mortgage. Only if the player can't eliminate the deficit, are they declared `isBankrupt` and omitted from next rounds.
 
-`position` stores the field the player is on, `jailRounds` counts the remaining number of rounds the player spends in jail, and `jailCard` represents the player having "Get out of jail free" card.
+`position` stores the field the player is on, `inJailRounds` counts the remaining number of rounds the player spends in jail, and `hasGetOutOfJailCard` represents the player having "Get out of jail free" card.
 
 ### `EventContainer` and `EventCard`
 `EventContainer` is a container storing `EventCard`s: "Community Chest" or "Chance" cards.
