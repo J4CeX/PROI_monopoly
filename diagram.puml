@@ -3,21 +3,21 @@ class Game {
     +turnCounter: int
     +bankBalance: int
     +dice: <int, int>
-    +isDiceDoublet: bool
+    +diceDoubletCounter: int
     +fields: <Field>
     +chances: EventContainer
     +communityChests: EventContainer
-    +callMenu()
-    +findCurrentPlayer()
-    +playerHypothecatesField()
-    +waitingMode()
-    +endWaitingMode()
-    +playerBuysHouse()
-    +playerSellsHouse()
-    +rollDice()
-    +movePlayer()
-    +checkTargetField()
-    +playerGoesToJail()
+    ' +callMenu()
+    ' +findCurrentPlayer()
+    ' +playerHypothecatesField()
+    ' +waitingMode()
+    ' +endWaitingMode()
+    ' +playerBuysHouse()
+    ' +playerSellsHouse()
+    ' +rollDice()
+    ' +movePlayer()
+    ' +checkTargetField()
+    ' +playerGoesToJail()
 }
 
 class File {
@@ -60,7 +60,10 @@ class EventContainer {
 class Event {
     +id: int
     +content: string
-    +action()
+    +bankPayment: int
+    +playerPayment: int
+    +targetFieldId: int
+    +isGetOutOfJailCard: bool
 }
 
 class Field {
@@ -71,8 +74,8 @@ class OwnableField {
     +name: string
     +purchasePrice: int
     +trespassingFee: int
-    +isHypothecated: bool
-    +isOwned: bool
+    +isMortgage: bool
+    +OwnerId: int
 }
 
 class Street {
@@ -121,9 +124,8 @@ class Player {
     +pawn: Pawn
     +position: int
     +balance: int
-    +ownedCards: List<Card>
-    +isInJail: bool
-    +turnsInJail: int
+    +inJailRounds: int
+    +hasGetOutOfJailCard: bool
 }
 
 MainMenu --> Game
