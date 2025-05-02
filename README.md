@@ -8,6 +8,20 @@ A Monopoly board game implementation in C++ with Qt.
 - Stanisław Liszewski
 - Mateusz Żmudziński
 
+## Building
+Make sure Qt 6 headers are available in the build environment.
+
+```
+mkdir build
+cd build
+
+cmake ..
+
+make
+```
+
+If Qt is not in the user's path, adding something like `-DCMAKE_PREFIX_PATH=/absolute/path/to/qt` to the CMake command may be necessary.
+
 ## Simulation assumptions
 - Game state will be saved and may be restored from a file
 - Qt GUI with Qt Widgets and QtGraphicsView will be used as a user interface
