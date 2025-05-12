@@ -14,7 +14,6 @@ class Street: public OwnableField {
         Street(const Street &secStreet);
         int getHousePrice() const { return housePrice; }
         int getHouseCount() const { return houseCount; }
-        int getRent() const { return trespassingFee; }
         void purchaseHouse();
         void sellHouse();
         Street& operator=(const Street &secStreet);

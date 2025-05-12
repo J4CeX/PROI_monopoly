@@ -18,10 +18,10 @@ class OwnableField: public Field {
         OwnableField(const OwnableField &secOwnableField);
         std::string getName() const { return name; }
         int getPurchasePrice() const { return purchasePrice; }
-        int getTrespassingFee() const { return trespassingFee; }
         bool isOwned() const { return owned; }
         bool isMortgage() const { return mortgage; }
         Player& getPlayer() const;
+        int getRent() const { return trespassingFee; }
         void setPlayer(const std::unique_ptr<Player> newOwner);
         OwnableField& operator=(const OwnableField &secOwnableField);
         virtual ~OwnableField() = default;
