@@ -1,6 +1,7 @@
 set(SOURCES
     Field.cpp
     OwnableField.cpp
+    Street.cpp
 )
 
 add_library(src_lib STATIC ${SOURCES})
