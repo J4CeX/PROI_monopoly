@@ -20,6 +20,7 @@ class OwnableField: public Field {
         int getPurchasePrice() const { return purchasePrice; }
         bool isOwned() const { return owned; }
         bool isMortgage() const { return mortgage; }
+        virtual TYPE getInfo() const = 0;
         Player& getPlayer() const;
         int getRent() const { return trespassingFee; }
         void setPlayer(const std::unique_ptr<Player> newOwner);

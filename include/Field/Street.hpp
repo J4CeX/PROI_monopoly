@@ -14,6 +14,7 @@ class Street: public OwnableField {
         Street(const Street &secStreet);
         int getHousePrice() const { return housePrice; }
         int getHouseCount() const { return houseCount; }
+        TYPE getInfo() const override { return TYPE::STREET; }
         void purchaseHouse();
         void sellHouse();
         Street& operator=(const Street &secStreet);
