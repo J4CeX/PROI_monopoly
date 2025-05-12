@@ -5,8 +5,9 @@ class FinancialField: public Field {
     protected:
         int income;
     public:
-    FinancialField(int position, int income): Field(position), income(income) {}
+        FinancialField(int position, int income): Field(position), income(income) {}
         FinancialField(const FinancialField &secFinancialField);
+        int getIncome() const { return income; }
         FinancialField& operator=(const FinancialField &secFinancialField);
         virtual ~FinancialField() = default;
 };
