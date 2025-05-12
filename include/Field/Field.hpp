@@ -9,5 +9,5 @@ class Field {
         Field(const Field &secField);
         int getPosition() { return position; }
         Field& operator=(const Field &secField);
-        virtual ~Field() {};
+        virtual ~Field() = default;
 };
