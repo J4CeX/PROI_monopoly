@@ -3,10 +3,11 @@
 
 class Field {
     protected:
-        std::string name;
+        int position;
     public:
-        Field() = default;
+        Field(int position): position(position) {}
         Field(const Field &secField);
+        int getPosition() { return position; }
         Field operator=(const Field &secField);
         virtual ~Field() {};
 };

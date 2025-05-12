@@ -6,5 +6,5 @@ class OwnableField: public Field {
         OwnableField() = default;
         OwnableField(const OwnableField &secOwnableField);
         OwnableField operator=(const OwnableField &secOwnableField);
-        ~OwnableField() {};
+        virtual ~OwnableField() {};
 };
