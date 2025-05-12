@@ -8,6 +8,6 @@ class Field {
         Field(int position): position(position) {}
         Field(const Field &secField);
         int getPosition() { return position; }
-        Field operator=(const Field &secField);
+        Field& operator=(const Field &secField);
         virtual ~Field() {};
 };
