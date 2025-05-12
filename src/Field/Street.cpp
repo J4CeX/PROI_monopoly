@@ -1,4 +1,3 @@
-#pragma once
 #include "Street.hpp"
 
 namespace Fields {
