@@ -12,4 +12,18 @@ namespace Fields {
         owner = std::make_unique<Player>(*newOwner);
         owned = true;
     }
+
+    void OwnableField::mortgage() {
+        if (mortgaged == false) {
+            // dodaj do salda połowe wartości pola
+            mortgaged = true;
+        }
+    }
+
+    void OwnableField::unmortgage() {
+        if (mortgaged == true) {
+            // odejmij od salda połowe wartości pola
+            mortgaged = false;
+        }
+    }
 }
