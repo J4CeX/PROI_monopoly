@@ -1,5 +1,4 @@
 set(SOURCES
-    Field.cpp
     OwnableField.cpp
     Street.cpp
 )
