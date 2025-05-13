@@ -21,10 +21,8 @@ namespace Fields {
             int position;
         public:
             Field(int position): position(position) {}
-            Field(const Field &secField);
             int getPosition() { return position; }
             virtual TYPE getInfo() const = 0;
-            Field& operator=(const Field &secField);
             virtual ~Field() = default;
     };
 }

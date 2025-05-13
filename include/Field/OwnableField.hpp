@@ -16,7 +16,6 @@ namespace Fields {
             OwnableField(int position, const std::string &name, int purchasePrice, int trespassingFee)
                 : Field(position), name(name), purchasePrice(purchasePrice), trespassingFee(trespassingFee),
                 owned(false), mortgaged(false), owner(nullptr) {}
-            OwnableField(const OwnableField &secOwnableField);
             std::string getName() const { return name; }
             int getPurchasePrice() const { return purchasePrice; }
             bool isOwned() const { return owned; }
@@ -28,7 +27,6 @@ namespace Fields {
             void unmortgage();
             void setOwner(const std::unique_ptr<Player> newOwner);
             void removeOwner();
-            OwnableField& operator=(const OwnableField &secOwnableField);
             virtual ~OwnableField() = default;
     };
 }
