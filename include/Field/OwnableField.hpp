@@ -26,7 +26,8 @@ namespace Fields {
             int getRent() const { return trespassingFee; }
             void mortgage();
             void unmortgage();
-            void setPlayer(const std::unique_ptr<Player> newOwner);
+            void setOwner(const std::unique_ptr<Player> newOwner);
+            void removeOwner();
             OwnableField& operator=(const OwnableField &secOwnableField);
             virtual ~OwnableField() = default;
     };

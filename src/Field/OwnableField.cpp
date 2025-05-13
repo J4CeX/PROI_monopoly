@@ -2,26 +2,35 @@
 
 namespace Fields {
     Player& OwnableField::getPlayer() const {
-        if (!isOwned()) {
+        if (!owned) {
             throw std::runtime_error("Ownable field has not owner!");
         }
         return *owner;
     }
 
-    void OwnableField::setPlayer(const std::unique_ptr<Player> newOwner) {
-        owner = std::make_unique<Player>(*newOwner);
-        owned = true;
+    void OwnableField::setOwner(const std::unique_ptr<Player> newOwner) {
+        if (owned == false) {
+            owner = std::make_unique<Player>(*newOwner);
+            owned = true;
+        }
+    }
+
+    void OwnableField::removeOwner() {
+        if (owned == true) {
+            owner = nullptr;
+            owned = false;
+        }
     }
 
     void OwnableField::mortgage() {
-        if (mortgaged == false) {
+        if (mortgaged == false && owned == true) {
             // dodaj do salda połowe wartości pola
             mortgaged = true;
         }
     }
 
     void OwnableField::unmortgage() {
-        if (mortgaged == true) {
+        if (mortgaged == true && owned == true) {
             // odejmij od salda połowe wartości pola
             mortgaged = false;
         }
