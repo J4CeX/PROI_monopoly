@@ -6,14 +6,14 @@
 #include "EventCard.hpp"
 
 class EventCardContainer {
-    std::vector<EventCard> cards;
+    std::vector<EventCard> cards_;
 
     public:
         EventCardContainer() = default;
 
         bool addCard(const EventCard& newCard);
 
-        size_t length() const { return cards.size(); };
+        size_t length() const { return cards_.size(); };
         void shuffle();
 
         // Iterator for EventCards
@@ -21,7 +21,7 @@ class EventCardContainer {
             public:
                 Iterator(std::vector<EventCard>::iterator it);
                 EventCard operator*() const;
-                EventCard& operator++();
+                EventCardContainer& operator++();
                 bool operator!=(const Iterator &other) const;
 
             private:
