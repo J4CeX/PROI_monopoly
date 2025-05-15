@@ -1,1 +1,2 @@
 add_subdirectory(EventCard)
+add_subdirectory(EventCardContainer)
