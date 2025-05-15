@@ -21,7 +21,7 @@ class EventCardContainer {
             public:
                 Iterator(std::vector<EventCard>::iterator it);
                 EventCard operator*() const;
-                EventCardContainer& operator++();
+                EventCardContainer::Iterator& operator++();
                 bool operator!=(const Iterator &other) const;
 
             private:

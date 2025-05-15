@@ -1,6 +1,6 @@
 #include "EventCardContainer.hpp"
 
-// Ingredient iterator implementation
+// EventCard iterator implementation
 EventCardContainer::Iterator::Iterator(std::vector<EventCard>::iterator it) : current(it) {}
 
 EventCard EventCardContainer::Iterator::operator*() const {
