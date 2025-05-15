@@ -4,7 +4,7 @@
 #include <iostream>
 
 enum class CardType { chance, communityChest };
-enum class MovementType { relativeForward, relativeBackward, absolute, goToJail };
+enum class MovementType { relativeForward, relativeBackward, absolute };
 
 class EventCard {
     MovementType movement;
@@ -27,7 +27,7 @@ class EventCard {
         bool isGetOutOfJailFree;
 
         EventCard() = default;
-        unsigned int movementTarget(const unsigned int currentField, const unsigned int fieldCount);
+        unsigned int movementTarget(const unsigned int currentField, const unsigned int fieldCount) const;
 
         friend std::istream& operator>>(std::istream& is, EventCard& ec);
 };
