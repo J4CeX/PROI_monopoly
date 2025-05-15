@@ -10,6 +10,8 @@ class EventCard {
     MovementType movement;
     unsigned int distance;  // distance or position
 
+    bool filled;
+
     public:
         // ID for GUI graphics use
         unsigned int id;
@@ -30,4 +32,5 @@ class EventCard {
         unsigned int movementTarget(const unsigned int currentField, const unsigned int fieldCount) const;
 
         friend std::istream& operator>>(std::istream& is, EventCard& ec);
+        friend std::ostream& operator<<(std::ostream& os, const EventCard& ec);
 };
