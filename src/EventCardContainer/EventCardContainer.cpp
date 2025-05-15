@@ -1,5 +1,7 @@
 #include "EventCardContainer.hpp"
 
+namespace Events {
+
 // EventCard iterator implementation
 EventCardContainer::Iterator::Iterator(std::vector<EventCard>::iterator it) : current(it) {}
 
@@ -33,3 +35,5 @@ void EventCardContainer::shuffle() {
 
     std::shuffle(cards_.begin(), cards_.end(), randomGenerator);
 };
+
+}

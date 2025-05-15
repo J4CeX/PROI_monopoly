@@ -3,6 +3,8 @@
 #include <string>
 #include <iostream>
 
+namespace Events {
+
 enum class CardType { chance, communityChest };
 enum class MovementType { relativeForward, relativeBackward, absolute };
 
@@ -34,3 +36,5 @@ class EventCard {
         friend std::istream& operator>>(std::istream& is, EventCard& ec);
         friend std::ostream& operator<<(std::ostream& os, const EventCard& ec);
 };
+
+}

@@ -6,6 +6,8 @@
 
 #include "EventCard.hpp"
 
+namespace Events {
+
 class EventCardContainer {
     std::vector<EventCard> cards_;
 
@@ -33,3 +35,5 @@ class EventCardContainer {
         Iterator end();
 
 };
+
+}
