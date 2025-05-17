@@ -81,7 +81,6 @@ class OwnableField {
 class Street {
     +id: int
     +houseCount: int
-}
 
 class Station {
     +id: int
