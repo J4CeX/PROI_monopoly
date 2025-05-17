@@ -9,28 +9,43 @@ enum class CardType { chance, communityChest };
 enum class MovementType { relativeForward, relativeBackward, absolute };
 
 class EventCard {
-    MovementType movement;
-    unsigned int distance;  // distance or position
+	private:
+		bool filled_;
 
-    bool filled;
+		MovementType movement_;
+		unsigned int location_;  // distance or position
 
-    public:
         // ID for GUI graphics use
-        unsigned int id;
-        CardType type;
-        std::string text;
+        unsigned int cardId_;
+        CardType type_;
+        std::string text_;
 
-        int bankBalance;  // "collect", "pay"
-        int eachPlayerBalance;  // "pay each player", "collect from each player"
+        int bankBalance_;  // "collect", "pay"
+        int eachPlayerBalance_;  // "pay each player", "collect from each player"
 
-        unsigned int perHouseBalance;  // "pay per house"
-        unsigned int perHotelBalance;  // "pay per hotel"
+        unsigned int perHouseBalance_;  // "pay per house"
+        unsigned int perHotelBalance_;  // "pay per hotel"
 
-        bool goFieldCollectable; // "collect"/"don't collect" if passing GO
+        bool goFieldCollectable_; // "collect"/"don't collect" if passing GO
 
-        bool isGetOutOfJailFree;
+        bool isGetOutOfJailFree_;
 
+		public:
         EventCard() = default;
+
+		bool isFilled() const { return filled_; };
+		MovementType getMovementType() const { return movement_; };
+		unsigned int getLocation() const { return location_; };
+		unsigned int getCardId() const { return cardId_; };
+		CardType getCardType() const { return type_; };
+		std::string getText() const { return text_; };
+		int getBankBalance() const { return bankBalance_; };
+		int getEachPlayerBalance() const { return eachPlayerBalance_; };
+		unsigned int getPerHouseBalance() const { return perHouseBalance_; };
+		unsigned int getPerHotelBalance() const { return perHotelBalance_; };
+		bool isGoFieldCollectable() const { return goFieldCollectable_; };
+		bool isGetOutOfJailFree() const { return isGetOutOfJailFree_; };
+
         unsigned int movementTarget(const unsigned int currentField, const unsigned int fieldCount) const;
 
         friend std::istream& operator>>(std::istream& is, EventCard& ec);

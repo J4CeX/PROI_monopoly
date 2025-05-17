@@ -3,12 +3,12 @@
 namespace Events {
 
 unsigned int EventCard::movementTarget(const unsigned int currentField, const unsigned int fieldCount) const {
-    if (movement == MovementType::relativeForward) {
-        return (currentField + distance) % fieldCount;
-    } else if (movement == MovementType::relativeBackward) {
-        return (currentField - distance) % fieldCount;
-    } else if (movement == MovementType::absolute) {
-        return distance % fieldCount;
+    if (movement_ == MovementType::relativeForward) {
+        return (currentField + location_) % fieldCount;
+    } else if (movement_ == MovementType::relativeBackward) {
+        return (currentField - location_) % fieldCount;
+    } else if (movement_ == MovementType::absolute) {
+        return location_ % fieldCount;
     }
 }
 
@@ -78,26 +78,29 @@ std::ostream& operator<<(std::ostream& os, const CardType& ct) {
 
 // Serialization for EventCard
 std::istream& operator>>(std::istream& is, EventCard& ec) {
-    is >> ec.id >> ec.type
-       >> ec.movement >> ec.distance
-       >> ec.bankBalance >> ec.eachPlayerBalance
-       >> ec.perHouseBalance >> ec.perHotelBalance
-       >> ec.goFieldCollectable >> ec.isGetOutOfJailFree;
+    is >> ec.cardId_ >> ec.type_
+       >> ec.movement_ >> ec.location_
+       >> ec.bankBalance_ >> ec.eachPlayerBalance_
+       >> ec.perHouseBalance_ >> ec.perHotelBalance_
+       >> ec.goFieldCollectable_ >> ec.isGetOutOfJailFree_
+	   >> std::skipws;
+
+	std::getline(is, ec.text_);
 
     if (is) {
-        ec.filled = true;
+        ec.filled_ = true;
     }
 
     return is;
 };
 
 std::ostream& operator<<(std::ostream& os, const EventCard& ec) {
-    os << ec.id << ec.type
-       << ec.movement << ec.distance
-       << ec.bankBalance << ec.eachPlayerBalance
-       << ec.perHouseBalance << ec.perHotelBalance
+    os << ec.cardId_ << ec.type_
+       << ec.movement_ << ec.location_
+       << ec.bankBalance_ << ec.eachPlayerBalance_
+       << ec.perHouseBalance_ << ec.perHotelBalance_
        << std::noboolalpha
-       << ec.goFieldCollectable << ec.isGetOutOfJailFree;
+       << ec.goFieldCollectable_ << ec.isGetOutOfJailFree_;
 
     return os;
 };
