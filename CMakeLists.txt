@@ -15,10 +15,8 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 enable_testing()
 
-include_directories(include)
+include_directories(${PROJECT_SOURCE_DIR}/include)
 
 add_subdirectory(src)
 add_subdirectory(tests)
-
-add_executable(boardgame main.cpp)
-target_link_libraries(boardgame src_lib)
+add_subdirectory(app)

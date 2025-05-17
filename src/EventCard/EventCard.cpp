@@ -7,7 +7,7 @@ unsigned int EventCard::movementTarget(const unsigned int currentField, const un
         return (currentField + location_) % fieldCount;
     } else if (movement_ == MovementType::relativeBackward) {
         return (currentField - location_) % fieldCount;
-    } else if (movement_ == MovementType::absolute) {
+    } else { // if (movement_ == MovementType::absolute) {
         return location_ % fieldCount;
     }
 }
