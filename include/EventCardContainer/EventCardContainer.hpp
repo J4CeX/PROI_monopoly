@@ -9,7 +9,8 @@
 namespace Events {
 
 class EventCardContainer {
-    std::vector<EventCard> cards_;
+	private:
+    	std::vector<EventCard> cards_;
 
     public:
         EventCardContainer() = default;
