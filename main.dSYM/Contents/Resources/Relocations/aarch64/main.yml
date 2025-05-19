@@ -1,0 +1,5 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/sstanlej/Documents/code_projects/proi boardgame/boardgame/main'
+relocations:     []
+...
