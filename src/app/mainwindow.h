@@ -22,6 +22,8 @@ private slots:
 
     void on_push_exit_clicked();
 
+    void on_push_save_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

@@ -31,3 +31,9 @@ void MainWindow::on_push_exit_clicked()
     QApplication::quit();
 }
 
+
+void MainWindow::on_push_save_clicked()
+{
+
+}
+

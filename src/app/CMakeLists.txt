@@ -2,6 +2,7 @@ qt_add_executable(boardgame
     mainwindow.ui
     mainwindow.cpp
     main.cpp
+    GameControler.cpp
 )
 
 target_link_libraries(boardgame PRIVATE Qt6::Widgets)
