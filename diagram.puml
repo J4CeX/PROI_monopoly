@@ -1,23 +1,27 @@
-@startuml name
+@startuml Monopoly
 class Game {
     +turnCounter: int
-    +bankBalance: int
+    +currentPlayer: size_t
     +dice: <int, int>
     +diceDoubletCounter: int
     +fields: <Field>
     +chances: EventContainer
     +communityChests: EventContainer
-    ' +callMenu()
-    ' +findCurrentPlayer()
-    ' +playerHypothecatesField()
-    ' +waitingMode()
-    ' +endWaitingMode()
-    ' +playerBuysHouse()
-    ' +playerSellsHouse()
-    ' +rollDice()
-    ' +movePlayer()
-    ' +checkTargetField()
-    ' +playerGoesToJail()
+    +players: <Player>
+    +private():
+    +canFieldBeBought(): bool
+    +rollDice(): void
+    +public():
+    +isFinished(): bool
+    +findNextPlayer(): size_t
+    +mortgageField(size_t player, size_t field, bool unMortgage = false): bool
+    +playerBuysHouse(size_t player, size_t field, bool sellsHouse = false): bool
+    +buyOwnableField(): void
+    +sellOwnableField(): void
+    +getDice(): <int, int>
+    +movePlayer(): size_t
+    +getDiceDubleCounter(): int
+    +useGetOutOfJailCard(): void
 }
 
 class File {
@@ -148,6 +152,7 @@ Field --> Jail
 Field --> GoToJail
 Field --> Parking
 Field --> FinancialField
+Field --> StartField
 
 OwnableField --> Street
 OwnableField --> Station
@@ -156,7 +161,6 @@ OwnableField --> Utility
 EventField --> ChanceField
 EventField --> CommunityChestField
 
-FinancialField --> StartField
 FinancialField --> IncomeTax
 FinancialField --> LuxuryTax
 @enduml
