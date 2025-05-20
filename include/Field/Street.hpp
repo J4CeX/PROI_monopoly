@@ -15,8 +15,8 @@ namespace Fields {
             int getHousePrice() const { return housePrice; }
             int getHouseCount() const { return houseCount; }
             TYPE getInfo() const override { return TYPE::STREET; }
-            void purchaseHouse();
-            void sellHouse();
+            int purchaseHouse();
+            int sellHouse();
             ~Street() = default;
     };
 }

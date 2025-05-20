@@ -11,22 +11,22 @@ namespace Fields {
             int trespassingFee;
             bool owned;
             bool mortgaged;
-            std::unique_ptr<Player> owner;
+            size_t owner;
         public:
             OwnableField(int position, const std::string &name, int purchasePrice, int trespassingFee)
                 : Field(position), name(name), purchasePrice(purchasePrice), trespassingFee(trespassingFee),
-                owned(false), mortgaged(false), owner(nullptr) {}
+                owned(false), mortgaged(false), owner(NULL) {}
             std::string getName() const { return name; }
             int getPurchasePrice() const { return purchasePrice; }
             bool isOwned() const { return owned; }
             bool isMortgaged() const { return mortgaged; }
             virtual TYPE getInfo() const = 0;
-            Player& getPlayer() const;
+            size_t getOwner() const;
             int getRent() const { return trespassingFee; }
-            void mortgage();
-            void unmortgage();
-            void setOwner(const std::unique_ptr<Player> newOwner);
-            void removeOwner();
+            int mortgage();
+            int unmortgage();
+            int setOwner(const size_t newOwner);
+            int removeOwner();
             virtual ~OwnableField() = default;
     };
 }

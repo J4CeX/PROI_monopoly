@@ -14,25 +14,25 @@ namespace Fields {
             housesRent[5] = fifthHouseRent;
         }
 
-    void Street::purchaseHouse() {
-        // wymagana klasa player
+    int Street::purchaseHouse() {
         if (houseCount < Capacity) {
             trespassingFee = housesRent[++houseCount];
+            return housePrice;
         }
         else {
             std::cerr << "purchaseHouse out of range error!" << std::endl;
+            return 0;
         }
-        // może lepiej zwykły cout?
     }
 
-    void Street::sellHouse() {
-        // wymagana klasa player
+    int Street::sellHouse() {
         if (houseCount > 0) {
             trespassingFee = housesRent[--houseCount];
+            return housePrice;
         }
         else {
             std::cerr << "sellHouse out of range error!" << std::endl;
+            return 0;
         }
-        // może lepiej zwykły cout?
     }
 }

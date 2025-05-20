@@ -1,38 +1,44 @@
 #include "Field/OwnableField.hpp"
 
 namespace Fields {
-    Player& OwnableField::getPlayer() const {
+    size_t OwnableField::getOwner() const {
         if (!owned) {
             throw std::runtime_error("Ownable field has not owner!");
         }
-        return *owner;
+        return owner;
     }
 
-    void OwnableField::setOwner(const std::unique_ptr<Player> newOwner) {
+    int OwnableField::setOwner(const size_t newOwner) {
         if (owned == false) {
-            owner = std::make_unique<Player>(*newOwner);
+            owner = newOwner;
             owned = true;
+            return purchasePrice;
         }
+        return 0;
     }
 
-    void OwnableField::removeOwner() {
+    int OwnableField::removeOwner() {
         if (owned == true) {
-            owner = nullptr;
+            owner = NULL;
             owned = false;
+            return purchasePrice;
         }
+        return 0;
     }
 
-    void OwnableField::mortgage() {
+    int OwnableField::mortgage() {
         if (mortgaged == false && owned == true) {
-            // dodaj do salda połowe wartości pola
             mortgaged = true;
+            return purchasePrice / 2;
         }
+        return 0;
     }
 
-    void OwnableField::unmortgage() {
+    int OwnableField::unmortgage() {
         if (mortgaged == true && owned == true) {
-            // odejmij od salda połowe wartości pola
             mortgaged = false;
+            return purchasePrice / 2;
         }
+        return 0;
     }
 }
