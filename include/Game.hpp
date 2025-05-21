@@ -12,6 +12,7 @@ using namespace MonopolyPlayer;
 using namespace std;
 
 namespace Monopoly {
+
     using fptr = unique_ptr<Field>;
     using pint = pair <int, int>;
 
