@@ -19,7 +19,7 @@ namespace Fields {
 
     int OwnableField::removeOwner() {
         if (owned == true) {
-            owner = NULL;
+            owner = 0;
             owned = false;
             return purchasePrice;
         }

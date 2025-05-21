@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
-#include "Field/Field.hpp"
+#include "Field/headers.hpp"
 #include "Player.hpp"
 #include "EventCardContainer.hpp"
 #include <memory>
@@ -12,7 +12,6 @@ using namespace MonopolyPlayer;
 using namespace std;
 
 namespace Monopoly {
-
     using fptr = unique_ptr<Field>;
     using pint = pair <int, int>;
 
@@ -29,8 +28,15 @@ namespace Monopoly {
 
             bool canFieldBeBought();
             void rollDice();
+
+            void setFields();
+            void setChances();
+            void setCommunityChests();
+
+            template<typename T, typename... Args>
+            void pushField(Args&&... args) { fields.push_back(make_unique<T>(std::forward<Args>(args)...)); }
         public:
-            Game(size_t playersNumber);
+            Game(vector<Player>& players);
             Game(const Game& secGame);
             Game(Game&& secGame);
             bool isFinished();
@@ -44,7 +50,7 @@ namespace Monopoly {
             Game& operator=(const Game& secGame);
             Game& operator=(Game&& secGame);
             Field& operator[](int index) const;
-            ~Game();
+            ~Game() = default;
 
             pint getDice() const { return dice; }
             int getTurnCounter() const { return turnCounter; }
