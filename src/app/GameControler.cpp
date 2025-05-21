@@ -1,7 +1,10 @@
+#include <iostream>
 #include <QObject>
 #include <QSettings>
 #include <QString>
 #include "GameControler.h"
+
+GameController::GameController(QObject *parent): QObject(parent) { }
 
 void GameController::saveSettings(const QString& bankMoneyStr, const QString& playerMoneyStr)
 {

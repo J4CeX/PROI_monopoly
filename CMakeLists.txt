@@ -9,6 +9,7 @@ set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
 set(CMAKE_C_COMPILER "/usr/bin/clang")
 
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
+include_directories(${PROJECT_SOURCE_DIR}/include)
 qt_standard_project_setup()
 
 add_subdirectory(src/app)

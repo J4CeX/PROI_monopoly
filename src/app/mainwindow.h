@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "GameControler.h"
 
 namespace Ui {
 class MainWindow;
@@ -16,6 +17,10 @@ public:
     ~MainWindow();
 
 private slots:
+    void onSettingsSaved(bool success);
+
+    void onValidationError(const QString& message);
+
     void on_push_options_clicked();
 
     void on_push_back_clicked();
@@ -26,6 +31,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    GameController* controller = new GameController(this);
 };
 
 #endif // MAINWINDOW_H

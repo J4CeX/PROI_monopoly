@@ -1,3 +1,4 @@
+#pragma once
 #include <QObject>
 #include <QSettings>
 #include <QString>
@@ -10,13 +11,11 @@ public:
     explicit GameController(QObject *parent = nullptr);
     
 public slots:
-    void loadSettings();
     void saveSettings(const QString& bankMoney, const QString& playerName);
     
 signals:
     void settingsSaved(bool success);
     void validationError(const QString& message);
-    void settingsLoaded();
     
 private:
     QSettings m_settings;
