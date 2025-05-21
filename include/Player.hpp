@@ -3,7 +3,7 @@
 #include <string>
 #include <iostream>
 
-namespace Player {
+namespace MonopolyPlayer {
 
 // Current "Standard Edition" tokens
 enum class Token {

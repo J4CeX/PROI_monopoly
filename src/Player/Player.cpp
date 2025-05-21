@@ -1,6 +1,6 @@
 #include "Player.hpp"
 
-namespace Player {
+namespace MonopolyPlayer {
 // Serialization for Token
 std::istream& operator>>(std::istream& is, Token& t) {
     unsigned int v;
