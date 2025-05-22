@@ -5,6 +5,7 @@
 #include "Player.hpp"
 #include "EventCardContainer.hpp"
 #include <memory>
+#include <cstdlib>
 
 using namespace Fields;
 using namespace Events;

@@ -69,19 +69,36 @@ namespace Monopoly {
     }
 
     void Game::rollDice() {
+        // srand(time(NULL)); TO MUSI BYĆ W GUI !!!
+        int first = rand() % 6 + 1;
+        int second = rand() % 6 + 1;
 
+        if (first == second) {
+            if ((rand() % 6) != 0) {
+                do {
+                    second = rand() % 6 + 1;
+                } while (second == first);
+            }
+        }
+        dice.first = first;
+        dice.second = second;
     }
 
 
 
     bool Game::isFinished() {
-
-        return true;
+        int inGame = 0;
+        for (const auto& player: players) {
+            if (!player.getIsBankrupt()) {
+                inGame++;
+            }
+        }
+        return inGame > 1 ? false : true;
     }
 
     size_t Game::findNextPlayer() {
-
-        return 0;
+        currentPlayer = ++currentPlayer % players.size();
+        return currentPlayer;
     }
 
     bool Game::addPlayer(Player& newPlayer) {
