@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <memory>
 
 namespace Fields {
     enum class TYPE {
@@ -23,6 +24,7 @@ namespace Fields {
             Field(int position): position(position) {}
             int getPosition() { return position; }
             virtual TYPE getInfo() const = 0;
+            virtual std::unique_ptr<Field> clone() const = 0;
             virtual ~Field() = default;
     };
 }

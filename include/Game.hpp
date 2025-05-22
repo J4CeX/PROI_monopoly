@@ -36,11 +36,12 @@ namespace Monopoly {
             template<typename T, typename... Args>
             void pushField(Args&&... args) { fields.push_back(make_unique<T>(std::forward<Args>(args)...)); }
         public:
-            Game(vector<Player>& players);
+            Game();
             Game(const Game& secGame);
             Game(Game&& secGame);
             bool isFinished();
             size_t findNextPlayer();
+            bool addPlayer(Player& newPlayer);
             bool playerMortgageField(size_t& player, size_t& field, bool unMortgage = false) const;
             bool playerBuysHouse(size_t& player, size_t& field, bool sellsHouse = false) const;
             void buyOwnableField();
