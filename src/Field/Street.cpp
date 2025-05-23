@@ -1,9 +1,9 @@
 #include "Field/Street.hpp"
 
 namespace Fields {
-    Street::Street(int position, const std::string &name, int purchasePrice,
-        int trespassingFee, Color streetColor, int firstHouseRent, int secondHouseRent,
-        int thirdHouseRent, int fourthHouseRent, int fifthHouseRent)
+    Street::Street(int position, int purchasePrice, int trespassingFee,
+        int firstHouseRent, int secondHouseRent, int thirdHouseRent,
+        int fourthHouseRent, int fifthHouseRent, const std::string &name, Color streetColor)
         : OwnableField(position, name, purchasePrice, trespassingFee),
         housePrice(50), houseCount(0), color(streetColor) {
             housesRent[0] = trespassingFee;

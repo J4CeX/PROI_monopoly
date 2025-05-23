@@ -7,5 +7,9 @@ namespace Fields {
             EventField(int position): Field(position) {}
             virtual TYPE getInfo() const = 0;
             virtual ~EventField() = default;
+            friend std::istream& operator>>(std::istream& is, EventField& eventField) {
+                is >> eventField.position;
+                return is;
+            }
     };
 }

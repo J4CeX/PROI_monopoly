@@ -8,5 +8,9 @@ namespace Fields {
             TYPE getInfo() const override { return TYPE::PARKING; }
             std::unique_ptr<Field> clone() const override { return std::make_unique<Parking>(*this); }
             ~Parking() = default;
+            friend std::istream& operator>>(std::istream& is, Parking& parking) {
+                is >> parking.position;
+                return is;
+            }
     };
 }
