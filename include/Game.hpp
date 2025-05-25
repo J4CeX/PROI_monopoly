@@ -35,6 +35,8 @@ namespace Monopoly {
 
             void executeEventCard(const EventCard& eventCard);
 
+            void movePlayer(size_t newPosition, bool goFieldCollectable = true);
+
             template<typename T>
             void pushField(const T& field) { fields.push_back(make_unique<T>(field)); }
         public:
@@ -50,7 +52,6 @@ namespace Monopoly {
             int playerBuysHouse(size_t& player, size_t& fieldPosition, bool sellsHouse = false);
             int buyOwnableField();
             int sellOwnableField(size_t& player, size_t& fieldPosition);
-            size_t movePlayer();
             bool useGetOutOfJailCard();
             Game& operator=(const Game& secGame);
             Game& operator=(Game&& secGame);
@@ -61,8 +62,8 @@ namespace Monopoly {
             int getTurnCounter() const { return turnCounter; }
             size_t getCurrentPlayer() const { return currentPlayer; }
             int getDiceDubletCounter() const { return diceDubletCounter; }
-            const EventCardContainer getChances() const { return chances; }
-            const EventCardContainer getCommunityChests() const { return communityChests; }
-            const vector<Player> getPlayers() const { return players; }
+            const EventCardContainer& getChances() const { return chances; }
+            const EventCardContainer& getCommunityChests() const { return communityChests; }
+            const vector<Player>& getPlayers() const { return players; }
     };
 }

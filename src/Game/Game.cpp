@@ -88,16 +88,21 @@ namespace Monopoly {
         if (first == second) {
             diceDubletCounter++;
         }
-        if (diceDubletCounter && players[currentPlayer].getInJailRounds()) {
-            players[currentPlayer].setInJailRounds(0);
-        }
         if (diceDubletCounter == 3) {
             players[currentPlayer].setPosition(10);
             players[currentPlayer].setInJailRounds(3);
             diceDubletCounter = 0;
+            return;
+        }
+        if (diceDubletCounter && players[currentPlayer].getInJailRounds()) {
+            players[currentPlayer].setInJailRounds(0);
+        }
+        else {
+            return;
         }
         dice.first = first;
         dice.second = second;
+        movePlayer((players[currentPlayer].getPosition() + first + second) % 40);
     }
 
 
@@ -243,12 +248,12 @@ namespace Monopoly {
         return -4;
     }
 
-    size_t Game::movePlayer() {
-        size_t currentPosition = players[currentPlayer].getPosition();
-        size_t newPosition = (currentPosition + dice.first + dice.second) % 40;
-
-        if (newPosition < currentPosition) {
-            players[currentPlayer].setBalance(players[currentPlayer].getBalance() + 200);
+    void Game::movePlayer(size_t newPosition, bool goFieldCollectable) {
+        if (goFieldCollectable) {
+            size_t currentPosition = players[currentPlayer].getPosition();
+            if (newPosition < currentPosition) {
+                players[currentPlayer].setBalance(players[currentPlayer].getBalance() + 200);
+            }
         }
 
         players[currentPlayer].setPosition(newPosition);
@@ -290,10 +295,8 @@ namespace Monopoly {
                         int newBalance = players[currentPlayer].getBalance() - financialField->getIncome();
                     }
                 }
-                return players[currentPlayer].getPosition();
             }
         }
-        return 1000;
     }
 
     bool Game::useGetOutOfJailCard() {
