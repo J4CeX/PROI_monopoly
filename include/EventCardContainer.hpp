@@ -15,7 +15,7 @@ class EventCardContainer {
     public:
         EventCardContainer() = default;
 
-        bool addCard(const EventCard& newCard);
+        void addCard(const EventCard& newCard);
 
         size_t length() const { return cards_.size(); };
         void shuffle();

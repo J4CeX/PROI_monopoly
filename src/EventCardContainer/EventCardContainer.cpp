@@ -36,9 +36,8 @@ void EventCardContainer::shuffle() {
     std::shuffle(cards_.begin(), cards_.end(), randomGenerator);
 };
 
-bool EventCardContainer::addCard(const EventCard& newCard) {
+void EventCardContainer::addCard(const EventCard& newCard) {
     cards_.push_back(newCard);
-    return true;
 }
 
 EventCard& EventCardContainer::operator[](int index) {
