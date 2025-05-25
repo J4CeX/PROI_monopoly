@@ -49,7 +49,7 @@ namespace Monopoly {
             int playerMortgageField(size_t& player, size_t& fieldPosition, bool unMortgage = false);
             int playerBuysHouse(size_t& player, size_t& fieldPosition, bool sellsHouse = false);
             int buyOwnableField();
-            bool sellOwnableField(size_t& player, size_t& fieldPosition);
+            int sellOwnableField(size_t& player, size_t& fieldPosition);
             size_t movePlayer();
             bool useGetOutOfJailCard();
             Game& operator=(const Game& secGame);

@@ -210,7 +210,7 @@ namespace Monopoly {
         return -3;
     }
 
-    bool Game::sellOwnableField(size_t& player, size_t& fieldPosition) {
+    int Game::sellOwnableField(size_t& player, size_t& fieldPosition) {
         for (auto& field: fields) {
             if (field->getPosition() == fieldPosition) {
                 if (Street* street = dynamic_cast<Street*>(field.get())) {
@@ -224,8 +224,12 @@ namespace Monopoly {
                     }
                     else {
                         if (ownableField->getOwner() == player) {
-                            players[player].setBalance(players[player].getBalance() + ownableField->getPurchasePrice());
-                            ownableField->setOwner(player);
+                            int price = ownableField->getPurchasePrice();
+                            if (ownableField->isMortgaged()) {
+                                price /= 2;
+                            }
+                            players[player].setBalance(players[player].getBalance() + price);
+                            ownableField->removeOwner();
                             return 1;
                         }
                         return -3;
