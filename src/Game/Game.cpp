@@ -95,6 +95,7 @@ namespace Monopoly {
         if (diceDubletCounter == 3) {
             players[currentPlayer].setPosition(10);
             players[currentPlayer].setInJailRounds(3);
+            diceDubletCounter = 0;
         }
         dice.first = first;
         dice.second = second;
@@ -113,7 +114,9 @@ namespace Monopoly {
     }
 
     size_t Game::findNextPlayer() {
-        currentPlayer = ++currentPlayer % players.size();
+        do {
+            currentPlayer = ++currentPlayer % players.size();
+        } while (players[currentPlayer].getIsBankrupt());
         return currentPlayer;
     }
 
@@ -223,7 +226,6 @@ namespace Monopoly {
     }
 
     size_t Game::movePlayer() {
-        rollDice();
         size_t currentPosition = players[currentPlayer].getPosition();
         size_t newPosition = (currentPosition + dice.first + dice.second) % 40;
 
@@ -236,7 +238,16 @@ namespace Monopoly {
         for (const auto& field: fields) {
             if (field->getPosition() == newPosition) {
                 TYPE currentType = field->getInfo();
-                if (currentType == TYPE::CHANCEFIELD) {
+                if (currentType == TYPE::STREET) {
+
+                }
+                else if (currentType == TYPE::STATION) {
+
+                }
+                else if (currentType == TYPE::UTILITY) {
+
+                }
+                else if (currentType == TYPE::CHANCEFIELD) {
                     EventCard currentChance = chances[chancesCounter - 1];
                     executeEventCard(currentChance);
                     if (--chancesCounter == 0) {

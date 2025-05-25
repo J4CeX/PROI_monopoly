@@ -30,8 +30,6 @@ namespace Monopoly {
             int chancesCounter;
             int communityChestsCounter;
 
-            void rollDice();
-
             void setFields();
             void setEventCards();
 
@@ -44,6 +42,7 @@ namespace Monopoly {
             Game(const Game& secGame);
             Game(Game&& secGame);
             bool isFinished();
+            void rollDice();
             size_t findNextPlayer();
             bool addPlayer(Player& newPlayer);
             int playerMortgageField(size_t& player, size_t& fieldPosition, bool unMortgage = false);
