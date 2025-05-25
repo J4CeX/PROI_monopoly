@@ -116,6 +116,9 @@ namespace Monopoly {
         diceDubletCounter = 0;
         do {
             currentPlayer = ++currentPlayer % players.size();
+            if (currentPlayer == 0) {
+                turnCounter++;
+            }
         } while (players[currentPlayer].getIsBankrupt());
         return currentPlayer;
     }
