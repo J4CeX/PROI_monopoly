@@ -74,8 +74,16 @@ namespace Monopoly {
     }
 
     bool Game::canFieldBeBought() {
-
-        return true;
+        size_t currentPosition = players[currentPlayer].getPosition();
+        for (const auto& field: fields) {
+            if (currentPosition == field->getPosition()) {
+                TYPE currentType = field->getInfo();
+                if (currentType == TYPE::STREET || currentType == TYPE::STATION || currentType == TYPE::UTILITY) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     void Game::rollDice() {
@@ -121,12 +129,29 @@ namespace Monopoly {
         }
     }
 
-    bool Game::playerMortgageField(size_t& player, size_t& field, bool unMortgage) const {
-
-        return true;
+    bool Game::playerMortgageField(size_t& player, size_t& fieldPosition, bool unMortgage) {
+        for (auto& field: fields) {
+            if (field->getPosition() == fieldPosition) {
+                if (OwnableField* ownableField = dynamic_cast<OwnableField*>(field.get())) {
+                    if (Street* street = dynamic_cast<Street*>(field.get())) {
+                        if (street->getHouseCount() != 0) {
+                            return false;
+                        }
+                    }
+                    if (unMortgage) {
+                        players[currentPlayer].setBalance(players[currentPlayer].getBalance() + ownableField->mortgage());
+                    }
+                    else {
+                        players[currentPlayer].setBalance(players[currentPlayer].getBalance() - ownableField->unmortgage());
+                    }
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
-    bool Game::playerBuysHouse(size_t& player, size_t& field, bool sellsHouse) const {
+    bool Game::playerBuysHouse(size_t& player, size_t& fieldPosition, bool sellsHouse) {
 
         return true;
     }
@@ -135,14 +160,23 @@ namespace Monopoly {
 
     }
 
-    bool Game::sellOwnableField(size_t& player, size_t& field) {
+    bool Game::sellOwnableField(size_t& player, size_t& fieldPosition) {
 
         return true;
     }
 
     size_t Game::movePlayer() {
+        rollDice();
+        size_t currentPosition = players[currentPlayer].getPosition();
+        size_t newPosition = (currentPosition + dice.first + dice.second) % 40;
 
-        return 0;
+        if (newPosition < currentPosition) {
+            players[currentPlayer].setBalance(players[currentPlayer].getBalance() + 200);
+        }
+
+        players[currentPlayer].setPosition(newPosition);
+
+        return newPosition;
     }
 
     void Game::useGetOutOfJailCard() {

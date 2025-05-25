@@ -43,10 +43,10 @@ namespace Monopoly {
             bool isFinished();
             size_t findNextPlayer();
             bool addPlayer(Player& newPlayer);
-            bool playerMortgageField(size_t& player, size_t& field, bool unMortgage = false) const;
-            bool playerBuysHouse(size_t& player, size_t& field, bool sellsHouse = false) const;
+            bool playerMortgageField(size_t& player, size_t& fieldPosition, bool unMortgage = false);
+            bool playerBuysHouse(size_t& player, size_t& fieldPosition, bool sellsHouse = false);
             void buyOwnableField();
-            bool sellOwnableField(size_t& player, size_t& field);
+            bool sellOwnableField(size_t& player, size_t& fieldPosition);
             size_t movePlayer();
             void useGetOutOfJailCard();
             Game& operator=(const Game& secGame);
