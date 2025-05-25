@@ -55,7 +55,6 @@ namespace Monopoly {
             bool useGetOutOfJailCard();
             Game& operator=(const Game& secGame);
             Game& operator=(Game&& secGame);
-            Field& operator[](int index) const;
             ~Game() = default;
 
             pint getDice() const { return dice; }
@@ -65,5 +64,6 @@ namespace Monopoly {
             const EventCardContainer& getChances() const { return chances; }
             const EventCardContainer& getCommunityChests() const { return communityChests; }
             const vector<Player>& getPlayers() const { return players; }
+            const vector<fptr>& getFields() const {return fields; }
     };
 }
