@@ -398,12 +398,42 @@ namespace Monopoly {
     }
 
     void Game::executeEventCard(const EventCard& eventCard) {
-        if (eventCard.getBankBalance() != 0) {
-            players[currentPlayer].setBalance(players[currentPlayer].getBalance() + eventCard.getBankBalance());
+        // Settle balances
+        players[currentPlayer].setBalance(players[currentPlayer].getBalance() + eventCard.getBankBalance());
+
+        if (eventCard.getEachPlayerBalance() != 0) {
+            int balanceDiff = 0;
+            for (auto &player: players) {
+                if (player.getPlayerId() != currentPlayer && !player.getIsBankrupt()) {
+                    player.setBalance(player.getBalance() + eventCard.getEachPlayerBalance());
+                    balanceDiff += eventCard.getEachPlayerBalance();
+                }
+            }
+
+            players[currentPlayer].setBalance(players[currentPlayer].getBalance() - balanceDiff);
         }
-        else if (eventCard.getLocation() >= 0) {
-            MovementType movType = eventCard.getMovementType();
-            //
+
+        // Check for houses and hotels
+        unsigned int houseHotelCost = 0;
+        for (const auto& field: fields) {
+            if (Street* street = dynamic_cast<Street*>(field.get())) {
+                if (street->getOwner() == currentPlayer) {
+                    if (street->getHouseCount() == 5) {  // 5 houses means exactly one hotel
+                        houseHotelCost += eventCard.getPerHotelBalance();
+                    } else {
+                        houseHotelCost += eventCard.getPerHouseBalance() * street->getHouseCount();
+                    }
+                }
+            }
         }
+
+        // Handle Get Out Of Jail card
+        if (eventCard.isGetOutOfJailFree()) {
+            players[currentPlayer].setGetOutOfJailCard(true);
+        }
+
+        // Move the player
+        size_t targetField = eventCard.movementTarget(players[currentPlayer].getPosition(), fields.size());
+        movePlayer(targetField, eventCard.isGoFieldCollectable());
     }
 }
