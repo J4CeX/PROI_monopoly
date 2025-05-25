@@ -256,14 +256,14 @@ namespace Monopoly {
         for (const auto& field: fields) {
             if (field->getPosition() == newPosition) {
                 TYPE currentType = field->getInfo();
-                if (currentType == TYPE::STREET) {
-
-                }
-                else if (currentType == TYPE::STATION) {
-
-                }
-                else if (currentType == TYPE::UTILITY) {
-
+                if (currentType == TYPE::STREET || currentType == TYPE::STATION || currentType == TYPE::UTILITY) {
+                    if(OwnableField* ownableField = dynamic_cast<OwnableField*>(field.get())) {
+                        size_t fieldOwner = ownableField->getOwner();
+                        if (ownableField->isOwned() && fieldOwner != currentPlayer) {
+                            players[currentPlayer].setBalance(players[currentPlayer].getBalance() - ownableField->getRent());
+                            players[fieldOwner].setBalance(players[fieldOwner].getBalance() + ownableField->getRent());
+                        }
+                    }
                 }
                 else if (currentType == TYPE::CHANCEFIELD) {
                     EventCard currentChance = chances[chancesCounter - 1];
@@ -286,13 +286,14 @@ namespace Monopoly {
                     players[currentPlayer].setInJailRounds(3);
                 }
                 else if (currentType == TYPE::INCOMETAX || field->getInfo() == TYPE::LUXURYTAX) {
-                    FinancialField* financialField = dynamic_cast<FinancialField*>(field.get());
-                    int newBalance = players[currentPlayer].getBalance() - financialField->getIncome();
+                    if (FinancialField* financialField = dynamic_cast<FinancialField*>(field.get())) {
+                        int newBalance = players[currentPlayer].getBalance() - financialField->getIncome();
+                    }
                 }
                 return players[currentPlayer].getPosition();
             }
         }
-        return -1;
+        return 1000;
     }
 
     bool Game::useGetOutOfJailCard() {
