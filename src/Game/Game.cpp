@@ -78,17 +78,13 @@ namespace Monopoly {
     }
 
     void Game::rollDice() {
-        // srand(time(NULL)); TO MUSI BYĆ W GUI !!!
-        int first = rand() % 6 + 1;
-        int second = rand() % 6 + 1;
+        static std::random_device randomDevice;
+        static std::mt19937 randomGenerator(randomDevice());
+        std::uniform_int_distribution<> distrib(1, 6);
 
-        if (first == second) {
-            if ((rand() % 6) != 0) {
-                do {
-                    second = rand() % 6 + 1;
-                } while (second == first);
-            }
-        }
+        int first = distrib(randomGenerator);
+        int second = distrib(randomGenerator);
+
         if (first == second) {
             diceDubletCounter++;
         }
@@ -132,6 +128,17 @@ namespace Monopoly {
         else {
             return false;
         }
+    }
+
+    bool Game::checkIfBankrupt() {
+        for (const auto& field: fields) {
+            if (OwnableField* ownableField = dynamic_cast<OwnableField*>(field.get())) {
+                if (ownableField->getOwner() == currentPlayer) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     int Game::playerMortgageField(size_t& player, size_t& fieldPosition, bool unMortgage) {

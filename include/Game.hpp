@@ -45,6 +45,7 @@ namespace Monopoly {
             void rollDice();
             size_t findNextPlayer();
             bool addPlayer(Player& newPlayer);
+            bool checkIfBankrupt();
             int playerMortgageField(size_t& player, size_t& fieldPosition, bool unMortgage = false);
             int playerBuysHouse(size_t& player, size_t& fieldPosition, bool sellsHouse = false);
             int buyOwnableField();
