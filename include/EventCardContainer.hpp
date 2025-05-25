@@ -20,6 +20,8 @@ class EventCardContainer {
         size_t length() const { return cards_.size(); };
         void shuffle();
 
+        EventCard& operator[](int index);
+
         // Iterator for EventCards
         class Iterator {
             public:

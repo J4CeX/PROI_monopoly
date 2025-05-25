@@ -13,6 +13,10 @@ namespace Monopoly {
 
         try {
             setEventCards();
+            communityChests.shuffle();
+            chances.shuffle();
+            communityChestsCounter = communityChests.length();
+            chancesCounter = chances.length();
         }
         catch (exception& exc) {
             cerr << "File error! Wrong EventCard type! " << exc.what() << endl;
@@ -73,19 +77,6 @@ namespace Monopoly {
         return *this;
     }
 
-    bool Game::canFieldBeBought() {
-        size_t currentPosition = players[currentPlayer].getPosition();
-        for (const auto& field: fields) {
-            if (currentPosition == field->getPosition()) {
-                TYPE currentType = field->getInfo();
-                if (currentType == TYPE::STREET || currentType == TYPE::STATION || currentType == TYPE::UTILITY) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
     void Game::rollDice() {
         // srand(time(NULL)); TO MUSI BYĆ W GUI !!!
         int first = rand() % 6 + 1;
@@ -97,6 +88,13 @@ namespace Monopoly {
                     second = rand() % 6 + 1;
                 } while (second == first);
             }
+        }
+        if (first == second) {
+            diceDubletCounter++;
+        }
+        if (diceDubletCounter == 3) {
+            players[currentPlayer].setPosition(10);
+            players[currentPlayer].setInJailRounds(3);
         }
         dice.first = first;
         dice.second = second;
@@ -235,7 +233,37 @@ namespace Monopoly {
 
         players[currentPlayer].setPosition(newPosition);
 
-        return newPosition;
+        for (const auto& field: fields) {
+            if (field->getPosition() == newPosition) {
+                TYPE currentType = field->getInfo();
+                if (currentType == TYPE::CHANCEFIELD) {
+                    EventCard currentChance = chances[chancesCounter - 1];
+                    executeEventCard(currentChance);
+                    if (--chancesCounter == 0) {
+                        chances.shuffle();
+                        chancesCounter = chances.length();
+                    }
+                }
+                else if (currentType == TYPE::COMMUNITYCHESTFIELD) {
+                    EventCard currentCommunityChest = communityChests[communityChestsCounter - 1];
+                    executeEventCard(currentCommunityChest);
+                    if (--communityChestsCounter == 0) {
+                        chances.shuffle();
+                        communityChestsCounter = communityChests.length();
+                    }
+                }
+                else if (currentType == TYPE::GOTOJAIL) {
+                    players[currentPlayer].setPosition(10);
+                    players[currentPlayer].setInJailRounds(3);
+                }
+                else if (currentType == TYPE::INCOMETAX || field->getInfo() == TYPE::LUXURYTAX) {
+                    FinancialField* financialField = dynamic_cast<FinancialField*>(field.get());
+                    int newBalance = players[currentPlayer].getBalance() - financialField->getIncome();
+                }
+                return players[currentPlayer].getPosition();
+            }
+        }
+        return -1;
     }
 
     bool Game::useGetOutOfJailCard() {
@@ -334,5 +362,15 @@ namespace Monopoly {
 
         chances = generatedChances;
         communityChests = generatedCommunityChests;
+    }
+
+    void Game::executeEventCard(const EventCard& eventCard) {
+        if (eventCard.getBankBalance() != 0) {
+            players[currentPlayer].setBalance(players[currentPlayer].getBalance() + eventCard.getBankBalance());
+        }
+        else if (eventCard.getLocation() >= 0) {
+            MovementType movType = eventCard.getMovementType();
+            //
+        }
     }
 }

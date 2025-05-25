@@ -27,12 +27,15 @@ namespace Monopoly {
             EventCardContainer chances;
             EventCardContainer communityChests;
             vector<Player> players;
+            int chancesCounter;
+            int communityChestsCounter;
 
-            bool canFieldBeBought();
             void rollDice();
 
             void setFields();
             void setEventCards();
+
+            void executeEventCard(const EventCard& eventCard);
 
             template<typename T>
             void pushField(const T& field) { fields.push_back(make_unique<T>(field)); }
