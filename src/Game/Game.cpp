@@ -8,7 +8,7 @@ namespace Monopoly {
             setFields();
         }
         catch (exception& exc) {
-            cerr << "File Error! Corrupted fields.txt file! " << exc.what() << endl;
+            cerr << exc.what() << endl;
         }
 
         try {
@@ -19,7 +19,7 @@ namespace Monopoly {
             chancesCounter = chances.length();
         }
         catch (exception& exc) {
-            cerr << "File error! Wrong EventCard type! " << exc.what() << endl;
+            cerr << exc.what() << endl;
         }
     }
 
@@ -362,7 +362,7 @@ namespace Monopoly {
                 pushField<Utility>(utility);
             }
             else {
-                throw;
+                throw (invalid_argument("File Error! Corrupted fields.txt file! "));
             }
         }
     }
@@ -382,7 +382,7 @@ namespace Monopoly {
                 generatedCommunityChests.addCard(eventCard);
             }
             else {
-                throw;
+                throw (invalid_argument("File error! Wrong EventCard type! "));
             }
         }
 
