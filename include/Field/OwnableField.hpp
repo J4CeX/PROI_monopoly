@@ -13,6 +13,7 @@ namespace Fields {
             bool mortgaged;
             size_t owner;
         public:
+            OwnableField() = default;
             OwnableField(int position, const std::string &name, int purchasePrice, int trespassingFee)
                 : Field(position), name(name), purchasePrice(purchasePrice), trespassingFee(trespassingFee),
                 owned(false), mortgaged(false), owner(0) {}

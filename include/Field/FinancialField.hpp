@@ -6,6 +6,7 @@ namespace Fields {
         protected:
             int income;
         public:
+            FinancialField() = default;
             FinancialField(int position, int income): Field(position), income(income) {}
             int getIncome() const { return income; }
             virtual TYPE getInfo() const = 0;

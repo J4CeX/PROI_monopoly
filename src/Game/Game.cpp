@@ -140,6 +140,71 @@ namespace Monopoly {
     }
 
     void Game::setFields() {
+        ifstream file("fields.txt");
+        string fieldType;
+        while (!file.eof()) {
+            file >> fieldType;
+            if (fieldType == "ChanceField") {
+                ChanceField chanceField;
+                file >> chanceField;
+                pushField<ChanceField>(chanceField);
+            }
+            else if (fieldType == "CommunityChestField") {
+                CommunityChestField communityChestField;
+                file >> communityChestField;
+                pushField<CommunityChestField>(communityChestField);
+            }
+            else if (fieldType == "GoToJail") {
+                GoToJail goToJail;
+                file >> goToJail;
+                pushField<GoToJail>(goToJail);
+            }
+            else if (fieldType == "IncomeTax") {
+                IncomeTax incomeTax;
+                file >> incomeTax;
+                pushField<IncomeTax>(incomeTax);
+            }
+            else if (fieldType == "Jail") {
+                Jail jail;
+                file >> jail;
+                pushField<Jail>(jail);
+            }
+            else if (fieldType == "LuxuryTax") {
+                LuxuryTax luxuryTax;
+                file >> luxuryTax;
+                pushField<LuxuryTax>(luxuryTax);
+            }
+            else if (fieldType == "Parking") {
+                Parking parking;
+                file >> parking;
+                pushField<Parking>(parking);
+            }
+            else if (fieldType == "StartField") {
+                StartField startField;
+                file >> startField;
+                pushField<StartField>(startField);
+            }
+            else if (fieldType == "Station") {
+                Station station;
+                file >> station;
+                pushField<Station>(station);
+            }
+            else if (fieldType == "Street") {
+                Street street;
+                file >> street;
+                pushField<Street>(street);
+            }
+            else if (fieldType == "Utility") {
+                Utility utility;
+                file >> utility;
+                pushField<Utility>(utility);
+            }
+            else {
+                cerr << "File error! Wrong Field type!" << endl;
+            }
+        }
+
+        /*
         pushField<StartField>(0);
         pushField<Street>(1, "Konopacka", 60, 2, Color::Brown, 10, 30, 90, 160, 250);
         pushField<CommunityChestField>(2);
@@ -179,7 +244,7 @@ namespace Monopoly {
         pushField<ChanceField>(36);
         pushField<Street>(37, "Belwederska", 350, 35, Color::Darkblue, 175, 500, 1100, 1300, 1500);
         pushField<LuxuryTax>(38);
-        pushField<Street>(39, "Aleje Ujazdowskie", 400, 50, Color::Darkblue, 200, 600, 1400, 1700, 2000);
+        pushField<Street>(39, "Aleje Ujazdowskie", 400, 50, Color::Darkblue, 200, 600, 1400, 1700, 2000); */
     }
 
     void Game::setChances() {

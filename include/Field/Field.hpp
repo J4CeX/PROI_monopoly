@@ -21,6 +21,7 @@ namespace Fields {
         protected:
             int position;
         public:
+            Field() = default;
             Field(int position): position(position) {}
             int getPosition() { return position; }
             virtual TYPE getInfo() const = 0;

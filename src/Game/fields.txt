@@ -1,40 +1,40 @@
-0
-1 60 2 10 30 90 160 250 Brown Konopacka
-2
-3 60 4 20 60 180 320 450 Brown Stalowa
-4
-5 Dworzec Zachodni
-6 100 6 30 90 270 400 550 Lightblue Radzymińska
-7
-8 100 6 30 90 270 400 550 Lightblue Jagiellońska
-9 120 8 40 100 300 450 600 Lightblue Targowa
-10
-11 140 10 50 150 450 625 750 Pink Płowiecka
-12 Elektrownia
-13 140 10 50 150 450 625 750 Pink Marsa
-14 160 12 60 180 500 700 900 Pink Grochowska
-15 Dworzec Gdański
-16 180 14 70 200 550 750 950 Orange Obozowa
-17
-18 180 14 70 200 550 750 950 Orange Górczewska
-19 200 16 80 220 600 800 1000 Orange Wolska
-20
-21 220 18 90 250 700 875 1050 Red Mickiewicza
-22
-23 220 18 90 250 700 875 1050 Red Słowackiego
-24 240 20 100 300 750 925 1100 Red Plac Wilsona
-25 Dworzec Wschodni
-26 260 22 110 330 800 975 1150 Yellow Świętokrzyska
-27 260 22 110 330 800 975 1150 Yellow Krakowskie Przedmieście
-28 Wodociągi
-29 280 24 120 360 850 1025 1200 Yellow Nowy Świat
-30
-31 300 26 130 390 900 1100 1275 Green Plac Trzech Krzyży
-32 300 26 130 390 900 1100 1275 Green Marszałkowska
-33
-34 320 28 150 450 1000 1200 1400 Green Aleje Jerozolimskie
-35 Dworzec Centralny
-36
-37 350 35 175 500 1100 1300 1500 Darkblue Belwederska
-38
-39 400 50 200 600 1400 1700 2000 Darkblue Aleje Ujazdowskie
+StartField 0
+Street 1 60 2 10 30 90 160 250 Brown Konopacka
+CommunityChestField 2
+Street 3 60 4 20 60 180 320 450 Brown Stalowa
+IncomeTax 4
+Station 5 Dworzec Zachodni
+Street 6 100 6 30 90 270 400 550 Lightblue Radzymińska
+ChanceField 7
+Street 8 100 6 30 90 270 400 550 Lightblue Jagiellońska
+Street 9 120 8 40 100 300 450 600 Lightblue Targowa
+Jail 10
+Street 11 140 10 50 150 450 625 750 Pink Płowiecka
+Utility 12 Elektrownia
+Street 13 140 10 50 150 450 625 750 Pink Marsa
+Street 14 160 12 60 180 500 700 900 Pink Grochowska
+Station 15 Dworzec Gdański
+Street 16 180 14 70 200 550 750 950 Orange Obozowa
+CommunityChestField 17
+Street 18 180 14 70 200 550 750 950 Orange Górczewska
+Street 19 200 16 80 220 600 800 1000 Orange Wolska
+Parking 20
+Street 21 220 18 90 250 700 875 1050 Red Mickiewicza
+ChanceField 22
+Street 23 220 18 90 250 700 875 1050 Red Słowackiego
+Street 24 240 20 100 300 750 925 1100 Red Plac Wilsona
+Station 25 Dworzec Wschodni
+Street 26 260 22 110 330 800 975 1150 Yellow Świętokrzyska
+Street 27 260 22 110 330 800 975 1150 Yellow Krakowskie Przedmieście
+Utility 28 Wodociągi
+Street 29 280 24 120 360 850 1025 1200 Yellow Nowy Świat
+GoToJail 30
+Street 31 300 26 130 390 900 1100 1275 Green Plac Trzech Krzyży
+Street 32 300 26 130 390 900 1100 1275 Green Marszałkowska
+CommunityChestField 33
+Street 34 320 28 150 450 1000 1200 1400 Green Aleje Jerozolimskie
+Station 35 Dworzec Centralny
+ChanceField 36
+Street 37 350 35 175 500 1100 1300 1500 Darkblue Belwederska
+LuxuryTax 38
+Street 39 400 50 200 600 1400 1700 2000 Darkblue Aleje Ujazdowskie

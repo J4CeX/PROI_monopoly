@@ -6,6 +6,7 @@
 #include "EventCardContainer.hpp"
 #include <memory>
 #include <cstdlib>
+#include <fstream>
 
 using namespace Fields;
 using namespace Events;
@@ -34,8 +35,8 @@ namespace Monopoly {
             void setChances();
             void setCommunityChests();
 
-            template<typename T, typename... Args>
-            void pushField(Args&&... args) { fields.push_back(make_unique<T>(std::forward<Args>(args)...)); }
+            template<typename T>
+            void pushField(const T& field) { fields.push_back(make_unique<T>(field)); }
         public:
             Game();
             Game(const Game& secGame);

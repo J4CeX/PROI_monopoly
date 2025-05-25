@@ -4,6 +4,7 @@
 namespace Fields {
     class Utility: public OwnableField {
         public:
+            Utility() = default;
             Utility(int position, const std::string &name)
             : OwnableField(position, name, 150, 0) {}
             TYPE getInfo() const override { return TYPE::UTILITY; }
