@@ -92,6 +92,9 @@ namespace Monopoly {
         if (first == second) {
             diceDubletCounter++;
         }
+        if (diceDubletCounter && players[currentPlayer].getInJailRounds()) {
+            players[currentPlayer].setInJailRounds(0);
+        }
         if (diceDubletCounter == 3) {
             players[currentPlayer].setPosition(10);
             players[currentPlayer].setInJailRounds(3);
@@ -114,6 +117,7 @@ namespace Monopoly {
     }
 
     size_t Game::findNextPlayer() {
+        diceDubletCounter = 0;
         do {
             currentPlayer = ++currentPlayer % players.size();
         } while (players[currentPlayer].getIsBankrupt());
