@@ -32,8 +32,7 @@ namespace Monopoly {
             void rollDice();
 
             void setFields();
-            void setChances();
-            void setCommunityChests();
+            void setEventCards();
 
             template<typename T>
             void pushField(const T& field) { fields.push_back(make_unique<T>(field)); }

@@ -1,0 +1,32 @@
+0 0 -1 -1 200 0 0 0 0 0 Otrzymujesz 200 zł – nagroda za wygranie konkursu piękności.
+1 0 -1 -1 -50 0 0 0 0 0 Zapłać 50 zł – opłata za wizytę u lekarza.
+2 0 -1 -1 100 0 0 0 0 0 Otrzymujesz 100 zł – zwrot podatku dochodowego.
+3 0 -1 -1 -100 0 0 0 0 0 Zapłać 100 zł – składka na ubezpieczenie społeczne.
+4 0 -1 -1 25 0 0 0 0 0 Otrzymujesz 25 zł – dywidenda z inwestycji.
+5 0 -1 -1 -150 0 0 0 0 0 Zapłać 150 zł – opłata za naprawę dachu.
+6 0 -1 30 0 0 0 0 0 0 Idź do więzienia. Przejdź bezpośrednio do więzienia.
+7 0 -1 -1 0 0 0 0 0 1 Wyjdź bezpłatnie z więzienia – tę kartę możesz zatrzymać lub sprzedać innemu graczowi.
+8 0 -1 -1 10 0 0 0 0 0 Otrzymujesz 10 zł – prezent urodzinowy od każdego gracza.
+9 0 -1 -1 -40 0 0 0 0 0 Zapłać 40 zł – opłata za usługi komunalne.
+10 0 -1 -1 0 0 0 0 0 0 Znaleziona portmonetka – otrzymujesz 20 zł.
+11 0 -1 -1 -75 0 0 0 0 0 Zapłać za wizytę u dentysty – 75 zł.
+12 0 -1 -1 0 0 0 0 0 0 Zwróć pieniądze za zagubiony bilet – 25 zł.
+13 0 -1 -1 0 0 0 0 0 0 Dziedziczysz 100 zł.
+14 0 -1 -1 0 0 0 0 0 0 Płacisz 50 zł za udział w zbiórce charytatywnej.
+15 0 -1 -1 0 0 0 0 0 0 Rachunek za energię – zapłać 150 zł.
+16 1 -1 0 0 0 0 0 1 0 Idź do więzienia. Przejdź bezpośrednio do więzienia. Nie przechodź przez START. Nie pobieraj 200 zł.
+17 1 -1 -1 0 0 0 0 0 1 Wyjdź bezpłatnie z więzienia – tę kartę możesz zatrzymać lub sprzedać innemu graczowi.
+18 1 -1 0 0 0 0 0 1 0 Idź na pole START. Pobierz 200 zł.
+19 1 -1 0 0 0 0 0 1 0 Idź na Aleje Jerozolimskie. Jeśli przejdziesz przez START, pobierz 200 zł.
+20 1 -1 -1 0 0 0 0 0 0 Idź na najbliższy dworzec. Jeśli jest wolny, możesz go kupić. Jeśli nie, zapłać dwukrotność czynszu.
+21 1 -1 -1 0 0 0 0 0 0 Idź na Obózową.
+22 1 -1 -1 -15 0 0 0 0 0 Zapłać 15 zł za ubezpieczenie samochodu.
+23 1 -1 -1 -150 0 0 0 0 0 Zapłać 150 zł za remont generalny wszystkich swoich nieruchomości.
+24 1 -1 -1 50 0 0 0 0 0 Twoje udziały przyniosły zysk. Otrzymujesz 50 zł.
+25 1 -1 -1 -50 -50 0 0 0 0 Zostałeś wybrany przewodniczącym rady nadzorczej. Zapłać każdemu graczowi po 50 zł.
+26 1 -1 -1 0 0 0 0 0 0 Idź na plac Bankowy.
+27 1 -1 -1 0 0 0 0 0 0 Idź na najbliższe pole Wodociągi lub Elektrownia.
+28 1 -1 -1 0 0 40 115 0 0 Zapłać 40 zł za każdy dom i 115 zł za każdy hotel.
+29 1 -1 -1 0 0 0 0 0 0 Idź na Nowy Świat.
+30 1 -1 -1 0 0 0 0 0 0 Cofnij się o trzy pola.
+31 1 -1 -1 0 0 0 0 0 0 Sprzedajesz akcje – otrzymujesz 100 zł.
