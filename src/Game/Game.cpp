@@ -129,40 +129,99 @@ namespace Monopoly {
         }
     }
 
-    bool Game::playerMortgageField(size_t& player, size_t& fieldPosition, bool unMortgage) {
+    int Game::playerMortgageField(size_t& player, size_t& fieldPosition, bool unMortgage) {
         for (auto& field: fields) {
             if (field->getPosition() == fieldPosition) {
                 if (OwnableField* ownableField = dynamic_cast<OwnableField*>(field.get())) {
                     if (Street* street = dynamic_cast<Street*>(field.get())) {
                         if (street->getHouseCount() != 0) {
-                            return false;
+                            return -1;
                         }
                     }
-                    if (unMortgage) {
-                        players[currentPlayer].setBalance(players[currentPlayer].getBalance() + ownableField->mortgage());
+                    if (unMortgage && ownableField->isMortgaged()) {
+                        players[player].setBalance(players[player].getBalance() + ownableField->mortgage());
+                        return 1;
+                    }
+                    else if (!unMortgage && !ownableField->isMortgaged()) {
+                        players[player].setBalance(players[player].getBalance() - ownableField->unmortgage());
+                        return 2;
                     }
                     else {
-                        players[currentPlayer].setBalance(players[currentPlayer].getBalance() - ownableField->unmortgage());
+                        return -2;
                     }
-                    return true;
                 }
             }
         }
-        return false;
+        return -3;
     }
 
-    bool Game::playerBuysHouse(size_t& player, size_t& fieldPosition, bool sellsHouse) {
-
-        return true;
+    int Game::playerBuysHouse(size_t& player, size_t& fieldPosition, bool sellsHouse) {
+        for (auto& field: fields) {
+            if (field->getPosition() == fieldPosition) {
+                if (Street* street = dynamic_cast<Street*>(field.get())) {
+                    if (sellsHouse && street->getHouseCount() > 0) {
+                        players[player].setBalance(players[player].getBalance() + street->sellHouse());
+                        return 1;
+                    }
+                    else if (!sellsHouse && street->getHouseCount() < 5) {
+                        players[player].setBalance(players[player].getBalance() - street->purchaseHouse());
+                        return 2;
+                    }
+                    else {
+                        return -1;
+                    }
+                }
+            }
+        }
+        return -2;
     }
 
-    void Game::buyOwnableField() {
-
+    int Game::buyOwnableField() {
+        for (auto& field: fields) {
+            if (field->getPosition() == players[currentPlayer].getPosition()) {
+                if (OwnableField* ownableField = dynamic_cast<OwnableField*>(field.get())) {
+                    if (ownableField->isOwned()) {
+                        return -1;
+                    }
+                    else {
+                        int price = players[currentPlayer].getBalance() - ownableField->getPurchasePrice();
+                        if (price >= 0) {
+                            ownableField->setOwner(currentPlayer);
+                            players[currentPlayer].setBalance(price);
+                            return 1;
+                        }
+                        return -2;
+                    }
+                }
+            }
+        }
+        return -3;
     }
 
     bool Game::sellOwnableField(size_t& player, size_t& fieldPosition) {
-
-        return true;
+        for (auto& field: fields) {
+            if (field->getPosition() == fieldPosition) {
+                if (Street* street = dynamic_cast<Street*>(field.get())) {
+                    if (street->getHouseCount() > 0) {
+                        return -1;
+                    }
+                }
+                if (OwnableField* ownableField = dynamic_cast<OwnableField*>(field.get())) {
+                    if (ownableField->isOwned()) {
+                        return -2;
+                    }
+                    else {
+                        if (ownableField->getOwner() == player) {
+                            players[player].setBalance(players[player].getBalance() + ownableField->getPurchasePrice());
+                            ownableField->setOwner(player);
+                            return 1;
+                        }
+                        return -3;
+                    }
+                }
+            }
+        }
+        return -4;
     }
 
     size_t Game::movePlayer() {
@@ -179,8 +238,13 @@ namespace Monopoly {
         return newPosition;
     }
 
-    void Game::useGetOutOfJailCard() {
-
+    bool Game::useGetOutOfJailCard() {
+        if (players[currentPlayer].getGetOutOfJailCard() && players[currentPlayer].getInJailRounds() > 0) {
+            players[currentPlayer].setGetOutOfJailCard(false);
+            players[currentPlayer].setInJailRounds(0);
+            return true;
+        }
+        return false;
     }
 
     void Game::setFields() {
