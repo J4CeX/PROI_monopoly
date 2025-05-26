@@ -51,6 +51,7 @@ class Player {
 		size_t setPosition(const size_t currentPosition);
 		int setInJailRounds(const int currentRounds);
 		bool setGetOutOfJailCard(const bool hasCard);
+        bool checkIfBankrupt();
 
 	friend std::istream& operator>>(std::istream& is, Player& p);
 	friend std::ostream& operator<<(std::ostream& os, const Player& p);

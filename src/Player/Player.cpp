@@ -84,6 +84,16 @@ bool Player::setGetOutOfJailCard(const bool hasCard) {
 	return hasGetOutOfJailCard_;
 };
 
+bool Player::checkIfBankrupt() {
+	if (balance_ < 0) {
+		isBankrupt_ = true;
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
 // Serialization for Player
 std::ostream& operator<<(std::ostream& os, const Player& p) {
 	os << p.playerId_ << p.token_

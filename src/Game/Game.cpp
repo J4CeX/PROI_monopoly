@@ -138,15 +138,8 @@ namespace Monopoly {
         }
     }
 
-    bool Game::checkIfBankrupt() {
-        for (const auto& field: fields) {
-            if (OwnableField* ownableField = dynamic_cast<OwnableField*>(field.get())) {
-                if (ownableField->getOwner() == currentPlayer) {
-                    return false;
-                }
-            }
-        }
-        return true;
+    bool Game::checkIfPlayerIsBankrupt() {
+        return (players[currentPlayer].checkIfBankrupt());
     }
 
     int Game::playerMortgageField(size_t& player, size_t& fieldPosition, bool unMortgage) {
