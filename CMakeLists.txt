@@ -13,3 +13,18 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 qt_standard_project_setup()
 
 add_subdirectory(src/app)
+include(FetchContent)
+FetchContent_Declare(
+  googletest
+  URL https://github.com/google/googletest/archive/refs/heads/main.zip
+  DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+)
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
+enable_testing()
+
+include_directories(${PROJECT_SOURCE_DIR}/include)
+
+add_subdirectory(src)
+add_subdirectory(tests)
+add_subdirectory(app)
