@@ -1,5 +1,13 @@
-add_executable(game_gui main.cpp)
+qt_add_executable(boardgame
+    mainwindow.ui
+    mainwindow.cpp
+    main.cpp
+    GameControler.cpp
+)
 
-target_link_libraries(game_gui PRIVATE richpp)
+target_link_libraries(boardgame PRIVATE Qt6::Widgets richpp)
 
-target_include_directories(game_gui PRIVATE ${PROJECT_SOURCE_DIR}/include)
+set_target_properties(boardgame PROPERTIES
+    WIN32_EXECUTABLE OFF
+    MACOSX_BUNDLE OFF
+)
