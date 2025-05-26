@@ -35,8 +35,8 @@ class Player {
     public:
         Player() = default;
         Player(const unsigned int id, const std::string name, const Token token,
-			   const int balance, const bool bankrupt,
-			   const size_t pos, const int jailRounds, const bool jailCard);
+			   const int balance = 500, const bool bankrupt = false,
+			   const size_t pos = 0, const int jailRounds = 0, const bool jailCard = false);
 
 		unsigned int getPlayerId() const { return playerId_; };
 		std::string getName() const { return name_; };
