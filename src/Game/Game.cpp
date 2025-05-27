@@ -177,16 +177,20 @@ namespace Monopoly {
                         return 1;
                     }
                     else if (!sellsHouse && street->getHouseCount() < 5) {
-                        players[player].setBalance(players[player].getBalance() - street->purchaseHouse());
-                        return 2;
+                        int newBalance = players[player].getBalance() - street->purchaseHouse();
+                        if (newBalance >= 0) {
+                            players[player].setBalance(newBalance);
+                            return 2;
+                        }
+                        return -1;
                     }
                     else {
-                        return -1;
+                        return -2;
                     }
                 }
             }
         }
-        return -2;
+        return -3;
     }
 
     int Game::buyOwnableField() {
@@ -197,10 +201,10 @@ namespace Monopoly {
                         return -1;
                     }
                     else {
-                        int price = players[currentPlayer].getBalance() - ownableField->getPurchasePrice();
-                        if (price >= 0) {
+                        int newBalance = players[currentPlayer].getBalance() - ownableField->getPurchasePrice();
+                        if (newBalance >= 0) {
                             ownableField->setOwner(currentPlayer);
-                            players[currentPlayer].setBalance(price);
+                            players[currentPlayer].setBalance(newBalance);
                             return 1;
                         }
                         return -2;
