@@ -22,6 +22,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(controller, &GameController::validationError, this, &MainWindow::onValidationError);
     connect(controller, &GameController::addedPlayer, this, &MainWindow::onAddedPlayer);
     connect(controller, &GameController::failAddedPlayer, this, &MainWindow::onFailAddedPlayer);
+    connect(controller, &GameController::fail, this, &MainWindow::onFail);
+    connect(controller, &GameController::startedGame, this, &MainWindow::onStartedGame);
 }
 
 MainWindow::~MainWindow()
@@ -51,6 +53,16 @@ void MainWindow::onAddedPlayer(const QString& msg)
 void MainWindow::onFailAddedPlayer(const QString& msg)
 {
     QMessageBox::warning(this, "Error", msg);
+}
+
+void MainWindow::onFail(const QString& msg)
+{
+    QMessageBox::warning(this, "Error", msg);
+}
+
+void MainWindow::onStartedGame()
+{
+    ui->stackedInterface->setCurrentIndex(3);
 }
 
 void MainWindow::on_push_options_clicked()
@@ -103,6 +115,6 @@ void MainWindow::on_push_add_player_clicked()
 
 void MainWindow::on_push_start_clicked()
 {
-    ui->stackedInterface->setCurrentIndex(3);
+    controller->tryStartGame();
 }
 

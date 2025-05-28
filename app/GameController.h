@@ -19,6 +19,7 @@ public slots:
     void saveSettings(const QString& bankMoney, const QString& playerName);
     void startNewGame();
     void addPlayer(const QString& playerName, const QString& tokenText);
+    void tryStartGame();
     
 signals:
     void settingsSaved(bool success);
@@ -26,6 +27,8 @@ signals:
     void createdGame();
     void addedPlayer(const QString& msg);
     void failAddedPlayer(const QString& msg);
+    void fail(const QString& msg);
+    void startedGame();
     
 private:
     Game _game;

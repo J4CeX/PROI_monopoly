@@ -40,6 +40,17 @@ void GameController::startNewGame()
     this->_newestPlayerId = 0;
 }
 
+void GameController::tryStartGame()
+{
+    int players = this->_game.getPlayers().size();
+    if(players < 2)
+    {
+        emit fail("At least 2 players needed to start the game!");
+        return;
+    }
+    emit startedGame();
+}
+
 void GameController::addPlayer(const QString& playerName, const QString& tokenText)
 {
     if(this->_game.getPlayers().size() >= 4)

@@ -25,6 +25,10 @@ private slots:
 
     void onFailAddedPlayer(const QString& msg);
 
+    void onFail(const QString& msg);
+
+    void onStartedGame();
+
     void on_push_options_clicked();
 
     void on_push_back_clicked();
