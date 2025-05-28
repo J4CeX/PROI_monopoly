@@ -29,6 +29,10 @@ private slots:
 
     void on_push_save_clicked();
 
+    void on_push_back_2_clicked();
+
+    void on_push_new_game_clicked();
+
 private:
     Ui::MainWindow *ui;
     GameController* controller = new GameController(this);

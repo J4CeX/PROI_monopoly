@@ -52,3 +52,16 @@ void MainWindow::on_push_save_clicked()
     controller->saveSettings(value1, value2);
 }
 
+
+void MainWindow::on_push_back_2_clicked()
+{
+    ui->stackedInterface->setCurrentIndex(0);
+}
+
+
+void MainWindow::on_push_new_game_clicked()
+{
+    ui->stackedInterface->setCurrentIndex(2);
+    controller->startNewGame();
+}
+

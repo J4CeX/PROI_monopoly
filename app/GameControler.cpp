@@ -3,6 +3,11 @@
 #include <QSettings>
 #include <QString>
 #include "GameControler.h"
+#include "Game.hpp"
+#include "Player.hpp"
+
+using namespace Monopoly;
+using namespace MonopolyPlayer;
 
 GameController::GameController(QObject *parent): QObject(parent) { }
 
@@ -19,7 +24,11 @@ void GameController::saveSettings(const QString& bankMoneyStr, const QString& pl
         emit validationError("Incorrect initial player money value");
         return;
     }
-    _bankMoney = bankMoney;
-    _playerMoney = playerMoney;
     emit settingsSaved(true);
+}
+
+void GameController::startNewGame()
+{
+    Game new_game;
+    this->_game = new_game;
 }
