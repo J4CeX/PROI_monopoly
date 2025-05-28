@@ -177,16 +177,20 @@ namespace Monopoly {
                         return 1;
                     }
                     else if (!sellsHouse && street->getHouseCount() < 5) {
-                        players[player].setBalance(players[player].getBalance() - street->purchaseHouse());
-                        return 2;
+                        int newBalance = players[player].getBalance() - street->purchaseHouse();
+                        if (newBalance >= 0) {
+                            players[player].setBalance(newBalance);
+                            return 2;
+                        }
+                        return -1;
                     }
                     else {
-                        return -1;
+                        return -2;
                     }
                 }
             }
         }
-        return -2;
+        return -3;
     }
 
     int Game::buyOwnableField() {
@@ -197,10 +201,10 @@ namespace Monopoly {
                         return -1;
                     }
                     else {
-                        int price = players[currentPlayer].getBalance() - ownableField->getPurchasePrice();
-                        if (price >= 0) {
+                        int newBalance = players[currentPlayer].getBalance() - ownableField->getPurchasePrice();
+                        if (newBalance >= 0) {
                             ownableField->setOwner(currentPlayer);
-                            players[currentPlayer].setBalance(price);
+                            players[currentPlayer].setBalance(newBalance);
                             return 1;
                         }
                         return -2;
@@ -302,7 +306,10 @@ namespace Monopoly {
     }
 
     void Game::setFields() {
-        ifstream file("fields.txt");
+        ifstream file(fieldsPath);
+        if (!file.good()) {
+            throw (invalid_argument("File error! Cannot open fields.txt file! "));
+        }
         string fieldType;
         while (!file.eof()) {
             file >> fieldType;
@@ -362,7 +369,7 @@ namespace Monopoly {
                 pushField<Utility>(utility);
             }
             else {
-                throw (invalid_argument("File Error! Corrupted fields.txt file! "));
+                throw (invalid_argument("File error! Corrupted fields.txt file! "));
             }
         }
     }
@@ -371,7 +378,10 @@ namespace Monopoly {
         EventCardContainer generatedChances;
         EventCardContainer generatedCommunityChests;
 
-        ifstream file("eventCards.txt");
+        ifstream file(eventCardsPath);
+        if (!file.good()) {
+            throw (invalid_argument("File error! Cannot open eventCards.txt file! "));
+        }
         while(!file.eof()) {
             EventCard eventCard;
             file >> eventCard;
