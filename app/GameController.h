@@ -18,6 +18,9 @@ public:
     Player getPlayer(int idx) const;
     QString currentPlayerBalance() const;
     QString currentPlayerPosition() const;
+    QString currentPlayerToken() const;
+    QString currentPlayerIndex() const;
+    std::pair<int, int> fieldCoords(int idx) const;
     
 public slots:
     void saveSettings(const QString& bankMoney, const QString& playerName);

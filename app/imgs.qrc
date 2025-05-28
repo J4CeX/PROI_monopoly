@@ -2,5 +2,7 @@
     <qresource prefix="/board">
         <file>monopoly_map.png</file>
         <file>pawn.png</file>
+        <file>racecar.png</file>
+        <file>tophat.png</file>
     </qresource>
 </RCC>

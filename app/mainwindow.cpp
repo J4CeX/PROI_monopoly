@@ -12,12 +12,19 @@ MainWindow::MainWindow(QWidget *parent) :
     controller = new GameController(this);
 
     ui->stackedInterface->setCurrentIndex(0);
+
     QPixmap pix1(":/board/monopoly_map.png");
     ui->label_board->setPixmap(pix1.scaled(600, 600, Qt::KeepAspectRatio));
-    QPixmap pix2(":/board/pawn.png");
-    ui->label_pawn->setPixmap(pix2);
-    ui->label_pawn->move(645, 510);
-    ui->label_pawn->hide();
+
+    std::pair<int, int> startField = controller->fieldCoords(0);
+
+    QPixmap pixRaceCar(":/board/racecar.png");
+    ui->label_pawn_raceCar->setPixmap(pixRaceCar);
+    ui->label_pawn_raceCar->move(startField.first-5, startField.second-5);
+
+    QPixmap pixTopHat(":/board/tophat.png");
+    ui->label_pawn_topHat->setPixmap(pixTopHat);
+    ui->label_pawn_topHat->move(startField.first+5, startField.second+5);
 
     connect(controller, &GameController::settingsSaved, this, &MainWindow::onSettingsSaved);
     connect(controller, &GameController::validationError, this, &MainWindow::onValidationError);
@@ -68,6 +75,8 @@ void MainWindow::onStartedGame()
     ui->label_current_p->setText(controller->currentPlayerName());
     ui->label_balance_p->setText(controller->currentPlayerBalance());
     ui->label_position_p->setText(controller->currentPlayerPosition());
+    ui->label_token_p->setText(controller->currentPlayerToken());
+    ui->label_index_p->setText(controller->currentPlayerIndex());
 }
 
 void MainWindow::on_push_options_clicked()

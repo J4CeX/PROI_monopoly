@@ -6,6 +6,24 @@
 #include "Game.hpp"
 #include "Player.hpp"
 
+std::map<std::string, Token> token_map{{"Race Car", Token::raceCar},
+                                            {"Top Hat", Token::topHat},
+                                            {"Thimble", Token::thimble},
+                                            {"Scottish Terrier", Token::scottishTerrier},
+                                            {"Sack of Money", Token::sackOfMoney},
+                                            {"Cat", Token::cat},
+                                            {"Penguin", Token::penguin},
+                                            {"Rubber Duck", Token::rubberDuck}};
+
+std::map<Token, std::string> str_token_map{{Token::raceCar, "Race Car"},
+                                            {Token::topHat, "Top Hat"},
+                                            {Token::thimble, "Thimble"},
+                                            {Token::scottishTerrier, "Scottish Terrier"},
+                                            {Token::sackOfMoney, "Sack of Money"},
+                                            {Token::cat, "Cat"},
+                                            {Token::penguin, "Penguin"},
+                                            {Token::rubberDuck, "Rubber Duck"}};
+
 std::pair<int, int> coordinates[40] = {{650, 550}, {585, 550}, {520, 550}, {460, 550}, {410, 550}, {370, 550}, {325, 550}, {275, 550}, {225, 550},
                                        {175, 550}, {115, 550}, {115, 500}, {115, 445}, {115, 390}, {115, 335}, {115, 285}, {115, 235}, {115, 175},
                                        {115, 110}, {115, 60}, {115, 10}, {175, 10}, {235, 10}, {295, 10}, {350, 10}, {410, 10}, {465, 10},
@@ -65,17 +83,9 @@ void GameController::addPlayer(const QString& playerName, const QString& tokenTe
         emit failAddedPlayer("Player name cannot be empty!");
         return;
     }
-    std::map<std::string, Token> token_map{{"Race Car", Token::raceCar},
-                                            {"Top Hat", Token::topHat},
-                                            {"Thimble", Token::thimble},
-                                            {"Scottish Terrier", Token::scottishTerrier},
-                                            {"Sack of Money", Token::sackOfMoney},
-                                            {"Cat", Token::cat},
-                                            {"Penguin", Token::penguin},
-                                            {"Rubber Duck", Token::rubberDuck}};
     try
     {
-        Token p_token = token_map[p_name_std];
+        Token p_token = token_map[p_token_std];
         Player new_player(this->_newestPlayerId, p_name_std, p_token);
         this->_newestPlayerId++;
         this->_game.addPlayer(new_player);
@@ -101,7 +111,8 @@ QStringList GameController::playerNamesList()
     QStringList player_names;
     for(Player player : this->_game.getPlayers())
     {
-        player_names.append(QString::fromStdString(player.getName()));
+        std::string p_info = player.getName() + " (" + str_token_map[player.getToken()] + ")";
+        player_names.append(QString::fromStdString(p_info));
     }
     return player_names;
 }
@@ -136,4 +147,26 @@ QString GameController::currentPlayerPosition() const
     int player_pos = current_player.getPosition();
     QString q_player_pos = QString::number(player_pos);
     return q_player_pos;
+}
+
+std::pair<int,int> GameController::fieldCoords(int idx) const
+{
+    return coordinates[idx];
+}
+
+QString GameController::currentPlayerToken() const
+{
+    int current_player_idx = this->_game.getCurrentPlayer();
+    Player current_player = this->getPlayer(current_player_idx);
+    Token player_token = current_player.getToken();
+    std::string player_token_std = str_token_map[player_token];
+    QString q_player_token = QString::fromStdString(player_token_std);
+    return q_player_token;
+}
+
+QString GameController::currentPlayerIndex() const
+{
+    int current_player_idx = this->_game.getCurrentPlayer();
+    QString q_player_idx = QString::number(current_player_idx);
+    return q_player_idx;
 }
