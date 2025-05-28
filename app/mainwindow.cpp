@@ -16,15 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QPixmap pix1(":/board/monopoly_map.png");
     ui->label_board->setPixmap(pix1.scaled(600, 600, Qt::KeepAspectRatio));
 
-    std::pair<int, int> startField = controller->fieldCoords(0);
-
-    QPixmap pixRaceCar(":/board/racecar.png");
-    ui->label_pawn_raceCar->setPixmap(pixRaceCar);
-    ui->label_pawn_raceCar->move(startField.first-5, startField.second-5);
-
-    QPixmap pixTopHat(":/board/tophat.png");
-    ui->label_pawn_topHat->setPixmap(pixTopHat);
-    ui->label_pawn_topHat->move(startField.first+5, startField.second+5);
+    this->loadPawns();
 
     connect(controller, &GameController::settingsSaved, this, &MainWindow::onSettingsSaved);
     connect(controller, &GameController::validationError, this, &MainWindow::onValidationError);
@@ -37,6 +29,26 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::loadPawns()
+{
+    std::pair<int, int> startField = controller->fieldCoords(0);
+
+    QPixmap pixRaceCar(":/board/racecar.png");
+    ui->label_pawn_raceCar->setPixmap(pixRaceCar);
+    ui->label_pawn_raceCar->move(startField.first-5, startField.second-5);
+    ui->label_pawn_raceCar->hide();
+
+    QPixmap pixTopHat(":/board/tophat.png");
+    ui->label_pawn_topHat->setPixmap(pixTopHat);
+    ui->label_pawn_topHat->move(startField.first+5, startField.second+5);
+    ui->label_pawn_topHat->hide();
+
+    QPixmap pixThimble(":/board/thimble.png");
+    ui->label_pawn_thimble->setPixmap(pixThimble);
+    ui->label_pawn_thimble->move(startField.first+15, startField.second+15);
+    ui->label_pawn_thimble->hide();
 }
 
 void MainWindow::onSettingsSaved(bool success) {

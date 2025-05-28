@@ -17,6 +17,8 @@ public:
     ~MainWindow();
 
 private slots:
+    void loadPawns();
+
     void onSettingsSaved(bool success);
 
     void onValidationError(const QString& message);

@@ -533,6 +533,19 @@
        <string/>
       </property>
      </widget>
+     <widget class="QLabel" name="label_pawn_thimble">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>320</y>
+        <width>20</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
     </widget>
    </widget>
   </widget>
