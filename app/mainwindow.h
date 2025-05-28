@@ -39,6 +39,8 @@ private slots:
 
     void on_push_add_player_clicked();
 
+    void on_push_start_clicked();
+
 private:
     Ui::MainWindow *ui;
     GameController* controller;

@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="page_main">
      <widget class="QLabel" name="label">
@@ -290,24 +290,11 @@
        <string>Add player</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label_5">
-      <property name="geometry">
-       <rect>
-        <x>40</x>
-        <y>280</y>
-        <width>101</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Current players:</string>
-      </property>
-     </widget>
      <widget class="QLabel" name="label_player_amount">
       <property name="geometry">
        <rect>
-        <x>160</x>
-        <y>280</y>
+        <x>520</x>
+        <y>100</y>
         <width>58</width>
         <height>16</height>
        </rect>
@@ -337,6 +324,34 @@
       </property>
       <property name="text">
        <string>Current players:</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="page_game">
+     <widget class="QLabel" name="label_board">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>0</y>
+        <width>600</width>
+        <height>600</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_pawn">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>170</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
       </property>
      </widget>
     </widget>

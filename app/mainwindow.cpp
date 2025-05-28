@@ -1,4 +1,5 @@
 #include <QMessageBox>
+#include <QPixmap>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -10,7 +11,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
     controller = new GameController(this);
 
-    ui->stackedInterface->setCurrentIndex(0);
+    ui->stackedInterface->setCurrentIndex(3);
+    QPixmap pix1(":/board/monopoly_map.png");
+    ui->label_board->setPixmap(pix1.scaled(600, 600, Qt::KeepAspectRatio));
+    QPixmap pix2(":/board/pawn.png");
+    ui->label_pawn->setPixmap(pix2);
+    ui->label_pawn->move(645, 510);
 
     connect(controller, &GameController::settingsSaved, this, &MainWindow::onSettingsSaved);
     connect(controller, &GameController::validationError, this, &MainWindow::onValidationError);
@@ -92,5 +98,11 @@ void MainWindow::on_push_add_player_clicked()
     QString player_name = ui->input_p_name->text();
     QString token_text = ui->combo_box_p_token->currentText();
     controller->addPlayer(player_name, token_text);
+}
+
+
+void MainWindow::on_push_start_clicked()
+{
+    ui->stackedInterface->setCurrentIndex(3);
 }
 

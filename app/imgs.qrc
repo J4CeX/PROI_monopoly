@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/board">
+        <file>monopoly_map.png</file>
+        <file>pawn.png</file>
+    </qresource>
+</RCC>
