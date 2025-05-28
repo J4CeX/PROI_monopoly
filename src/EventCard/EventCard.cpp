@@ -95,12 +95,13 @@ std::istream& operator>>(std::istream& is, EventCard& ec) {
 };
 
 std::ostream& operator<<(std::ostream& os, const EventCard& ec) {
-    os << ec.cardId_ << ec.type_
-       << ec.movement_ << ec.location_
-       << ec.bankBalance_ << ec.eachPlayerBalance_
-       << ec.perHouseBalance_ << ec.perHotelBalance_
+    os << ec.cardId_ << " " << ec.type_ << " "
+       << ec.movement_ << " " << ec.location_ << " "
+       << ec.bankBalance_ << " " << ec.eachPlayerBalance_ << " "
+       << ec.perHouseBalance_ << " " << ec.perHotelBalance_ << " "
        << std::noboolalpha
-       << ec.goFieldCollectable_ << ec.isGetOutOfJailFree_;
+       << ec.goFieldCollectable_ << " " << ec.isGetOutOfJailFree_ << " "
+       << ec.text_ << std::endl;
 
     return os;
 };
