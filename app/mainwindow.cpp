@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     controller = new GameController(this);
 
-    ui->stackedInterface->setCurrentIndex(3);
+    ui->stackedInterface->setCurrentIndex(0);
     QPixmap pix1(":/board/monopoly_map.png");
     ui->label_board->setPixmap(pix1.scaled(600, 600, Qt::KeepAspectRatio));
     QPixmap pix2(":/board/pawn.png");
