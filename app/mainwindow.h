@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "GameControler.h"
+#include "GameController.h"
 
 namespace Ui {
 class MainWindow;

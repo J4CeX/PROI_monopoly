@@ -2,7 +2,7 @@
 #include <QObject>
 #include <QString>
 #include <map>
-#include "GameControler.h"
+#include "GameController.h"
 #include "Game.hpp"
 #include "Player.hpp"
 
@@ -63,7 +63,7 @@ void GameController::addPlayer(const QString& playerName, const QString& tokenTe
         this->_newestPlayerId++;
         this->_game.addPlayer(new_player);
         std::string msg_std = "Player " + p_name_std + " (" +p_token_std + ") added!";
-        QString msg = QString::fromStdString(msg_std); 
+        QString msg = QString::fromStdString(msg_std);
         emit addedPlayer(msg);
     }
     catch(const std::exception& e)
