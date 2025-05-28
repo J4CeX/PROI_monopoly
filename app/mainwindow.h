@@ -21,6 +21,10 @@ private slots:
 
     void onValidationError(const QString& message);
 
+    void onAddedPlayer(const QString& msg);
+
+    void onFailAddedPlayer(const QString& msg);
+
     void on_push_options_clicked();
 
     void on_push_back_clicked();
@@ -32,6 +36,8 @@ private slots:
     void on_push_back_2_clicked();
 
     void on_push_new_game_clicked();
+
+    void on_push_add_player_clicked();
 
 private:
     Ui::MainWindow *ui;

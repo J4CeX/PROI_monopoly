@@ -11,6 +11,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(controller, &GameController::settingsSaved, this, &MainWindow::onSettingsSaved);
     connect(controller, &GameController::validationError, this, &MainWindow::onValidationError);
+    connect(controller, &GameController::addedPlayer, this, &MainWindow::onAddedPlayer);
+    connect(controller, &GameController::failAddedPlayer, this, &MainWindow::onFailAddedPlayer);
 }
 
 MainWindow::~MainWindow()
@@ -26,6 +28,20 @@ void MainWindow::onSettingsSaved(bool success) {
 
 void MainWindow::onValidationError(const QString& message) {
     QMessageBox::warning(this, "Error", message);
+}
+
+void MainWindow::onAddedPlayer(const QString& msg)
+{
+    QMessageBox::information(this, "Success", msg);
+    ui->label_player_amount->setText(controller->getPlayerAmount());
+    ui->input_p_name->clear();
+    ui->list_players->clear();
+    ui->list_players->addItems(controller->playerNamesList());
+}
+
+void MainWindow::onFailAddedPlayer(const QString& msg)
+{
+    QMessageBox::warning(this, "Error", msg);
 }
 
 void MainWindow::on_push_options_clicked()
@@ -63,5 +79,15 @@ void MainWindow::on_push_new_game_clicked()
 {
     ui->stackedInterface->setCurrentIndex(2);
     controller->startNewGame();
+    ui->label_player_amount->setText(controller->getPlayerAmount());
+    ui->list_players->clear();
+}
+
+
+void MainWindow::on_push_add_player_clicked()
+{
+    QString player_name = ui->input_p_name->text();
+    QString token_text = ui->combo_box_p_token->currentText();
+    controller->addPlayer(player_name, token_text);
 }
 
