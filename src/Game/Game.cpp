@@ -4,6 +4,9 @@ namespace Monopoly {
     Game::Game():
     turnCounter(0), currentPlayer(0), dice(0, 0),
     diceDubletCounter(0) {
+
+        std::cout << "Game constructor START" << std::endl;
+
         try {
             setFields();
         }
@@ -21,6 +24,8 @@ namespace Monopoly {
         catch (exception& exc) {
             cerr << exc.what() << endl;
         }
+        
+        std::cout << "Game constructor END" << std::endl;
     }
 
     Game::Game(const Game& secGame) {

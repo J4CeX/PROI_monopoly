@@ -41,7 +41,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    GameController* controller = new GameController(this);
+    GameController* controller;
 };
 
 #endif // MAINWINDOW_H
