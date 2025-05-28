@@ -1,4 +1,6 @@
 #include <iostream>
+#include <QApplication>
+#include "mainwindow.h"
 
 int main(int argc, char *argv[]) {
     std::cout << "BoardGame v. 0.0.1" << std::endl;
@@ -9,3 +11,4 @@ int main(int argc, char *argv[]) {
     mw.show();
 
     return a.exec();
+}
