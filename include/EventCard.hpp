@@ -31,7 +31,28 @@ class EventCard {
         bool isGetOutOfJailFree_;
 
 		public:
-        EventCard() = default;
+        EventCard():
+			filled_(false),
+			movement_(MovementType::relativeForward), location_(0),
+			cardId_(0), type_(CardType::chance), text_(),
+			bankBalance_(0), eachPlayerBalance_(0),
+			perHouseBalance_(0), perHotelBalance_(0),
+			goFieldCollectable_(true), isGetOutOfJailFree_(false) {};
+
+		EventCard(const MovementType& mt, unsigned int loc,
+				  unsigned int cId, const CardType& ct, const std::string& t,
+				  int bb, int pb,
+				  unsigned int phob, unsigned int phtb,
+				  bool go, bool jail):
+			movement_(mt), location_(loc),
+			cardId_(cId), type_(ct), text_(t),
+			bankBalance_(bb), eachPlayerBalance_(pb),
+			perHouseBalance_(phob), perHotelBalance_(phtb),
+			goFieldCollectable_(go), isGetOutOfJailFree_(jail) {
+				if (text_.size() != 0) {
+					filled_ = true;
+				}
+			};
 
 		bool isFilled() const { return filled_; };
 		MovementType getMovementType() const { return movement_; };

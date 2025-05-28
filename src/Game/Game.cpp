@@ -3,35 +3,43 @@
 namespace Monopoly {
     Game::Game():
     turnCounter(0), currentPlayer(0), dice(0, 0),
-    diceDubletCounter(0) {
-
+    diceDoubleCounter(0), filled(false),
+    randomDevice(), gen(randomDevice()), distribution(1, 6) {
         try {
             setFields();
         }
-        catch (exception& exc) {
-            cerr << exc.what() << endl;
+        catch (std::exception& exc) {
+            std::cerr << exc.what() << std::endl;
+            return;
         }
 
         try {
             setEventCards();
+
             communityChests.shuffle();
             chances.shuffle();
+
             communityChestsCounter = communityChests.length();
             chancesCounter = chances.length();
         }
-        catch (exception& exc) {
-            cerr << exc.what() << endl;
+        catch (std::exception& exc) {
+            std::cerr << exc.what() << std::endl;
+            return;
         }
+
+        filled = true;
     }
 
     Game::Game(const Game& secGame) {
         turnCounter = secGame.turnCounter;
         currentPlayer = secGame.currentPlayer;
         dice = secGame.dice;
-        diceDubletCounter = secGame.diceDubletCounter;
+        diceDoubleCounter = secGame.diceDoubleCounter;
         players = secGame.players;
+
         chances = secGame.chances;
         communityChests = secGame.communityChests;
+
         for (const auto& field: secGame.fields) {
             fields.push_back(field->clone());
         }
@@ -41,11 +49,13 @@ namespace Monopoly {
         turnCounter = secGame.turnCounter;
         currentPlayer = secGame.currentPlayer;
         dice = secGame.dice;
-        diceDubletCounter = secGame.diceDubletCounter;
+        diceDoubleCounter = secGame.diceDoubleCounter;
         players = secGame.players;
+
         chances = secGame.chances;
         communityChests = secGame.communityChests;
-        fields = move(secGame.fields);
+
+        fields = std::move(secGame.fields);
     }
 
     Game& Game::operator=(const Game& secGame) {
@@ -53,10 +63,12 @@ namespace Monopoly {
             turnCounter = secGame.turnCounter;
             currentPlayer = secGame.currentPlayer;
             dice = secGame.dice;
-            diceDubletCounter = secGame.diceDubletCounter;
+            diceDoubleCounter = secGame.diceDoubleCounter;
             players = secGame.players;
+
             chances = secGame.chances;
             communityChests = secGame.communityChests;
+
             for (const auto& field: secGame.fields) {
                 fields.push_back(field->clone());
             }
@@ -69,41 +81,46 @@ namespace Monopoly {
             turnCounter = secGame.turnCounter;
             currentPlayer = secGame.currentPlayer;
             dice = secGame.dice;
-            diceDubletCounter = secGame.diceDubletCounter;
+            diceDoubleCounter = secGame.diceDoubleCounter;
             players = secGame.players;
+
             chances = secGame.chances;
             communityChests = secGame.communityChests;
-            fields = move(secGame.fields);
+
+            fields = std::move(secGame.fields);
         }
         return *this;
     }
 
+    int Game::randomNumber() {
+        return distribution(gen);
+    }
+
     void Game::rollDice() {
-        static std::random_device randomDevice;
-        static std::mt19937 randomGenerator(randomDevice());
-        std::uniform_int_distribution<> distrib(1, 6);
+        dice.first = randomNumber();
+        dice.second = randomNumber();
 
-        int first = distrib(randomGenerator);
-        int second = distrib(randomGenerator);
-
-        if (first == second) {
-            diceDubletCounter++;
+        if (dice.first == dice.second) {
+            diceDoubleCounter++;
+        } else {
+            diceDoubleCounter = 0; // only for doubles rolled in succession
         }
-        if (diceDubletCounter == 3) {
+
+        if (diceDoubleCounter == 3) {
             players[currentPlayer].setPosition(10);
             players[currentPlayer].setInJailRounds(3);
-            diceDubletCounter = 0;
+            diceDoubleCounter = 0;
             return;
         }
-        if (diceDubletCounter && players[currentPlayer].getInJailRounds()) {
+
+        // If player in jail and rolled a dublet - get out of jail
+        if (diceDoubleCounter && players[currentPlayer].getInJailRounds()) {
             players[currentPlayer].setInJailRounds(0);
-        }
-        else {
+        } else {
             return;
         }
-        dice.first = first;
-        dice.second = second;
-        movePlayer((players[currentPlayer].getPosition() + first + second) % 40);
+
+        movePlayer((players[currentPlayer].getPosition() + dice.first + dice.second) % 40);
     }
 
 
@@ -119,7 +136,7 @@ namespace Monopoly {
     }
 
     size_t Game::findNextPlayer() {
-        diceDubletCounter = 0;
+        diceDoubleCounter = 0;
         do {
             currentPlayer = ++currentPlayer % players.size();
             if (currentPlayer == 0) {
@@ -169,7 +186,7 @@ namespace Monopoly {
         return -3;
     }
 
-    int Game::playerBuysHouse(size_t& player, size_t& fieldPosition, bool sellsHouse) {
+    int Game::playerBuyHouse(size_t& player, size_t& fieldPosition, bool sellsHouse) {
         for (auto& field: fields) {
             if (field->getPosition() == fieldPosition) {
                 if (Street* street = dynamic_cast<Street*>(field.get())) {
@@ -307,11 +324,12 @@ namespace Monopoly {
     }
 
     void Game::setFields() {
-        ifstream file(fieldsPath);
+        std::ifstream file(fieldsPath);
         if (!file.good()) {
-            throw (invalid_argument("File error! Cannot open fields.txt file! "));
+            throw (std::invalid_argument("File error! Cannot open fields.txt file! "));
         }
-        string fieldType;
+
+        std::string fieldType;
         while (!file.eof()) {
             file >> fieldType;
             if (fieldType == "ChanceField") {
@@ -370,7 +388,7 @@ namespace Monopoly {
                 pushField<Utility>(utility);
             }
             else {
-                throw (invalid_argument("File error! Corrupted fields.txt file! "));
+                throw (std::invalid_argument("File error! Corrupted fields.txt file! "));
             }
         }
     }
@@ -379,21 +397,25 @@ namespace Monopoly {
         EventCardContainer generatedChances;
         EventCardContainer generatedCommunityChests;
 
-        ifstream file(eventCardsPath);
+        std::ifstream file(eventCardsPath);
         if (!file.good()) {
-            throw (invalid_argument("File error! Cannot open eventCards.txt file! "));
+            throw (std::invalid_argument("File error: cannot open eventCards.txt file"));
         }
+
         while(!file.eof()) {
             EventCard eventCard;
             file >> eventCard;
+
+            if (!file) {
+                throw std::invalid_argument("File read error: deserialization failed");
+            }
+
             if (eventCard.getCardType() == CardType::chance) {
                 generatedChances.addCard(eventCard);
-            }
-            else if (eventCard.getCardType() == CardType::communityChest) {
+            } else if (eventCard.getCardType() == CardType::communityChest) {
                 generatedCommunityChests.addCard(eventCard);
-            }
-            else {
-                throw (invalid_argument("File error! Wrong EventCard type! "));
+            } else {
+                throw (std::invalid_argument("File error: wrong EventCard type"));
             }
         }
 
