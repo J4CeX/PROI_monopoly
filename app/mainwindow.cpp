@@ -6,15 +6,11 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    std::cout << "Before UI loading" << std::endl;
     ui->setupUi(this);
-    std::cout << "UI loaded" << std::endl;
 
     controller = new GameController(this);
-    std::cout << "Controller created" << std::endl;
 
     ui->stackedInterface->setCurrentIndex(0);
-    std::cout << "Stacked interface set" << std::endl;
 
     connect(controller, &GameController::settingsSaved, this, &MainWindow::onSettingsSaved);
     connect(controller, &GameController::validationError, this, &MainWindow::onValidationError);
