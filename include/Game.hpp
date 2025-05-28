@@ -5,65 +5,89 @@
 #include "Player.hpp"
 #include "EventCardContainer.hpp"
 #include <memory>
-#include <cstdlib>
 #include <fstream>
 
 using namespace Fields;
 using namespace Events;
 using namespace MonopolyPlayer;
-using namespace std;
 
 namespace Monopoly {
-    using fptr = unique_ptr<Field>;
-    using pint = pair <int, int>;
+    using fptr = std::unique_ptr<Field>;
+    using pint = std::pair<int, int>;
 
     class Game {
         private:
-            int turnCounter;
-            size_t currentPlayer;
-            pint dice;
-            int diceDubletCounter;
-            vector<fptr> fields;
+            bool filled;
+
+            // Randomness source
+            std::random_device randomDevice;
+            std::mt19937 gen;
+            std::uniform_int_distribution<> distribution;
+
             EventCardContainer chances;
             EventCardContainer communityChests;
-            vector<Player> players;
+
+            std::vector<fptr> fields;
+
+            std::vector<Player> players;
+            size_t currentPlayer;
+
+            pint dice;
+            int diceDoubleCounter;
+
+            int turnCounter;
+
             int chancesCounter;
             int communityChestsCounter;
 
-            void setFields();
             void setEventCards();
-
             void executeEventCard(const EventCard& eventCard);
+
+            void setFields();
+            template<typename T>
+            void pushField(const T& field) { fields.push_back(std::make_unique<T>(field)); }
 
             void movePlayer(size_t newPosition, bool goFieldCollectable = true);
 
-            template<typename T>
-            void pushField(const T& field) { fields.push_back(make_unique<T>(field)); }
+            int randomNumber();
+
         public:
             Game();
             Game(const Game& secGame);
-            Game(Game&& secGame);
-            bool isFinished();
-            void rollDice();
-            size_t findNextPlayer();
-            bool addPlayer(Player& newPlayer);
-            bool checkIfPlayerIsBankrupt();
-            int playerMortgageField(size_t& player, size_t& fieldPosition, bool unMortgage = false);
-            int playerBuysHouse(size_t& player, size_t& fieldPosition, bool sellsHouse = false);
-            int buyOwnableField();
-            int sellOwnableField(size_t& player, size_t& fieldPosition);
-            bool useGetOutOfJailCard();
             Game& operator=(const Game& secGame);
+            Game(Game&& secGame);
             Game& operator=(Game&& secGame);
             ~Game() = default;
 
-            pint getDice() const { return dice; }
-            int getTurnCounter() const { return turnCounter; }
-            size_t getCurrentPlayer() const { return currentPlayer; }
-            int getDiceDubletCounter() const { return diceDubletCounter; }
+            // Constructed correctly
+            bool isFilled() const { return filled; };
+
+            // Event cards
             const EventCardContainer& getChances() const { return chances; }
             const EventCardContainer& getCommunityChests() const { return communityChests; }
-            const vector<Player>& getPlayers() const { return players; }
-            const vector<fptr>& getFields() const {return fields; }
+
+            // Fields
+            const std::vector<fptr>& getFields() const { return fields; }
+
+            // Players
+            const std::vector<Player>& getPlayers() const { return players; }
+            bool addPlayer(Player& newPlayer);
+
+            // Dice
+            void rollDice();
+            pint getDice() const { return dice; }
+            int getDiceDoubleCounter() const { return diceDoubleCounter; }
+
+            // Game loop
+            int getTurnCounter() const { return turnCounter; }
+            size_t findNextPlayer();
+            size_t getCurrentPlayer() const { return currentPlayer; }
+            bool useGetOutOfJailCard();
+            bool checkIfPlayerIsBankrupt();
+            int playerMortgageField(size_t& player, size_t& fieldPosition, bool unMortgage = false);
+            int playerBuyHouse(size_t& player, size_t& fieldPosition, bool sellHouse = false);
+            int buyOwnableField();
+            int sellOwnableField(size_t& player, size_t& fieldPosition);
+            bool isFinished();
     };
 }
