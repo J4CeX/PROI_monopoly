@@ -1,7 +1,5 @@
 #pragma once
 #include "Field.hpp"
-#include "Player.hpp"
-#include <memory>
 
 namespace Fields {
     class OwnableField: public Field {

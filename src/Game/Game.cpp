@@ -306,7 +306,10 @@ namespace Monopoly {
     }
 
     void Game::setFields() {
-        ifstream file("fields.txt");
+        ifstream file(fieldsPath);
+        if (!file.good()) {
+            throw (invalid_argument("File error! Cannot open fields.txt file! "));
+        }
         string fieldType;
         while (!file.eof()) {
             file >> fieldType;
@@ -366,7 +369,7 @@ namespace Monopoly {
                 pushField<Utility>(utility);
             }
             else {
-                throw (invalid_argument("File Error! Corrupted fields.txt file! "));
+                throw (invalid_argument("File error! Corrupted fields.txt file! "));
             }
         }
     }
@@ -375,7 +378,10 @@ namespace Monopoly {
         EventCardContainer generatedChances;
         EventCardContainer generatedCommunityChests;
 
-        ifstream file("eventCards.txt");
+        ifstream file(eventCardsPath);
+        if (!file.good()) {
+            throw (invalid_argument("File error! Cannot open eventCards.txt file! "));
+        }
         while(!file.eof()) {
             EventCard eventCard;
             file >> eventCard;

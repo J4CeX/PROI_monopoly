@@ -1,7 +1,7 @@
 #pragma once
 #include "ChanceField.hpp"
 #include "CommunityChestField.hpp"
-#include "EventCard.hpp"
+#include "EventField.hpp"
 #include "Field.hpp"
 #include "FinancialField.hpp"
 #include "GoToJail.hpp"
