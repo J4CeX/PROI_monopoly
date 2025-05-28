@@ -105,3 +105,35 @@ QStringList GameController::playerNamesList()
     }
     return player_names;
 }
+
+QString GameController::currentPlayerName() const
+{
+    int current_player_idx = this->_game.getCurrentPlayer();
+    Player current_player = this->getPlayer(current_player_idx);
+    std::string player_name = current_player.getName();
+    QString q_player_name = QString::fromStdString(player_name);
+    return q_player_name;
+}
+
+Player GameController::getPlayer(int idx) const
+{
+    return this->_game.getPlayers()[idx];
+}
+
+QString GameController::currentPlayerBalance() const
+{
+    int current_player_idx = this->_game.getCurrentPlayer();
+    Player current_player = this->getPlayer(current_player_idx);
+    int player_balance = current_player.getBalance();
+    QString q_player_balance = QString::number(player_balance);
+    return q_player_balance;
+}
+
+QString GameController::currentPlayerPosition() const
+{
+    int current_player_idx = this->_game.getCurrentPlayer();
+    Player current_player = this->getPlayer(current_player_idx);
+    int player_pos = current_player.getPosition();
+    QString q_player_pos = QString::number(player_pos);
+    return q_player_pos;
+}

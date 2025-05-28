@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QPixmap pix2(":/board/pawn.png");
     ui->label_pawn->setPixmap(pix2);
     ui->label_pawn->move(645, 510);
+    ui->label_pawn->hide();
 
     connect(controller, &GameController::settingsSaved, this, &MainWindow::onSettingsSaved);
     connect(controller, &GameController::validationError, this, &MainWindow::onValidationError);
@@ -63,6 +64,10 @@ void MainWindow::onFail(const QString& msg)
 void MainWindow::onStartedGame()
 {
     ui->stackedInterface->setCurrentIndex(3);
+    ui->list_players_2->addItems(controller->playerNamesList());
+    ui->label_current_p->setText(controller->currentPlayerName());
+    ui->label_balance_p->setText(controller->currentPlayerBalance());
+    ui->label_position_p->setText(controller->currentPlayerPosition());
 }
 
 void MainWindow::on_push_options_clicked()

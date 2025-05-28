@@ -14,6 +14,10 @@ public:
     explicit GameController(QObject *parent = nullptr);
     QString getPlayerAmount() const;
     QStringList playerNamesList();
+    QString currentPlayerName() const;
+    Player getPlayer(int idx) const;
+    QString currentPlayerBalance() const;
+    QString currentPlayerPosition() const;
     
 public slots:
     void saveSettings(const QString& bankMoney, const QString& playerName);
