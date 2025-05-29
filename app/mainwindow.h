@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QLabel>
 #include "GameController.h"
 
 namespace Ui {
@@ -15,9 +16,10 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void loadPawns();
+    QLabel* getLabelByToken(Token token) const;
 
 private slots:
-    void loadPawns();
 
     void onSettingsSaved(bool success);
 
@@ -46,6 +48,8 @@ private slots:
     void on_push_add_player_clicked();
 
     void on_push_start_clicked();
+
+    void on_push_move_fw_clicked();
 
 private:
     Ui::MainWindow *ui;

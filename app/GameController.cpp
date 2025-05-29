@@ -170,3 +170,18 @@ QString GameController::currentPlayerIndex() const
     QString q_player_idx = QString::number(current_player_idx);
     return q_player_idx;
 }
+
+std::vector<Token> GameController::playerTokens() const
+{
+    std::vector<Token> tokens;
+    for(Player player : this->_game.getPlayers())
+    {
+        tokens.push_back(player.getToken());
+    }
+    return tokens;
+}
+
+int GameController::getCurrentPlayerIndex() const
+{
+    return this->_game.getCurrentPlayer();
+}

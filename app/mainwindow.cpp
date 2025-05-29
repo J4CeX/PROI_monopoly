@@ -3,6 +3,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -33,22 +35,30 @@ MainWindow::~MainWindow()
 
 void MainWindow::loadPawns()
 {
-    std::pair<int, int> startField = controller->fieldCoords(0);
-
     QPixmap pixRaceCar(":/board/racecar.png");
     ui->label_pawn_raceCar->setPixmap(pixRaceCar);
-    ui->label_pawn_raceCar->move(startField.first-5, startField.second-5);
     ui->label_pawn_raceCar->hide();
 
     QPixmap pixTopHat(":/board/tophat.png");
     ui->label_pawn_topHat->setPixmap(pixTopHat);
-    ui->label_pawn_topHat->move(startField.first+5, startField.second+5);
     ui->label_pawn_topHat->hide();
 
     QPixmap pixThimble(":/board/thimble.png");
     ui->label_pawn_thimble->setPixmap(pixThimble);
-    ui->label_pawn_thimble->move(startField.first+15, startField.second+15);
     ui->label_pawn_thimble->hide();
+
+    QPixmap pixScottTerr(":/board/scottishterrier.png");
+    ui->label_pawn_scottTerr->setPixmap(pixScottTerr);
+    ui->label_pawn_scottTerr->hide();
+}
+
+QLabel* MainWindow::getLabelByToken(Token token) const
+{
+    std::map<Token, QLabel*> token_label_map = {{Token::raceCar, ui->label_pawn_raceCar},
+                                                {Token::topHat, ui->label_pawn_topHat},
+                                                {Token::thimble, ui->label_pawn_thimble},
+                                                {Token::scottishTerrier, ui->label_pawn_scottTerr}};
+    return token_label_map[token];
 }
 
 void MainWindow::onSettingsSaved(bool success) {
@@ -89,6 +99,16 @@ void MainWindow::onStartedGame()
     ui->label_position_p->setText(controller->currentPlayerPosition());
     ui->label_token_p->setText(controller->currentPlayerToken());
     ui->label_index_p->setText(controller->currentPlayerIndex());
+
+    std::pair<int, int> startField = controller->fieldCoords(0);                                           
+    for(Player player : controller->getPlayers())
+    {
+        Token token = player.getToken();
+        int idx = player.getPlayerId();
+        QLabel* label = this->getLabelByToken(token);
+        label->show();
+        label->move(startField.first+idx*10, startField.second+idx*10);
+    }
 }
 
 void MainWindow::on_push_options_clicked()
@@ -142,5 +162,19 @@ void MainWindow::on_push_add_player_clicked()
 void MainWindow::on_push_start_clicked()
 {
     controller->tryStartGame();
+}
+
+
+void MainWindow::on_push_move_fw_clicked()
+{
+    Player player = controller->getPlayer(controller->getCurrentPlayerIndex());
+    Token token = player.getToken();
+    QLabel* label = this->getLabelByToken(token);
+    int current_pos = player.getPosition();
+    int idx = player.getPlayerId();
+    std::pair<int, int> next_coords = controller->fieldCoords((current_pos+1)%40);
+    player.setPosition(current_pos+1);
+    std::cout << player.getPosition();
+    label->move(next_coords.first+idx*10, next_coords.second+idx*10);
 }
 
