@@ -36,7 +36,7 @@ namespace Fields {
                 std::string curColor;
                 is >> street.position >> street.purchasePrice >> street.trespassingFee
                     >> street.housesRent[0] >> street.housesRent[1] >> street.housesRent[2]
-                    >> street.housesRent[3] >> street.housesRent[4] >> curColor >> std::skipws;
+                    >> street.housesRent[3] >> street.housesRent[4] >> curColor >> std::ws;
                 if (curColor == "Brown") {
                     street.color = Color::Brown;
                 }
