@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "EventCard.hpp"
 #include "EventCardContainer.hpp"
+#include <sstream>
 
 using namespace Events;
 
@@ -46,6 +47,39 @@ TEST(EventCardTests, movementTarget) {
     EventCard thEventCard(MovementType::relativeBackward, 10, 0, CardType::chance,
         "test", 50, 10, 20, 30, true, false);
     ASSERT_EQ(thEventCard.movementTarget(50, 40), 0);
+}
+
+TEST(EventCardTests, InputEventCardConstructor) {
+    EventCard chanceCard;
+    EventCard commChestCard;
+    std::istringstream chanceCardIss("0 0 2 10 50 20 100 200 0 1 test chance card");
+    chanceCardIss >> chanceCard;
+    ASSERT_EQ(chanceCard.getMovementType(), MovementType::absolute);
+    ASSERT_EQ(chanceCard.getCardId(), 0);
+    ASSERT_EQ(chanceCard.getLocation(), 10);
+    ASSERT_EQ(chanceCard.getCardType(), CardType::chance);
+    ASSERT_EQ(chanceCard.getText(), "test chance card");
+    ASSERT_EQ(chanceCard.getBankBalance(), 50);
+    ASSERT_EQ(chanceCard.getEachPlayerBalance(), 20);
+    ASSERT_EQ(chanceCard.getPerHouseBalance(), 100);
+    ASSERT_EQ(chanceCard.getPerHotelBalance(), 200);
+    ASSERT_FALSE(chanceCard.isGoFieldCollectable());
+    ASSERT_TRUE(chanceCard.isGetOutOfJailFree());
+    ASSERT_TRUE(chanceCard.isFilled());
+    std::istringstream commChestCardIss("1 1 1 20 40 10 90 210 1 0 test community chest card");
+    commChestCardIss >> commChestCard;
+    ASSERT_EQ(commChestCard.getMovementType(), MovementType::relativeBackward);
+    ASSERT_EQ(commChestCard.getCardId(), 1);
+    ASSERT_EQ(commChestCard.getLocation(), 20);
+    ASSERT_EQ(commChestCard.getCardType(), CardType::communityChest);
+    ASSERT_EQ(commChestCard.getText(), "test community chest card");
+    ASSERT_EQ(commChestCard.getBankBalance(), 40);
+    ASSERT_EQ(commChestCard.getEachPlayerBalance(), 10);
+    ASSERT_EQ(commChestCard.getPerHouseBalance(), 90);
+    ASSERT_EQ(commChestCard.getPerHotelBalance(), 210);
+    ASSERT_TRUE(commChestCard.isGoFieldCollectable());
+    ASSERT_FALSE(commChestCard.isGetOutOfJailFree());
+    ASSERT_TRUE(commChestCard.isFilled());
 }
 
 TEST(EventCardContainerTests, ConstructorAndAddCard) {
