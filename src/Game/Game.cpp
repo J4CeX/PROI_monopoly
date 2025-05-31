@@ -6,7 +6,8 @@ namespace Monopoly {
     Game::Game():
     turnCounter(0), currentPlayer(0), dice(0, 0),
     diceDoubleCounter(0), filled(false),
-    randomDevice(), gen(randomDevice()), distribution(1, 6), isFinished(false) {
+    randomDevice(), gen(randomDevice()), distribution(1, 6),
+    isFinished(false) {
         try {
             setFields();
         }
@@ -372,6 +373,7 @@ namespace Monopoly {
                 }
                 else if (currentType == TYPE::CHANCEFIELD) {
                     EventCard currentChance = chances[chancesCounter - 1];
+                    currentEvent = currentChance;
                     executeEventCard(currentChance);
                     if (--chancesCounter == 0) {
                         chances.shuffle();
@@ -380,6 +382,7 @@ namespace Monopoly {
                 }
                 else if (currentType == TYPE::COMMUNITYCHESTFIELD) {
                     EventCard currentCommunityChest = communityChests[communityChestsCounter - 1];
+                    currentEvent = currentCommunityChest;
                     executeEventCard(currentCommunityChest);
                     if (--communityChestsCounter == 0) {
                         chances.shuffle();
