@@ -117,6 +117,9 @@ namespace Monopoly {
         if (diceDoubleCounter && players[currentPlayer].getInJailRounds()) {
             players[currentPlayer].setInJailRounds(0);
         }
+        else if (players[currentPlayer].getInJailRounds()) {
+            return;
+        }
 
         movePlayer((players[currentPlayer].getPosition() + dice.first + dice.second) % 40);
     }
