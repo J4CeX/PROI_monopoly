@@ -18,9 +18,10 @@ class Logger {
 
         ~Logger() = default;
 
-        template <typename T>
+        template <typename T, typename U, typename W>
         void log(unsigned int level, const T& message,
-            const char* name, unsigned int line) {
+            const char* name, unsigned int line,
+            U i1 = -1, bool i1Used = false, W i2 = -1, bool i2Used = false) {
             count_ += 1;
 
             if (level >= level_) {
@@ -30,7 +31,13 @@ class Logger {
                 else if (level == 2) { std::cout << "  [warn] "; }
                 else if (level == 3) { std::cout << " [error] "; }
                 else if (level >= 4) { std::cout << "  [crit] "; }
-                std::cout << "@ " << name << ":" << line << ": " << message << std::endl;
+                std::cout << "@ " << name << ":" << line << ": " << message;
+                
+                if (i1Used) std::cout << " (" << i1;
+                if (i2Used) std::cout << ", " << i2;
+                if (i1Used) std::cout << ")";
+
+                std::cout << std::endl;
             }
         }
 };
@@ -50,3 +57,24 @@ inline Logger& logger() {
         __LINE__ \
     );
 
+#define LOGI(level, message_, i1_) \
+    logger().log( \
+        level, \
+        message_, \
+        __func__, \
+        __LINE__, \
+        i1_, \
+        true \
+    );
+
+#define LOGII(level, message_, i1_, i2_) \
+    logger().log( \
+        level, \
+        message_, \
+        __func__, \
+        __LINE__, \
+        i1_, \
+        true \
+        i2_, \
+        true \
+    );
