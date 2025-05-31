@@ -37,6 +37,7 @@ namespace Monopoly {
             int diceDoubleCounter;
 
             int turnCounter;
+            EventCard currentEvent;
 
             int chancesCounter;
             int communityChestsCounter;
@@ -90,5 +91,6 @@ namespace Monopoly {
             int buyOwnableField();
             int sellOwnableField(size_t& player, size_t& fieldPosition);
             bool getIsFinished() { return isFinished; }
+            const EventCard& getCurrentEvent() { return currentEvent; }
     };
 }
