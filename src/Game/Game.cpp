@@ -1,4 +1,6 @@
 #include "Game.hpp"
+#include "Logger.hpp"
+
 
 namespace Monopoly {
     Game::Game():
@@ -9,7 +11,9 @@ namespace Monopoly {
             setFields();
         }
         catch (std::exception& exc) {
-            std::cerr << exc.what() << std::endl;
+            LOG(3, "While trying to deserialize Fields:");
+            LOG(3, exc.what());
+
             return;
         }
 
@@ -23,11 +27,14 @@ namespace Monopoly {
             chancesCounter = chances.length();
         }
         catch (std::exception& exc) {
-            std::cerr << exc.what() << std::endl;
+            LOG(3, "While trying to deserialize EventCards:");
+            LOG(3, exc.what());
+
             return;
         }
 
         filled = true;
+        LOG(1, "Game object constructed");
     }
 
     Game::Game(const Game& secGame) {
@@ -43,9 +50,17 @@ namespace Monopoly {
         for (const auto& field: secGame.fields) {
             fields.push_back(field->clone());
         }
+
+        filled = true;
+        LOG(1, "Game object constructed by copying");
     }
 
     Game::Game(Game&& secGame) {
+        if (!secGame.isFilled()) {
+            LOG(3, "Attempted to construct a Game object from other unfilled object");
+            return;
+        }
+
         turnCounter = secGame.turnCounter;
         currentPlayer = secGame.currentPlayer;
         dice = secGame.dice;
@@ -56,6 +71,9 @@ namespace Monopoly {
         communityChests = secGame.communityChests;
 
         fields = std::move(secGame.fields);
+
+        filled = true;
+        LOG(1, "Game object constructed by moving");
     }
 
     Game& Game::operator=(const Game& secGame) {
@@ -100,6 +118,8 @@ namespace Monopoly {
         dice.first = randomNumber();
         dice.second = randomNumber();
 
+        LOG(0, "Dice rolled");
+
         if (dice.first == dice.second) {
             diceDoubleCounter++;
         } else {
@@ -110,12 +130,17 @@ namespace Monopoly {
             players[currentPlayer].setPosition(10);
             players[currentPlayer].setInJailRounds(3);
             diceDoubleCounter = 0;
+
+            LOG(1, "Double rolled for the third time");
+
             return;
         }
 
-        // If player in jail and rolled a dublet - get out of jail
+        // If player in jail and rolled a double - get out of jail
         if (diceDoubleCounter > 0 && players[currentPlayer].getInJailRounds() > 0) {
             players[currentPlayer].setInJailRounds(0);
+
+            LOG(1, "Double rolled while player was in jail");
         }
         else if (players[currentPlayer].getInJailRounds() > 0) {
             return;
@@ -132,25 +157,40 @@ namespace Monopoly {
                 inGame++;
             }
         }
+
         isFinished = inGame > 1 ? false : true;
+
+        if (isFinished) {
+            LOG(3, "Attempted to find a new player, while Game has ended");
+            return;
+        }
+
         diceDoubleCounter = 0;
+
         do {
             currentPlayer = ++currentPlayer % players.size();
+
             if (currentPlayer == 0) {
                 turnCounter++;
             }
         } while (players[currentPlayer].getIsBankrupt());
+
+        LOG(1, "Next player found");
         return currentPlayer;
     }
 
     bool Game::addPlayer(Player& newPlayer) {
         if (players.size() < 4) {
             players.push_back(newPlayer);
+
+            LOG(1, "Player added");
+
             return true;
         }
-        else {
-            return false;
-        }
+
+        LOG(2, "Attempted to add more Players than expected");
+        return false;
+
     }
 
     bool Game::checkIfPlayerIsBankrupt() {
@@ -163,9 +203,11 @@ namespace Monopoly {
                 if (OwnableField* ownableField = dynamic_cast<OwnableField*>(field.get())) {
                     if (Street* street = dynamic_cast<Street*>(field.get())) {
                         if (street->getHouseCount() != 0) {
+
                             return -1;
                         }
                     }
+
                     if (unMortgage && ownableField->isMortgaged()) {
                         players[player].setBalance(players[player].getBalance() + ownableField->mortgage());
                         return 1;
@@ -183,15 +225,15 @@ namespace Monopoly {
         return -3;
     }
 
-    int Game::playerBuyHouse(size_t& player, size_t& fieldPosition, bool sellsHouse) {
+    int Game::playerBuyHouse(size_t& player, size_t& fieldPosition, bool sellHouse) {
         for (auto& field: fields) {
             if (field->getPosition() == fieldPosition) {
                 if (Street* street = dynamic_cast<Street*>(field.get())) {
-                    if (sellsHouse && street->getHouseCount() > 0) {
+                    if (sellHouse && street->getHouseCount() > 0) {
                         players[player].setBalance(players[player].getBalance() + street->sellHouse());
                         return 1;
                     }
-                    else if (!sellsHouse && street->getHouseCount() < 5) {
+                    else if (!sellHouse && street->getHouseCount() < 5) {
                         int newBalance = players[player].getBalance() - street->purchaseHouse();
                         if (newBalance >= 0) {
                             players[player].setBalance(newBalance);
@@ -362,15 +404,23 @@ namespace Monopoly {
         if (players[currentPlayer].getGetOutOfJailCard() && players[currentPlayer].getInJailRounds() > 0) {
             players[currentPlayer].setGetOutOfJailCard(false);
             players[currentPlayer].setInJailRounds(0);
+
+            LOG(1, "Get out of jail free card applied");
+
+
             return true;
         }
+
+        LOG(2, "Attempted to use the Get out of jail free card under incorrect conditions");
         return false;
     }
 
     void Game::setFields() {
+        LOG(1, "Attempting to deserialize Fields");
+
         std::ifstream file(fieldsPath);
         if (!file.good()) {
-            throw (std::invalid_argument("File error! Cannot open fields.txt file! "));
+            throw (std::invalid_argument("File error: cannot open fields.txt file"));
         }
 
         std::string fieldType;
@@ -432,12 +482,14 @@ namespace Monopoly {
                 pushField<Utility>(utility);
             }
             else {
-                throw (std::invalid_argument("File error! Corrupted fields.txt file! "));
+                throw (std::invalid_argument("File error: unknown fieldType attempted"));
             }
         }
     }
 
     void Game::setEventCards() {
+        LOG(1, "Attempting to deserialize EventCards");
+
         EventCardContainer generatedChances;
         EventCardContainer generatedCommunityChests;
 
@@ -468,6 +520,9 @@ namespace Monopoly {
     }
 
     void Game::executeEventCard(const EventCard& eventCard) {
+        LOG(0, "Processing EventCard with ID:");
+        LOG(0, eventCard.getCardId());
+
         // Settle balances
         players[currentPlayer].setBalance(players[currentPlayer].getBalance() + eventCard.getBankBalance());
 
@@ -481,6 +536,9 @@ namespace Monopoly {
             }
 
             players[currentPlayer].setBalance(players[currentPlayer].getBalance() - balanceDiff);
+
+            LOG(0, "Player balance settled to:");
+            LOG(0, balanceDiff);
         }
 
         // Check for houses and hotels
@@ -490,8 +548,11 @@ namespace Monopoly {
                 if (street->getOwner() == currentPlayer) {
                     if (street->getHouseCount() == 5) {  // 5 houses means exactly one hotel
                         houseHotelCost += eventCard.getPerHotelBalance();
+
+                        LOG(0, "Balance counted for a hotel");
                     } else {
                         houseHotelCost += eventCard.getPerHouseBalance() * street->getHouseCount();
+                        LOG(0, "Balance counted for house(es)");
                     }
                 }
             }
@@ -500,12 +561,17 @@ namespace Monopoly {
         // Handle Get Out Of Jail card
         if (eventCard.isGetOutOfJailFree()) {
             players[currentPlayer].setGetOutOfJailCard(true);
+
+            LOG(0, "Get out of jail free card set");
         }
 
         // Move the player
         if (eventCard.getLocation() != 0) {
             size_t targetField = eventCard.movementTarget(players[currentPlayer].getPosition(), fields.size());
             movePlayer(targetField, eventCard.isGoFieldCollectable());
+
+            LOG(0, "Player moved to field at position:");
+            LOG(0, targetField);
         }
     }
 }
