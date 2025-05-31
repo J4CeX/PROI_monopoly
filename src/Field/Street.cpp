@@ -1,4 +1,5 @@
 #include "Field/Street.hpp"
+#include "Logger.hpp"
 
 namespace Fields {
     Street::Street(int position, int purchasePrice, int trespassingFee,
@@ -17,22 +18,26 @@ namespace Fields {
     int Street::purchaseHouse() {
         if (houseCount < Capacity - 1) {
             trespassingFee = housesRent[++houseCount];
+
+            LOG(0, "Housed purchased");
+
             return housePrice;
         }
-        else {
-            std::cerr << "purchaseHouse out of range error!" << std::endl;
-            return 0;
-        }
+        
+        LOG(2, "Attempted to purchase a house that is above a capacity of the street");
+        return 0;
     }
 
     int Street::sellHouse() {
         if (houseCount > 0) {
             trespassingFee = housesRent[--houseCount];
+
+            LOG(0, "Housed sold");
+
             return housePrice;
         }
-        else {
-            std::cerr << "sellHouse out of range error!" << std::endl;
-            return 0;
-        }
+
+        LOG(2, "Attempted to sell house from an empty street");
+        return 0;
     }
 }
