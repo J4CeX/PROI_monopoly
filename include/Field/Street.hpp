@@ -28,6 +28,7 @@ namespace Fields {
             int getHousePrice() const { return housePrice; }
             int getHouseCount() const { return houseCount; }
             TYPE getInfo() const override { return TYPE::STREET; }
+            Color getColor() const { return color; }
             std::unique_ptr<Field> clone() const override { return std::make_unique<Street>(*this); }
             int purchaseHouse();
             int sellHouse();
