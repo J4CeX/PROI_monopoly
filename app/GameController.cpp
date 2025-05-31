@@ -132,7 +132,7 @@ QString GameController::currentPlayerName() const
 {
     int current_player_idx = this->_game.getCurrentPlayer();
     Player current_player = this->getPlayer(current_player_idx);
-    std::string player_name = current_player.getName() + "[" + std::to_string(current_player_idx) + "]";
+    std::string player_name = current_player.getName();
     QString q_player_name = QString::fromStdString(player_name);
     return q_player_name;
 }

@@ -158,15 +158,16 @@ void MainWindow::updatePlayerLabels()
     ui->label_position_p->setText(controller->currentPlayerPosition());
     ui->label_token_p->setText(controller->currentPlayerToken());
     ui->label_index_p->setText(controller->currentPlayerIndex());
-
-    std::pair<int, int> startField = controller->fieldCoords(0);                                           
+                                           
     for(Player player : controller->getPlayers())
     {
+        int pos = player.getPosition();
+        std::pair<int, int> currentField = controller->fieldCoords(pos);
         Token token = player.getToken();
         int idx = player.getPlayerId();
         QLabel* label = this->getLabelByToken(token);
         label->show();
-        label->move(startField.first+idx*10, startField.second+idx*10);
+        label->move(currentField.first+idx*10, currentField.second+idx*10);
     }
 }
 
