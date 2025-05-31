@@ -113,7 +113,7 @@ std::istream& operator>>(std::istream& is, Player& p) {
 	   >> p.balance_ >> p.isBankrupt_
 	   >> p.position_ >> p.inJailRounds_
 	   >> p.hasGetOutOfJailCard_
-	   >> std::skipws;
+	   >> std::ws;
 
 	std::getline(is, p.name_);
 

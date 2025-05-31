@@ -83,7 +83,7 @@ std::istream& operator>>(std::istream& is, EventCard& ec) {
        >> ec.bankBalance_ >> ec.eachPlayerBalance_
        >> ec.perHouseBalance_ >> ec.perHotelBalance_
        >> ec.goFieldCollectable_ >> ec.isGetOutOfJailFree_
-	   >> std::skipws;
+	   >> std::ws;
 
 	std::getline(is, ec.text_);
 
