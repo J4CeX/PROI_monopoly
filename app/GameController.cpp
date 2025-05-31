@@ -105,8 +105,13 @@ void GameController::rollDice()
     int r1 = _game.getDice().first, r2 = _game.getDice().second;
     std::string results = std::to_string(r1) + " " + std::to_string(r2); 
     QString q_results = QString::fromStdString(results);
+    
     int idx = this->_game.getCurrentPlayer();
     Player current_player = this->getPlayer(idx);
+    const auto& fields = this->_game.getFields();
+    const auto& current_field = *(fields[current_player.getPosition()]);
+    TYPE current_type = current_field.getInfo();
+    if(current_type == TYPE::STREET) std::cout << "STREET";
     emit rolledDice(q_results);
 }
 
