@@ -116,8 +116,6 @@ namespace Monopoly {
         // If player in jail and rolled a dublet - get out of jail
         if (diceDoubleCounter && players[currentPlayer].getInJailRounds()) {
             players[currentPlayer].setInJailRounds(0);
-        } else {
-            return;
         }
 
         movePlayer((players[currentPlayer].getPosition() + dice.first + dice.second) % 40);
