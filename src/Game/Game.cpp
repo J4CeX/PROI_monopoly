@@ -12,9 +12,7 @@ namespace Monopoly {
             setFields();
         }
         catch (std::exception& exc) {
-            LOG(3, "While trying to deserialize Fields:");
-            LOG(3, exc.what());
-
+            LOGI(3, "While trying to deserialize Fields:", exc.what());
             return;
         }
 
@@ -28,9 +26,7 @@ namespace Monopoly {
             chancesCounter = chances.length();
         }
         catch (std::exception& exc) {
-            LOG(3, "While trying to deserialize EventCards:");
-            LOG(3, exc.what());
-
+            LOGI(3, "While trying to deserialize EventCards:", exc.what());
             return;
         }
 
@@ -119,7 +115,7 @@ namespace Monopoly {
         dice.first = randomNumber();
         dice.second = randomNumber();
 
-        LOG(0, "Dice rolled");
+        LOGII(0, "Dice rolled", dice.first, dice.second);
 
         if (dice.first == dice.second) {
             diceDoubleCounter++;
@@ -176,7 +172,7 @@ namespace Monopoly {
             }
         } while (players[currentPlayer].getIsBankrupt());
 
-        LOG(1, "Next player found");
+        LOGI(1, "Next player found:", currentPlayer);
         return true;
     }
 
@@ -184,7 +180,7 @@ namespace Monopoly {
         if (players.size() < 4) {
             players.push_back(newPlayer);
 
-            LOG(1, "Player added");
+            LOGI(1, "Player added:", newPlayer.getPlayerId());
 
             return true;
         }
@@ -408,13 +404,14 @@ namespace Monopoly {
             players[currentPlayer].setGetOutOfJailCard(false);
             players[currentPlayer].setInJailRounds(0);
 
-            LOG(1, "Get out of jail free card applied");
+            LOGI(1, "Get out of jail free card applied", currentPlayer);
 
 
             return true;
         }
 
-        LOG(2, "Attempted to use the Get out of jail free card under incorrect conditions");
+        LOGII(2, "Attempted to use the Get out of jail free card under incorrect conditions",
+            players[currentPlayer].getGetOutOfJailCard(), players[currentPlayer].getInJailRounds());
         return false;
     }
 
@@ -523,8 +520,7 @@ namespace Monopoly {
     }
 
     void Game::executeEventCard(const EventCard& eventCard) {
-        LOG(0, "Processing EventCard with ID:");
-        LOG(0, eventCard.getCardId());
+        LOGI(0, "Processing EventCard with ID:", eventCard.getCardId());
 
         // Settle balances
         players[currentPlayer].setBalance(players[currentPlayer].getBalance() + eventCard.getBankBalance());
@@ -540,8 +536,7 @@ namespace Monopoly {
 
             players[currentPlayer].setBalance(players[currentPlayer].getBalance() - balanceDiff);
 
-            LOG(0, "Player balance settled to:");
-            LOG(0, balanceDiff);
+            LOGI(0, "Player balance settled to:", balanceDiff);
         }
 
         // Check for houses and hotels
@@ -552,10 +547,10 @@ namespace Monopoly {
                     if (street->getHouseCount() == 5) {  // 5 houses means exactly one hotel
                         houseHotelCost += eventCard.getPerHotelBalance();
 
-                        LOG(0, "Balance counted for a hotel");
+                        LOGI(0, "Balance counted for a hotel:", houseHotelCost);
                     } else {
                         houseHotelCost += eventCard.getPerHouseBalance() * street->getHouseCount();
-                        LOG(0, "Balance counted for house(es)");
+                        LOGI(0, "Balance counted for house(es)", houseHotelCost);
                     }
                 }
             }
@@ -573,8 +568,7 @@ namespace Monopoly {
             size_t targetField = eventCard.movementTarget(players[currentPlayer].getPosition(), fields.size());
             movePlayer(targetField, eventCard.isGoFieldCollectable());
 
-            LOG(0, "Player moved to field at position:");
-            LOG(0, targetField);
+            LOGI(0, "Player moved to field at position:", targetField);
         }
     }
 }

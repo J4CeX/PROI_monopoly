@@ -18,10 +18,11 @@ class Logger {
 
         ~Logger() = default;
 
-        template <typename T, typename U, typename W>
+        template <typename T, typename U = int, typename W = int>
         void log(unsigned int level, const T& message,
             const char* name, unsigned int line,
-            U i1 = -1, bool i1Used = false, W i2 = -1, bool i2Used = false) {
+            const U& i1 = -1, bool i1Used = false,
+            const W& i2 = -1, bool i2Used = false) {
             count_ += 1;
 
             if (level >= level_) {
@@ -74,7 +75,7 @@ inline Logger& logger() {
         __func__, \
         __LINE__, \
         i1_, \
-        true \
+        true, \
         i2_, \
         true \
     );

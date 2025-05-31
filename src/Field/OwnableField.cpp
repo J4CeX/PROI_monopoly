@@ -4,7 +4,7 @@
 namespace Fields {
     size_t OwnableField::getOwner() const {
         if (!owned) {
-            LOG(1, "Attempt at reading owner of an unowned OwnableField");
+            LOGI(1, "Attempt at reading owner of an unowned OwnableField", position);
 
             return 0;
         }
@@ -16,12 +16,12 @@ namespace Fields {
             owner = newOwner;
             owned = true;
 
-            LOG(0, "OwnableField owner set");
+            LOGII(0, "OwnableField owner set", position, owner);
 
             return purchasePrice;
         }
 
-        LOG(2, "Attempted to change the owner of an owned OwnableField");
+        LOGI(2, "Attempted to change the owner of an owned OwnableField", position);
         return 0;
     }
 
@@ -30,12 +30,12 @@ namespace Fields {
             owner = 0;
             owned = false;
 
-            LOG(0, "OwnableField owner removed");
+            LOGI(0, "OwnableField owner removed", position);
 
             return purchasePrice;
         }
 
-        LOG(2, "Attempted to remove the owner of an unowned OwnableField");
+        LOGI(2, "Attempted to remove the owner of an unowned OwnableField", position);
         return 0;
     }
 
@@ -43,12 +43,12 @@ namespace Fields {
         if (mortgaged == false && owned == true) {
             mortgaged = true;
 
-            LOG(0, "OwnableField mortgaged");
+            LOGI(0, "OwnableField mortgaged", position);
 
             return purchasePrice / 2;
         }
 
-        LOG(2, "Attempted to mortgage an arleady mortgaged or unowned OwnableField");
+        LOGI(2, "Attempted to mortgage an arleady mortgaged or unowned OwnableField", position);
 
         return 0;
     }
@@ -59,7 +59,7 @@ namespace Fields {
             return purchasePrice / 2;
         }
 
-        LOG(2, "Attempted to unmortgage an OwnableField that is not mortgaged or unowned");
+        LOGI(2, "Attempted to unmortgage an OwnableField that is not mortgaged or unowned", position);
 
         return 0;
     }

@@ -72,7 +72,7 @@ Player::Player(const unsigned int id, const std::string name, const Token token,
 int Player::setBalance(const int currentBalance) {
 	balance_ = currentBalance;
 
-	LOG(0, "Player balance updated");
+	LOGII(0, "Player balance updated", playerId_, balance_);
 
 	return balance_;
 };
@@ -80,7 +80,7 @@ int Player::setBalance(const int currentBalance) {
 size_t Player::setPosition(const size_t currentPosition) {
 	position_ = currentPosition;
 
-	LOG(0, "Player position updated");
+	LOGII(0, "Player position updated", playerId_, position_);
 
 	return position_;
 };
@@ -88,7 +88,7 @@ size_t Player::setPosition(const size_t currentPosition) {
 int Player::setInJailRounds(const int currentRounds) {
 	inJailRounds_ = currentRounds;
 
-	LOG(0, "Player in-jail status updated");
+	LOGII(0, "Player in-jail status updated", playerId_, inJailRounds_);
 
 	return inJailRounds_;
 };
@@ -96,8 +96,7 @@ int Player::setInJailRounds(const int currentRounds) {
 bool Player::setGetOutOfJailCard(const bool hasCard) {
 	hasGetOutOfJailCard_ = hasCard;
 
-	LOG(0, "Player get out of jail card ownership updated");
-
+	LOGII(0, "Player get out of jail card ownership updated", playerId_, hasGetOutOfJailCard_);
 
 	return hasGetOutOfJailCard_;
 };
@@ -106,7 +105,7 @@ bool Player::checkIfBankrupt() {
 	if (balance_ < 0) {
 		isBankrupt_ = true;
 
-		LOG(1, "Player declared bankrupt");
+		LOGI(1, "Player declared bankrupt", playerId_);
 
 		return true;
 	}
@@ -140,7 +139,7 @@ std::istream& operator>>(std::istream& is, Player& p) {
 	if (is) {
 		p.filled_ = true;
 
-		LOG(0, "Player object deserialized");
+		LOGI(0, "Player object deserialized", p.playerId_);
 	} else {
 		LOG(3, "Attempted to deserialize a Player, but istream is bad");
 	}
