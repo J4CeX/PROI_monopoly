@@ -35,9 +35,10 @@ class Logger {
         }
 };
 
+#define LOGGING_LEVEL @RICHPP_LOG_LEVEL@
 
 inline Logger& logger() {
-    static Logger logger(0);
+    static Logger logger(LOGGING_LEVEL);
     return logger;
 }
 
