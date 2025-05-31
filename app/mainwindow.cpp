@@ -26,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(controller, &GameController::failAddedPlayer, this, &MainWindow::onFailAddedPlayer);
     connect(controller, &GameController::fail, this, &MainWindow::onFail);
     connect(controller, &GameController::startedGame, this, &MainWindow::onStartedGame);
+    connect(controller, &GameController::rolledDice, this, &MainWindow::onRolledDice);
 }
 
 MainWindow::~MainWindow()
@@ -93,22 +94,7 @@ void MainWindow::onFail(const QString& msg)
 void MainWindow::onStartedGame()
 {
     ui->stackedInterface->setCurrentIndex(3);
-    ui->list_players_2->addItems(controller->playerNamesList());
-    ui->label_current_p->setText(controller->currentPlayerName());
-    ui->label_balance_p->setText(controller->currentPlayerBalance());
-    ui->label_position_p->setText(controller->currentPlayerPosition());
-    ui->label_token_p->setText(controller->currentPlayerToken());
-    ui->label_index_p->setText(controller->currentPlayerIndex());
-
-    std::pair<int, int> startField = controller->fieldCoords(0);                                           
-    for(Player player : controller->getPlayers())
-    {
-        Token token = player.getToken();
-        int idx = player.getPlayerId();
-        QLabel* label = this->getLabelByToken(token);
-        label->show();
-        label->move(startField.first+idx*10, startField.second+idx*10);
-    }
+    this->updatePlayerLabels();
 }
 
 void MainWindow::on_push_options_clicked()
@@ -121,6 +107,11 @@ void MainWindow::on_push_back_clicked()
     ui->stackedInterface->setCurrentIndex(0);
 }
 
+void MainWindow::onRolledDice(const QString& results)
+{
+    this->updatePlayerLabels();
+    ui->label_dice_result->setText(results);
+}
 
 void MainWindow::on_push_exit_clicked()
 {
@@ -158,6 +149,26 @@ void MainWindow::on_push_add_player_clicked()
     controller->addPlayer(player_name, token_text);
 }
 
+void MainWindow::updatePlayerLabels()
+{
+    ui->list_players_2->clear();
+    ui->list_players_2->addItems(controller->playerNamesList());
+    ui->label_current_p->setText(controller->currentPlayerName());
+    ui->label_balance_p->setText(controller->currentPlayerBalance());
+    ui->label_position_p->setText(controller->currentPlayerPosition());
+    ui->label_token_p->setText(controller->currentPlayerToken());
+    ui->label_index_p->setText(controller->currentPlayerIndex());
+
+    std::pair<int, int> startField = controller->fieldCoords(0);                                           
+    for(Player player : controller->getPlayers())
+    {
+        Token token = player.getToken();
+        int idx = player.getPlayerId();
+        QLabel* label = this->getLabelByToken(token);
+        label->show();
+        label->move(startField.first+idx*10, startField.second+idx*10);
+    }
+}
 
 void MainWindow::on_push_start_clicked()
 {
@@ -165,16 +176,8 @@ void MainWindow::on_push_start_clicked()
 }
 
 
-void MainWindow::on_push_move_fw_clicked()
+void MainWindow::on_push_roll_dice_clicked()
 {
-    Player player = controller->getPlayer(controller->getCurrentPlayerIndex());
-    Token token = player.getToken();
-    QLabel* label = this->getLabelByToken(token);
-    int current_pos = player.getPosition();
-    int idx = player.getPlayerId();
-    std::pair<int, int> next_coords = controller->fieldCoords((current_pos+1)%40);
-    player.setPosition(current_pos+1);
-    std::cout << player.getPosition();
-    label->move(next_coords.first+idx*10, next_coords.second+idx*10);
+    controller->rollDice();
 }
 

@@ -30,6 +30,7 @@ public slots:
     void startNewGame();
     void addPlayer(const QString& playerName, const QString& tokenText);
     void tryStartGame();
+    void rollDice();
     
 signals:
     void settingsSaved(bool success);
@@ -39,6 +40,7 @@ signals:
     void failAddedPlayer(const QString& msg);
     void fail(const QString& msg);
     void startedGame();
+    void rolledDice(const QString& results);
     
 private:
     Game _game;

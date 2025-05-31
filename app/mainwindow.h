@@ -18,6 +18,7 @@ public:
     ~MainWindow();
     void loadPawns();
     QLabel* getLabelByToken(Token token) const;
+    void updatePlayerLabels();
 
 private slots:
 
@@ -32,6 +33,8 @@ private slots:
     void onFail(const QString& msg);
 
     void onStartedGame();
+
+    void onRolledDice(const QString& results);
 
     void on_push_options_clicked();
 
@@ -49,7 +52,7 @@ private slots:
 
     void on_push_start_clicked();
 
-    void on_push_move_fw_clicked();
+    void on_push_roll_dice_clicked();
 
 private:
     Ui::MainWindow *ui;

@@ -99,6 +99,18 @@ void GameController::addPlayer(const QString& playerName, const QString& tokenTe
     }
 }
 
+void GameController::rollDice()
+{
+    this->_game.rollDice();
+    int r1 = _game.getDice().first, r2 = _game.getDice().second;
+    std::string results = std::to_string(r1) + " " + std::to_string(r2); 
+    QString q_results = QString::fromStdString(results);
+    int idx = this->_game.getCurrentPlayer();
+    Player current_player = this->getPlayer(idx);
+    std::cout << "Position: " << current_player.getPosition() << std::endl;
+    emit rolledDice(q_results);
+}
+
 QString GameController::getPlayerAmount() const
 {
     int players = this->_game.getPlayers().size();
