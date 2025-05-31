@@ -15,7 +15,7 @@ namespace Fields {
         }
 
     int Street::purchaseHouse() {
-        if (houseCount < Capacity) {
+        if (houseCount < Capacity - 1) {
             trespassingFee = housesRent[++houseCount];
             return housePrice;
         }
