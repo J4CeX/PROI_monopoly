@@ -1,4 +1,5 @@
 #include "EventCard.hpp"
+#include "Logger.hpp"
 
 namespace Events {
 
@@ -29,6 +30,8 @@ std::istream& operator>>(std::istream& is, MovementType& mt) {
         mt = MovementType::absolute;
     } else {
         is.setstate(std::ios::failbit);
+
+        LOG(3, "Attempted to deserialize an unspecified MovementType");
     }
 
     return is;
@@ -61,6 +64,8 @@ std::istream& operator>>(std::istream& is, CardType& ct) {
         ct = CardType::communityChest;
     } else {
         is.setstate(std::ios::failbit);
+
+        LOG(3, "Attempted to deserialize an unspecified CardType");
     }
 
     return is;
@@ -89,6 +94,11 @@ std::istream& operator>>(std::istream& is, EventCard& ec) {
 
     if (is) {
         ec.filled_ = true;
+
+        LOG(0, "EventCard loaded with ID:");
+        LOG(0, ec.cardId_);
+    } else {
+        LOG(3, "Attempted to deserialize an EventCard, but istream failed");
     }
 
     return is;
