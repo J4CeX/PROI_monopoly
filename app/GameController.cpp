@@ -107,7 +107,6 @@ void GameController::rollDice()
     QString q_results = QString::fromStdString(results);
     int idx = this->_game.getCurrentPlayer();
     Player current_player = this->getPlayer(idx);
-    std::cout << "Position: " << current_player.getPosition() << std::endl;
     emit rolledDice(q_results);
 }
 
@@ -133,7 +132,7 @@ QString GameController::currentPlayerName() const
 {
     int current_player_idx = this->_game.getCurrentPlayer();
     Player current_player = this->getPlayer(current_player_idx);
-    std::string player_name = current_player.getName();
+    std::string player_name = current_player.getName() + "[" + std::to_string(current_player_idx) + "]";
     QString q_player_name = QString::fromStdString(player_name);
     return q_player_name;
 }
