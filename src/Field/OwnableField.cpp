@@ -3,7 +3,7 @@
 namespace Fields {
     size_t OwnableField::getOwner() const {
         if (!owned) {
-            throw std::runtime_error("Ownable field has not owner!");
+            return 0;
         }
         return owner;
     }
