@@ -507,7 +507,9 @@ namespace Monopoly {
         }
 
         // Move the player
-        size_t targetField = eventCard.movementTarget(players[currentPlayer].getPosition(), fields.size());
-        movePlayer(targetField, eventCard.isGoFieldCollectable());
+        if (eventCard.getLocation() != 0) {
+            size_t targetField = eventCard.movementTarget(players[currentPlayer].getPosition(), fields.size());
+            movePlayer(targetField, eventCard.isGoFieldCollectable());
+        }
     }
 }
