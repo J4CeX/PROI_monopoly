@@ -195,6 +195,7 @@ namespace Monopoly {
     }
 
     int Game::playerMortgageField(size_t& player, size_t& fieldPosition, bool unMortgage) {
+        LOGII(1, "Player trying to mortgage/unmortgage an OwnableField", player, fieldPosition);
         for (auto& field: fields) {
             if (field->getPosition() == fieldPosition) {
                 if (OwnableField* ownableField = dynamic_cast<OwnableField*>(field.get())) {
@@ -223,6 +224,8 @@ namespace Monopoly {
     }
 
     int Game::playerBuyHouse(size_t& player, size_t& fieldPosition, bool sellHouse) {
+        LOGII(1, "Player trying to buy/sell a house", player, fieldPosition);
+
         for (auto& field: fields) {
             if (field->getPosition() == fieldPosition) {
                 if (Street* street = dynamic_cast<Street*>(field.get())) {
@@ -248,6 +251,8 @@ namespace Monopoly {
     }
 
     int Game::buyOwnableField() {
+        LOGII(1, "Player trying to buy the current Field", currentPlayer, players[currentPlayer].getPosition());
+
         for (auto& field: fields) {
             if (field->getPosition() == players[currentPlayer].getPosition()) {
                 if (OwnableField* ownableField = dynamic_cast<OwnableField*>(field.get())) {
@@ -270,6 +275,8 @@ namespace Monopoly {
     }
 
     int Game::sellOwnableField(size_t& player, size_t& fieldPosition) {
+        LOGII(1, "Player trying to sell the current Field", currentPlayer, players[currentPlayer].getPosition());
+
         for (auto& field: fields) {
             if (field->getPosition() == fieldPosition) {
                 if (Street* street = dynamic_cast<Street*>(field.get())) {
@@ -300,6 +307,8 @@ namespace Monopoly {
     }
 
     void Game::movePlayer(size_t newPosition, bool goFieldCollectable) {
+        LOGII(1, "Attempting to move a Player to new Field", currentPlayer, newPosition);
+        
         if (goFieldCollectable) {
             size_t currentPosition = players[currentPlayer].getPosition();
             if (newPosition < currentPosition) {
