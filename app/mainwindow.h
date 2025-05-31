@@ -34,7 +34,7 @@ private slots:
 
     void onStartedGame();
 
-    void onRolledDice(const QString& results);
+    void onRolledDice(const QString& results, const QString& field);
 
     void on_push_options_clicked();
 

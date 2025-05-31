@@ -3,6 +3,10 @@
 #include <QSettings>
 #include <QString>
 #include "Game.hpp"
+#include "Player.hpp"
+#include <iostream>
+#include <memory>
+#include <map>
 
 using namespace Monopoly;
 
@@ -40,7 +44,7 @@ signals:
     void failAddedPlayer(const QString& msg);
     void fail(const QString& msg);
     void startedGame();
-    void rolledDice(const QString& results);
+    void rolledDice(const QString& results, const QString& field);
     
 private:
     Game _game;

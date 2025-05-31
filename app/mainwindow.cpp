@@ -107,10 +107,11 @@ void MainWindow::on_push_back_clicked()
     ui->stackedInterface->setCurrentIndex(0);
 }
 
-void MainWindow::onRolledDice(const QString& results)
+void MainWindow::onRolledDice(const QString& results, const QString& field)
 {
     this->updatePlayerLabels();
     ui->label_dice_result->setText(results);
+    ui->label_field_p->setText(field);
 }
 
 void MainWindow::on_push_exit_clicked()

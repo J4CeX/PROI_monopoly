@@ -1,10 +1,4 @@
-#include <iostream>
-#include <QObject>
-#include <QString>
-#include <map>
 #include "GameController.h"
-#include "Game.hpp"
-#include "Player.hpp"
 
 std::map<std::string, Token> token_map{{"Race Car", Token::raceCar},
                                             {"Top Hat", Token::topHat},
@@ -111,8 +105,79 @@ void GameController::rollDice()
     const auto& fields = this->_game.getFields();
     const auto& current_field = *(fields[current_player.getPosition()]);
     TYPE current_type = current_field.getInfo();
-    if(current_type == TYPE::STREET) std::cout << "STREET";
-    emit rolledDice(q_results);
+    
+    QString q_field = "";
+    if(current_type == TYPE::STREET)
+    {
+        if(const Street* street = dynamic_cast<const Street*>(&current_field))
+        {
+            q_field = QString::fromStdString(street->getName());
+        }
+    }
+    else if(current_type == TYPE::STATION)
+    {
+        if(const Station* station = dynamic_cast<const Station*>(&current_field))
+        {
+            q_field = QString::fromStdString(station->getName());
+        }
+    }
+    else if(current_type == TYPE::UTILITY)
+    {
+        if(const Utility* utility = dynamic_cast<const Utility*>(&current_field))
+        {
+            q_field = QString::fromStdString(utility->getName());
+        }
+    }
+    else if(current_type == TYPE::CHANCEFIELD)
+    {
+        if(const ChanceField* chancefield = dynamic_cast<const ChanceField*>(&current_field))
+        {
+            q_field = "Chance!";
+        }
+    }
+    else if(current_type == TYPE::COMMUNITYCHESTFIELD)
+    {
+        if(const CommunityChestField* communitychest = dynamic_cast<const CommunityChestField*>(&current_field))
+        {
+            q_field = "Community chest!";
+        }
+    }
+    else if(current_type == TYPE::JAIL)
+    {
+        if(const Jail* jail = dynamic_cast<const Jail*>(&current_field))
+        {
+            q_field = "Jail!";
+        }
+    }
+    else if(current_type == TYPE::INCOMETAX)
+    {
+        if(const IncomeTax* incometax = dynamic_cast<const IncomeTax*>(&current_field))
+        {
+            q_field = "Income tax!";
+        }
+    }
+    else if(current_type == TYPE::PARKING)
+    {
+        if(const Parking* parking = dynamic_cast<const Parking*>(&current_field))
+        {
+            q_field = "Parking!";
+        }
+    }
+    else if(current_type == TYPE::LUXURYTAX)
+    {
+        if(const LuxuryTax* luxurytax = dynamic_cast<const LuxuryTax*>(&current_field))
+        {
+            q_field = "Luxury tax!";
+        }
+    }
+    else if(current_type == TYPE::STARTFIELD)
+    {
+        if(const StartField* startfield = dynamic_cast<const StartField*>(&current_field))
+        {
+            q_field = "Start!";
+        }
+    }
+    emit rolledDice(q_results, q_field);
 }
 
 QString GameController::getPlayerAmount() const

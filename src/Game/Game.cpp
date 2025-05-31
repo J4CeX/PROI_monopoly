@@ -270,7 +270,6 @@ namespace Monopoly {
         }
 
         players[currentPlayer].setPosition(newPosition);
-        std::cout << players[currentPlayer].getPosition() << std::endl;
 
         for (const auto& field: fields) {
             if (field->getPosition() == newPosition) {
