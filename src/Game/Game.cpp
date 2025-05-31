@@ -4,7 +4,7 @@ namespace Monopoly {
     Game::Game():
     turnCounter(0), currentPlayer(0), dice(0, 0),
     diceDoubleCounter(0), filled(false),
-    randomDevice(), gen(randomDevice()), distribution(1, 6) {
+    randomDevice(), gen(randomDevice()), distribution(1, 6), isFinished(false) {
         try {
             setFields();
         }
@@ -114,29 +114,25 @@ namespace Monopoly {
         }
 
         // If player in jail and rolled a dublet - get out of jail
-        if (diceDoubleCounter && players[currentPlayer].getInJailRounds()) {
+        if (diceDoubleCounter > 0 && players[currentPlayer].getInJailRounds() > 0) {
             players[currentPlayer].setInJailRounds(0);
         }
-        else if (players[currentPlayer].getInJailRounds()) {
+        else if (players[currentPlayer].getInJailRounds() > 0) {
             return;
         }
 
         movePlayer((players[currentPlayer].getPosition() + dice.first + dice.second) % 40);
     }
 
-
-
-    bool Game::isFinished() {
+    size_t Game::findNextPlayer() {
+        players[currentPlayer].checkIfBankrupt();
         int inGame = 0;
         for (const auto& player: players) {
             if (!player.getIsBankrupt()) {
                 inGame++;
             }
         }
-        return inGame > 1 ? false : true;
-    }
-
-    size_t Game::findNextPlayer() {
+        isFinished = inGame > 1 ? false : true;
         diceDoubleCounter = 0;
         do {
             currentPlayer = ++currentPlayer % players.size();
@@ -357,6 +353,7 @@ namespace Monopoly {
                         int newBalance = players[currentPlayer].getBalance() - financialField->getIncome();
                     }
                 }
+                break;
             }
         }
     }
@@ -506,7 +503,9 @@ namespace Monopoly {
         }
 
         // Move the player
-        size_t targetField = eventCard.movementTarget(players[currentPlayer].getPosition(), fields.size());
-        movePlayer(targetField, eventCard.isGoFieldCollectable());
+        if (eventCard.getLocation() != 0) {
+            size_t targetField = eventCard.movementTarget(players[currentPlayer].getPosition(), fields.size());
+            movePlayer(targetField, eventCard.isGoFieldCollectable());
+        }
     }
 }
