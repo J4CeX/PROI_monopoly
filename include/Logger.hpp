@@ -4,38 +4,48 @@
 #include <string>
 
 class Logger {
-    protected:
+    private:
+        unsigned int level_;
+        unsigned int count_;
+
+    public:
         Logger(unsigned logLevel):
             level_(logLevel) {};
 
-        static Logger* logger_;
 
-        unsigned int level_;
-
-    public:
         Logger(Logger&) = delete;
         void operator=(const Logger&) = delete;
 
-        ~Logger() {
-            delete logger_;
-        }
+        ~Logger() = default;
 
-        static Logger* getLogger(unsigned int level = 0);
+        template <typename T>
+        void log(unsigned int level, const T& message,
+            const char* name, unsigned int line) {
+            count_ += 1;
 
-        void log(unsigned int level, const std::string& message) {
             if (level >= level_) {
-                std::cout << "A " << level << " message: " << message << std::endl;
+                std::cout << count_;
+                if (level == 0) { std::cout << " [debug] "; }
+                else if (level == 1) { std::cout << "  [info] "; }
+                else if (level == 2) { std::cout << "  [warn] "; }
+                else if (level == 3) { std::cout << " [error] "; }
+                else if (level >= 4) { std::cout << "  [crit] "; }
+                std::cout << "@ " << name << ":" << line << ": " << message << std::endl;
             }
         }
 };
 
-Logger* Logger::logger_ = nullptr;
 
-Logger* Logger::getLogger(unsigned int level) {
-    if (logger_ == nullptr) {
-        logger_ = new Logger(level);
-    }
-
-    return logger_;
+inline Logger& logger() {
+    static Logger logger(0);
+    return logger;
 }
+
+#define LOG(level, message_) \
+    logger().log( \
+        level, \
+        message_, \
+        __func__, \
+        __LINE__ \
+    );
 
