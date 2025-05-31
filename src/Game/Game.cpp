@@ -150,7 +150,7 @@ namespace Monopoly {
         movePlayer((players[currentPlayer].getPosition() + dice.first + dice.second) % 40);
     }
 
-    size_t Game::findNextPlayer() {
+    bool Game::findNextPlayer() {
         players[currentPlayer].checkIfBankrupt();
         int inGame = 0;
         for (const auto& player: players) {
@@ -163,7 +163,7 @@ namespace Monopoly {
 
         if (isFinished) {
             LOG(3, "Attempted to find a new player, while Game has ended");
-            return;
+            return false;
         }
 
         diceDoubleCounter = 0;
@@ -177,7 +177,7 @@ namespace Monopoly {
         } while (players[currentPlayer].getIsBankrupt());
 
         LOG(1, "Next player found");
-        return currentPlayer;
+        return true;
     }
 
     bool Game::addPlayer(Player& newPlayer) {

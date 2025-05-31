@@ -82,7 +82,7 @@ namespace Monopoly {
 
             // Game loop
             int getTurnCounter() const { return turnCounter; }
-            size_t findNextPlayer();
+            bool findNextPlayer();
             size_t getCurrentPlayer() const { return currentPlayer; }
             bool useGetOutOfJailCard();
             bool checkIfPlayerIsBankrupt();
