@@ -1,4 +1,5 @@
 #include "Player.hpp"
+#include "Logger.hpp"
 
 namespace MonopolyPlayer {
 // Serialization for Token
@@ -7,6 +8,8 @@ std::istream& operator>>(std::istream& is, Token& t) {
     is >> v;
 
     if (!is) {
+        LOG(3, "Attempted to deserialize a player Token, but istream is not good");
+
         return is;
     }
 
@@ -27,6 +30,8 @@ std::istream& operator>>(std::istream& is, Token& t) {
     } else if (v == 7) {
         t = Token::rubberDuck;
     } else {
+
+        LOG(3, "Attempted to deserialize an unknown player Token");
         is.setstate(std::ios::failbit);
     }
 
@@ -66,41 +71,56 @@ Player::Player(const unsigned int id, const std::string name, const Token token,
 
 int Player::setBalance(const int currentBalance) {
 	balance_ = currentBalance;
+
+	LOG(0, "Player balance updated");
+
 	return balance_;
 };
 
 size_t Player::setPosition(const size_t currentPosition) {
 	position_ = currentPosition;
+
+	LOG(0, "Player position updated");
+
 	return position_;
 };
 
 int Player::setInJailRounds(const int currentRounds) {
 	inJailRounds_ = currentRounds;
+
+	LOG(0, "Player in-jail status updated");
+
 	return inJailRounds_;
 };
 
 bool Player::setGetOutOfJailCard(const bool hasCard) {
 	hasGetOutOfJailCard_ = hasCard;
+
+	LOG(0, "Player get out of jail card ownership updated");
+
+
 	return hasGetOutOfJailCard_;
 };
 
 bool Player::checkIfBankrupt() {
 	if (balance_ < 0) {
 		isBankrupt_ = true;
+
+		LOG(1, "Player declared bankrupt");
+
 		return true;
 	}
-	else {
-		return false;
-	}
+
+	return false;
 }
 
 // Serialization for Player
 std::ostream& operator<<(std::ostream& os, const Player& p) {
-	os << p.playerId_ << p.token_
-	   << p.balance_
-	   << std::noboolalpha << p.isBankrupt_
-	   << p.position_ << p.inJailRounds_
-	   << p.hasGetOutOfJailCard_
+	os << p.playerId_ << " " << p.token_ << " "
+	   << p.balance_ << " "
+	   << std::noboolalpha << p.isBankrupt_ << " "
+	   << p.position_ << " " << p.inJailRounds_ << " "
+	   << p.hasGetOutOfJailCard_ << " "
 	   << p.name_ << std::endl;
 
 	return os;
@@ -119,6 +139,10 @@ std::istream& operator>>(std::istream& is, Player& p) {
 
 	if (is) {
 		p.filled_ = true;
+
+		LOG(0, "Player object deserialized");
+	} else {
+		LOG(3, "Attempted to deserialize a Player, but istream is bad");
 	}
 
 	return is;
