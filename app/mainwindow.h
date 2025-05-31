@@ -54,6 +54,10 @@ private slots:
 
     void on_push_roll_dice_clicked();
 
+    void on_push_finish_round_clicked();
+
+    void on_push_exit_game_clicked();
+
 private:
     Ui::MainWindow *ui;
     GameController* controller;

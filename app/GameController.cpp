@@ -99,7 +99,117 @@ void GameController::rollDice()
     int r1 = _game.getDice().first, r2 = _game.getDice().second;
     std::string results = std::to_string(r1) + " " + std::to_string(r2); 
     QString q_results = QString::fromStdString(results);
+    QString q_field = this->currentPlayerField();
     
+    emit rolledDice(q_results, q_field);
+}
+
+QString GameController::getPlayerAmount() const
+{
+    int players = this->_game.getPlayers().size();
+    QString q_id = QString::number(players);
+    return q_id;
+}
+
+void GameController::findNextPlayer()
+{
+    this->_game.findNextPlayer();
+}
+
+QStringList GameController::playerNamesList()
+{
+    QStringList player_names;
+    for(Player player : this->_game.getPlayers())
+    {
+        std::string p_info = player.getName() + " (" + str_token_map[player.getToken()] + ")";
+        player_names.append(QString::fromStdString(p_info));
+    }
+    return player_names;
+}
+
+QString GameController::currentPlayerName() const
+{
+    int current_player_idx = this->_game.getCurrentPlayer();
+    Player current_player = this->getPlayer(current_player_idx);
+    std::string player_name = current_player.getName();
+    QString q_player_name = QString::fromStdString(player_name);
+    return q_player_name;
+}
+
+Player GameController::getPlayer(int idx) const
+{
+    return this->_game.getPlayers()[idx];
+}
+
+QString GameController::currentPlayerBalance() const
+{
+    int current_player_idx = this->_game.getCurrentPlayer();
+    Player current_player = this->getPlayer(current_player_idx);
+    int player_balance = current_player.getBalance();
+    QString q_player_balance = QString::number(player_balance);
+    return q_player_balance;
+}
+
+QString GameController::currentPlayerPosition() const
+{
+    int current_player_idx = this->_game.getCurrentPlayer();
+    Player current_player = this->getPlayer(current_player_idx);
+    int player_pos = current_player.getPosition();
+    QString q_player_pos = QString::number(player_pos);
+    return q_player_pos;
+}
+
+QStringList GameController::playerOwnedFields(int idx) const
+{
+    QStringList q_owned_fields;
+    Player player = this->getPlayer(idx);
+    const auto& fields = this->_game.getFields();
+    for(const auto& field : fields)
+    {
+        TYPE type = field->getInfo();
+        if(type == TYPE::STREET || type == TYPE::STATION || type == TYPE::UTILITY)
+        {
+            QString q_field = "boink";
+            if(Street* street = dynamic_cast<Street*>(field.get()))
+            {
+                size_t fieldOwner = street->getOwner();
+                if (street->isOwned() && fieldOwner == idx)
+                {
+                    q_field = QString::fromStdString(street->getName()) + "(" + QString::number(street->getPosition()) + ")";
+                    q_owned_fields.append(q_field);
+                }
+            }
+            else if(Utility* utility = dynamic_cast<Utility*>(field.get()))
+            {
+                size_t fieldOwner = utility->getOwner();
+                if (utility->isOwned() && fieldOwner == idx)
+                {
+                    q_field = QString::fromStdString(utility->getName()) + "(" + QString::number(utility->getPosition()) + ")";
+                    q_owned_fields.append(q_field);
+                }
+            }
+            else if(Station* station = dynamic_cast<Station*>(field.get()))
+            {
+                size_t fieldOwner = station->getOwner();
+                if (station->isOwned() && fieldOwner == idx)
+                {
+                    q_field = QString::fromStdString(station->getName()) + "(" + QString::number(station->getPosition()) + ")";
+                    q_owned_fields.append(q_field);
+                }
+            }
+        }
+    }
+    return q_owned_fields;
+}
+
+QStringList GameController::currentPlayerOwnedFields() const
+{
+    int idx = this->_game.getCurrentPlayer();
+    return this->playerOwnedFields(idx);
+}
+
+QString GameController::currentPlayerField() const
+{
     int idx = this->_game.getCurrentPlayer();
     Player current_player = this->getPlayer(idx);
     const auto& fields = this->_game.getFields();
@@ -177,57 +287,7 @@ void GameController::rollDice()
             q_field = "Start!";
         }
     }
-    emit rolledDice(q_results, q_field);
-}
-
-QString GameController::getPlayerAmount() const
-{
-    int players = this->_game.getPlayers().size();
-    QString q_id = QString::number(players);
-    return q_id;
-}
-
-QStringList GameController::playerNamesList()
-{
-    QStringList player_names;
-    for(Player player : this->_game.getPlayers())
-    {
-        std::string p_info = player.getName() + " (" + str_token_map[player.getToken()] + ")";
-        player_names.append(QString::fromStdString(p_info));
-    }
-    return player_names;
-}
-
-QString GameController::currentPlayerName() const
-{
-    int current_player_idx = this->_game.getCurrentPlayer();
-    Player current_player = this->getPlayer(current_player_idx);
-    std::string player_name = current_player.getName();
-    QString q_player_name = QString::fromStdString(player_name);
-    return q_player_name;
-}
-
-Player GameController::getPlayer(int idx) const
-{
-    return this->_game.getPlayers()[idx];
-}
-
-QString GameController::currentPlayerBalance() const
-{
-    int current_player_idx = this->_game.getCurrentPlayer();
-    Player current_player = this->getPlayer(current_player_idx);
-    int player_balance = current_player.getBalance();
-    QString q_player_balance = QString::number(player_balance);
-    return q_player_balance;
-}
-
-QString GameController::currentPlayerPosition() const
-{
-    int current_player_idx = this->_game.getCurrentPlayer();
-    Player current_player = this->getPlayer(current_player_idx);
-    int player_pos = current_player.getPosition();
-    QString q_player_pos = QString::number(player_pos);
-    return q_player_pos;
+    return q_field;
 }
 
 std::pair<int,int> GameController::fieldCoords(int idx) const

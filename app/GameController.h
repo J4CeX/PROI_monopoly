@@ -18,10 +18,13 @@ public:
     explicit GameController(QObject *parent = nullptr);
     QString getPlayerAmount() const;
     QStringList playerNamesList();
+    QStringList playerOwnedFields(int idx) const;
+    QStringList currentPlayerOwnedFields() const;
     QString currentPlayerName() const;
     Player getPlayer(int idx) const;
     QString currentPlayerBalance() const;
     QString currentPlayerPosition() const;
+    QString currentPlayerField() const;
     QString currentPlayerToken() const;
     QString currentPlayerIndex() const;
     int getCurrentPlayerIndex() const;
@@ -35,6 +38,7 @@ public slots:
     void addPlayer(const QString& playerName, const QString& tokenText);
     void tryStartGame();
     void rollDice();
+    void findNextPlayer();
     
 signals:
     void settingsSaved(bool success);

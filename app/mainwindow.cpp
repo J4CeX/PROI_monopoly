@@ -18,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QPixmap pix1(":/board/monopoly_map.png");
     ui->label_board->setPixmap(pix1.scaled(600, 600, Qt::KeepAspectRatio));
 
+    ui->push_finish_round->setEnabled(false);
+
     this->loadPawns();
 
     connect(controller, &GameController::settingsSaved, this, &MainWindow::onSettingsSaved);
@@ -112,6 +114,8 @@ void MainWindow::onRolledDice(const QString& results, const QString& field)
     this->updatePlayerLabels();
     ui->label_dice_result->setText(results);
     ui->label_field_p->setText(field);
+    ui->push_roll_dice->setEnabled(false);
+    ui->push_finish_round->setEnabled(true);
 }
 
 void MainWindow::on_push_exit_clicked()
@@ -159,6 +163,8 @@ void MainWindow::updatePlayerLabels()
     ui->label_position_p->setText(controller->currentPlayerPosition());
     ui->label_token_p->setText(controller->currentPlayerToken());
     ui->label_index_p->setText(controller->currentPlayerIndex());
+    ui->list_owned_fields->clear();
+    ui->list_owned_fields->addItems(controller->currentPlayerOwnedFields());
                                            
     for(Player player : controller->getPlayers())
     {
@@ -181,5 +187,23 @@ void MainWindow::on_push_start_clicked()
 void MainWindow::on_push_roll_dice_clicked()
 {
     controller->rollDice();
+}
+
+
+void MainWindow::on_push_finish_round_clicked()
+{
+    controller->findNextPlayer();
+    this->updatePlayerLabels();
+    ui->label_dice_result->clear();
+    ui->label_position_p->setText(controller->currentPlayerPosition());
+    ui->label_field_p->setText(controller->currentPlayerField());
+    ui->push_roll_dice->setEnabled(true);
+    ui->push_finish_round->setEnabled(false);
+}
+
+
+void MainWindow::on_push_exit_game_clicked()
+{
+    ui->stackedInterface->setCurrentIndex(0);
 }
 
