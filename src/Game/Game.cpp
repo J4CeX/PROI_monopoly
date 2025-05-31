@@ -114,10 +114,10 @@ namespace Monopoly {
         }
 
         // If player in jail and rolled a dublet - get out of jail
-        if (diceDoubleCounter && players[currentPlayer].getInJailRounds()) {
+        if (diceDoubleCounter > 0 && players[currentPlayer].getInJailRounds() > 0) {
             players[currentPlayer].setInJailRounds(0);
         }
-        else if (players[currentPlayer].getInJailRounds()) {
+        else if (players[currentPlayer].getInJailRounds() > 0) {
             return;
         }
 
@@ -291,9 +291,9 @@ namespace Monopoly {
                         size_t fieldOwner = station->getOwner();
                         if (station->isOwned() && fieldOwner != currentPlayer) {
                             int stationCount = 0;
-                            for (const auto& stationField: fields) {
-                                if (stationField->getInfo() == TYPE::STREET) {
-                                    if (Station* station = dynamic_cast<Station*>(stationField.get())) {
+                            for (int i = 0; i < fields.size(); i++) {
+                                if (fields[i]->getInfo() == TYPE::STREET) {
+                                    if (Station* station = dynamic_cast<Station*>(fields[i].get())) {
                                         if (fieldOwner == station->getOwner()) {
                                             stationCount++;
                                         }
@@ -311,9 +311,9 @@ namespace Monopoly {
                         size_t fieldOwner = utility->getOwner();
                         if (utility->isOwned() && fieldOwner != currentPlayer) {
                             int utilityCounter = 0;
-                            for (const auto& utilityField: fields) {
-                                if (utilityField->getInfo() == TYPE::UTILITY) {
-                                    if (Utility* utility = dynamic_cast<Utility*>(utilityField.get())) {
+                            for (int i = 0; i < fields.size(); i++) {
+                                if (fields[i]->getInfo() == TYPE::UTILITY) {
+                                    if (Utility* utility = dynamic_cast<Utility*>(fields[i].get())) {
                                         if (fieldOwner == utility->getOwner()) {
                                             utilityCounter++;
                                         }
