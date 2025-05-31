@@ -116,7 +116,8 @@ namespace Monopoly {
         // If player in jail and rolled a dublet - get out of jail
         if (diceDoubleCounter && players[currentPlayer].getInJailRounds()) {
             players[currentPlayer].setInJailRounds(0);
-        } else {
+        }
+        else if (players[currentPlayer].getInJailRounds()) {
             return;
         }
 
@@ -276,12 +277,58 @@ namespace Monopoly {
         for (const auto& field: fields) {
             if (field->getPosition() == newPosition) {
                 TYPE currentType = field->getInfo();
-                if (currentType == TYPE::STREET || currentType == TYPE::STATION || currentType == TYPE::UTILITY) {
-                    if(OwnableField* ownableField = dynamic_cast<OwnableField*>(field.get())) {
-                        size_t fieldOwner = ownableField->getOwner();
-                        if (ownableField->isOwned() && fieldOwner != currentPlayer) {
-                            players[currentPlayer].setBalance(players[currentPlayer].getBalance() - ownableField->getRent());
-                            players[fieldOwner].setBalance(players[fieldOwner].getBalance() + ownableField->getRent());
+                if (currentType == TYPE::STREET) {
+                    if(Street* street = dynamic_cast<Street*>(field.get())) {
+                        size_t fieldOwner = street->getOwner();
+                        if (street->isOwned() && fieldOwner != currentPlayer) {
+                            players[currentPlayer].setBalance(players[currentPlayer].getBalance() - street->getRent());
+                            players[fieldOwner].setBalance(players[fieldOwner].getBalance() + street->getRent());
+                        }
+                    }
+                }
+                else if (currentType == TYPE::STATION) {
+                    if (Station* station = dynamic_cast<Station*>(field.get())) {
+                        size_t fieldOwner = station->getOwner();
+                        if (station->isOwned() && fieldOwner != currentPlayer) {
+                            int stationCount = 0;
+                            for (const auto& stationField: fields) {
+                                if (stationField->getInfo() == TYPE::STREET) {
+                                    if (Station* station = dynamic_cast<Station*>(stationField.get())) {
+                                        if (fieldOwner == station->getOwner()) {
+                                            stationCount++;
+                                        }
+                                    }
+                                }
+                            }
+                            int price = stationCount * 50;
+                            players[currentPlayer].setBalance(players[currentPlayer].getBalance() - price);
+                            players[fieldOwner].setBalance(players[fieldOwner].getBalance() + price);
+                        }
+                    }
+                }
+                else if (currentType == TYPE::UTILITY) {
+                    if (Utility* utility = dynamic_cast<Utility*>(field.get())) {
+                        size_t fieldOwner = utility->getOwner();
+                        if (utility->isOwned() && fieldOwner != currentPlayer) {
+                            int utilityCounter = 0;
+                            for (const auto& utilityField: fields) {
+                                if (utilityField->getInfo() == TYPE::UTILITY) {
+                                    if (Utility* utility = dynamic_cast<Utility*>(utilityField.get())) {
+                                        if (fieldOwner == utility->getOwner()) {
+                                            utilityCounter++;
+                                        }
+                                    }
+                                }
+                            }
+                            int price = dice.first + dice.second;
+                            if (utilityCounter == 2) {
+                                price *= 10;
+                            }
+                            else if (utilityCounter == 1) {
+                                price *= 4;
+                            }
+                            players[currentPlayer].setBalance(players[currentPlayer].getBalance() - price);
+                            players[fieldOwner].setBalance(players[fieldOwner].getBalance() + price);
                         }
                     }
                 }
