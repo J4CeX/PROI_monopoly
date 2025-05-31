@@ -18,6 +18,7 @@ namespace Monopoly {
     class Game {
         private:
             bool filled;
+            bool isFinished;
 
             // Randomness source
             std::random_device randomDevice;
@@ -88,6 +89,6 @@ namespace Monopoly {
             int playerBuyHouse(size_t& player, size_t& fieldPosition, bool sellHouse = false);
             int buyOwnableField();
             int sellOwnableField(size_t& player, size_t& fieldPosition);
-            bool isFinished();
+            bool getIsFinished() { return isFinished; }
     };
 }
