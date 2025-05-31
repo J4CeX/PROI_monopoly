@@ -291,9 +291,9 @@ namespace Monopoly {
                         size_t fieldOwner = station->getOwner();
                         if (station->isOwned() && fieldOwner != currentPlayer) {
                             int stationCount = 0;
-                            for (int i = 0; i < fields.size(); i++) {
-                                if (fields[i]->getInfo() == TYPE::STREET) {
-                                    if (Station* station = dynamic_cast<Station*>(fields[i].get())) {
+                            for (const auto& stationField: fields) {
+                                if (stationField->getInfo() == TYPE::STREET) {
+                                    if (Station* station = dynamic_cast<Station*>(stationField.get())) {
                                         if (fieldOwner == station->getOwner()) {
                                             stationCount++;
                                         }
@@ -311,9 +311,9 @@ namespace Monopoly {
                         size_t fieldOwner = utility->getOwner();
                         if (utility->isOwned() && fieldOwner != currentPlayer) {
                             int utilityCounter = 0;
-                            for (int i = 0; i < fields.size(); i++) {
-                                if (fields[i]->getInfo() == TYPE::UTILITY) {
-                                    if (Utility* utility = dynamic_cast<Utility*>(fields[i].get())) {
+                            for (const auto& utilityField: fields) {
+                                if (utilityField->getInfo() == TYPE::UTILITY) {
+                                    if (Utility* utility = dynamic_cast<Utility*>(utilityField.get())) {
                                         if (fieldOwner == utility->getOwner()) {
                                             utilityCounter++;
                                         }
@@ -357,6 +357,7 @@ namespace Monopoly {
                         int newBalance = players[currentPlayer].getBalance() - financialField->getIncome();
                     }
                 }
+                break;
             }
         }
     }
