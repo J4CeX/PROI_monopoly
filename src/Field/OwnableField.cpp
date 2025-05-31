@@ -2,7 +2,7 @@
 
 namespace Fields {
     size_t OwnableField::getOwner() const {
-        if (!isOwned) {
+        if (!owned) {
             return 0;
         }
         return owner;
