@@ -53,6 +53,7 @@ signals:
     void rolledDice(const QString& results, const QString& field);
     void isBuyableField(bool isBuyable, int cost);
     void triedBuyField(int code, const QString& q_field);
+    void balanceChanged(int difference);
     
 private:
     Game _game;

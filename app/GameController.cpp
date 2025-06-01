@@ -97,7 +97,13 @@ void GameController::addPlayer(const QString& playerName, const QString& tokenTe
 
 void GameController::rollDice()
 {
+    Player player = this->getPlayer(this->_game.getCurrentPlayer());
+    int old_bal = player.getBalance();
     this->_game.rollDice();
+    player = this->getPlayer(this->_game.getCurrentPlayer());
+    int new_bal = player.getBalance();
+    if(old_bal != new_bal) emit balanceChanged(new_bal - old_bal);
+
     int r1 = _game.getDice().first, r2 = _game.getDice().second;
     std::string results = std::to_string(r1) + " " + std::to_string(r2); 
     QString q_results = QString::fromStdString(results);

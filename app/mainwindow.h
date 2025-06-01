@@ -40,6 +40,8 @@ private slots:
 
     void onRolledDice(const QString& results, const QString& field);
 
+    void onBalanceChanged(int difference);
+
     void on_push_options_clicked();
 
     void on_push_back_clicked();

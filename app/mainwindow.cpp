@@ -29,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(controller, &GameController::rolledDice, this, &MainWindow::onRolledDice);
     connect(controller, &GameController::isBuyableField, this, &MainWindow::onIsBuyableField);
     connect(controller, &GameController::triedBuyField, this, &MainWindow::onTriedBuyField);
+    connect(controller, &GameController::balanceChanged, this, &MainWindow::onBalanceChanged);
 }
 
 MainWindow::~MainWindow()
@@ -141,6 +142,11 @@ void MainWindow::onStartedGame()
     this->loadPawns();
     this->updatePlayerLabels();
     ui->label_turn_number->setText(controller->getGameTurn());
+}
+
+void MainWindow::onBalanceChanged(int difference)
+{
+    QMessageBox::information(this, "Info", "Balance changed: " + QString::number(difference));
 }
 
 void MainWindow::on_push_options_clicked()
