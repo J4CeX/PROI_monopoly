@@ -12,7 +12,7 @@ TEST(StreetTests, Constructor) {
     ASSERT_EQ(street.getRent(), 24);
     ASSERT_EQ(street.getName(), "test street");
     ASSERT_EQ(street.getInfo(), TYPE::STREET);
-    ASSERT_THROW(street.getOwner(), std::runtime_error);
+    ASSERT_EQ(street.getOwner(), 0);
     ASSERT_FALSE(street.isMortgaged());
     ASSERT_FALSE(street.isOwned());
     ASSERT_EQ(street.getHouseCount(), 0);
