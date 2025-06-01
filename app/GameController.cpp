@@ -348,6 +348,14 @@ int GameController::sellOfHouse(int pos)
     return code;
 }
 
+int GameController::ofMortgage(int pos)
+{
+    size_t player_id = this->_game.getCurrentPlayerId()-1;
+    size_t field_id = static_cast<size_t>(pos);
+    int code = this->_game.playerMortgageField(player_id, field_id);
+    return code;
+}
+
 std::pair<int,int> GameController::fieldCoords(int idx) const
 {
     return coordinates[idx];

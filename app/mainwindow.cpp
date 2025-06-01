@@ -373,6 +373,10 @@ void MainWindow::on_push_of_sell_house_clicked()
 
 void MainWindow::on_push_of_mortgage_clicked()
 {
-    
+    int fieldIndex = controller->selectedFieldIndex;
+    int code = controller->ofMortgage(fieldIndex);
+    this->updateOfLabels(fieldIndex);
+    if(code==2) QMessageBox::information(this, "success", "Successfully mortgaged the field!");
+    else QMessageBox::warning(this, "fail", "Couldn't mortgage the field");
 }
 
