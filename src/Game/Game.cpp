@@ -135,6 +135,9 @@ namespace Monopoly {
             }
         }
         isFinished = inGame > 1 ? false : true;
+        if (diceDoubleCounter > 0 && !players[currentPlayer].getIsBankrupt()) {
+            return currentPlayer;
+        }
         diceDoubleCounter = 0;
         do {
             currentPlayer = ++currentPlayer % players.size();
