@@ -302,11 +302,14 @@ QStringList GameController::getOwnedFieldInfo(int position)
     QString type_str = "UNKNOWN";
     QString house_count = "doesn't apply";
     QString rent = "Unknown";
+    QString is_mortgaged = "Unknown mortgage status";
 
     if (const OwnableField* ownable = dynamic_cast<const OwnableField*>(&field))
     {
         name = QString::fromStdString(ownable->getName());
         rent = QString::number(ownable->getRent()) + " zł";
+        if(ownable->isMortgaged()) is_mortgaged = "Yes";
+        else is_mortgaged = "No";
 
         if (type == TYPE::STREET)
         {
@@ -326,7 +329,7 @@ QStringList GameController::getOwnedFieldInfo(int position)
         }
     }
 
-    return { name, pos_str, type_str, house_count, rent };
+    return { name, pos_str, type_str, house_count, rent, is_mortgaged };
 }
 
 int GameController::buyOfHouse(int pos)

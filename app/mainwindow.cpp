@@ -300,24 +300,42 @@ void MainWindow::updateOfLabels(int fieldIndex)
     QStringList of_info = controller->getOwnedFieldInfo(fieldIndex);
     QString q_type = of_info[2];
     QString q_houses = of_info[3];
+    QString q_mortgaged = of_info[5];
     ui->label_of_name->setText(of_info[0]);
     ui->label_of_pos->setText(of_info[1]);
     ui->label_of_type->setText(q_type);
     ui->label_of_houses->setText(of_info[3]);
     ui->label_of_rent->setText(of_info[4]);
+    ui->label_of_mortgaged->setText(q_mortgaged);
     if(q_type=="STATION" || q_type=="UTILITY")
     {
         ui->push_of_buy_house->setEnabled(false);
-        ui->push_of_mortgage->setEnabled(false);
         ui->push_of_sell_house->setEnabled(false);
-        ui->push_of_unmortgage->setEnabled(false);
+        if(q_mortgaged=="Yes")
+        {
+            ui->push_of_mortgage->setEnabled(false);
+            ui->push_of_unmortgage->setEnabled(true);
+        }
+        else
+        {
+            ui->push_of_mortgage->setEnabled(true);
+            ui->push_of_unmortgage->setEnabled(false);
+        }
     }
     else
     {
         ui->push_of_buy_house->setEnabled(true);
-        ui->push_of_mortgage->setEnabled(true);
         ui->push_of_sell_house->setEnabled(true);
-        ui->push_of_unmortgage->setEnabled(true);
+        if(q_mortgaged=="Yes")
+        {
+            ui->push_of_mortgage->setEnabled(false);
+            ui->push_of_unmortgage->setEnabled(true);
+        }
+        else
+        {
+            ui->push_of_mortgage->setEnabled(true);
+            ui->push_of_unmortgage->setEnabled(false);
+        }
     }
     if(q_houses == "5")
     {
@@ -350,5 +368,11 @@ void MainWindow::on_push_of_sell_house_clicked()
     this->updateOfLabels(fieldIndex);
     if(code==1) QMessageBox::information(this, "success", "Successfully sold a house!");
     else QMessageBox::warning(this, "fail", "Couldn't sell the house!");
+}
+
+
+void MainWindow::on_push_of_mortgage_clicked()
+{
+    
 }
 

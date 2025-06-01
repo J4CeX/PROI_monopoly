@@ -355,7 +355,7 @@
        </rect>
       </property>
       <property name="text">
-       <string/>
+       <string>&lt;board&gt;</string>
       </property>
      </widget>
      <widget class="QStackedWidget" name="stacked_game_options">
@@ -368,7 +368,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="page_players">
        <widget class="QLabel" name="label_9">
@@ -382,19 +382,6 @@
         </property>
         <property name="text">
          <string>Position:</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_token_p">
-        <property name="geometry">
-         <rect>
-          <x>290</x>
-          <y>150</y>
-          <width>111</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string/>
         </property>
        </widget>
        <widget class="QPushButton" name="push_roll_dice">
@@ -415,7 +402,7 @@
          <rect>
           <x>10</x>
           <y>40</y>
-          <width>101</width>
+          <width>71</width>
           <height>16</height>
          </rect>
         </property>
@@ -428,12 +415,12 @@
          <rect>
           <x>90</x>
           <y>40</y>
-          <width>58</width>
+          <width>91</width>
           <height>16</height>
          </rect>
         </property>
         <property name="text">
-         <string/>
+         <string>&lt;dice_result&gt;</string>
         </property>
        </widget>
        <widget class="QLabel" name="label_field_p">
@@ -446,7 +433,7 @@
          </rect>
         </property>
         <property name="text">
-         <string>Start!</string>
+         <string>&lt;field_p&gt;</string>
         </property>
        </widget>
        <widget class="QLabel" name="label_position_p">
@@ -454,12 +441,12 @@
          <rect>
           <x>310</x>
           <y>80</y>
-          <width>61</width>
+          <width>91</width>
           <height>16</height>
          </rect>
         </property>
         <property name="text">
-         <string/>
+         <string>&lt;position_p&gt;</string>
         </property>
        </widget>
        <widget class="QPushButton" name="push_finish_round">
@@ -493,12 +480,12 @@
          <rect>
           <x>200</x>
           <y>110</y>
-          <width>111</width>
+          <width>81</width>
           <height>16</height>
          </rect>
         </property>
         <property name="text">
-         <string/>
+         <string>&lt;field_cost&gt;</string>
         </property>
        </widget>
       </widget>
@@ -711,6 +698,32 @@
          <string>Back</string>
         </property>
        </widget>
+       <widget class="QLabel" name="label_of_mortgaged">
+        <property name="geometry">
+         <rect>
+          <x>160</x>
+          <y>140</y>
+          <width>111</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;of_mortgaged&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_20">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>140</y>
+          <width>91</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Is mortgaged:</string>
+        </property>
+       </widget>
       </widget>
      </widget>
      <widget class="QLabel" name="label_pawn_raceCar">
@@ -806,12 +819,12 @@
        <rect>
         <x>1380</x>
         <y>30</y>
-        <width>71</width>
+        <width>101</width>
         <height>16</height>
        </rect>
       </property>
       <property name="text">
-       <string/>
+       <string>&lt;turn_number&gt;</string>
       </property>
      </widget>
      <widget class="QPushButton" name="push_exit_game">
@@ -850,7 +863,7 @@
        </rect>
       </property>
       <property name="text">
-       <string/>
+       <string>&lt;current_p&gt;</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_8">
@@ -871,12 +884,12 @@
        <rect>
         <x>1180</x>
         <y>160</y>
-        <width>58</width>
+        <width>81</width>
         <height>16</height>
        </rect>
       </property>
       <property name="text">
-       <string/>
+       <string>&lt;balance_p&gt;</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_10">
@@ -907,12 +920,25 @@
        <rect>
         <x>1300</x>
         <y>130</y>
-        <width>31</width>
+        <width>71</width>
         <height>16</height>
        </rect>
       </property>
       <property name="text">
-       <string/>
+       <string>&lt;index_p&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_token_p">
+      <property name="geometry">
+       <rect>
+        <x>1380</x>
+        <y>130</y>
+        <width>71</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>&lt;token_p&gt;</string>
       </property>
      </widget>
     </widget>

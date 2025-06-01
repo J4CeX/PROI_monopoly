@@ -79,6 +79,8 @@ private slots:
 
     void on_push_of_sell_house_clicked();
 
+    void on_push_of_mortgage_clicked();
+
 private:
     Ui::MainWindow *ui;
     GameController* controller;

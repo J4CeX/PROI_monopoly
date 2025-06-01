@@ -47,6 +47,8 @@ public slots:
     void buyField();
     int buyOfHouse(int pos);
     int sellOfHouse(int pos);
+    int ofMortgage(int pos);
+    int ofUnmortgage(int pos);
     
 signals:
     void settingsSaved(bool success);
