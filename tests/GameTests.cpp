@@ -15,6 +15,9 @@ TEST(GameTests, Constructor) {
     ASSERT_EQ(game.getFields().size(), 40);
 }
 
-// TEST(GameTests, Constructor) {
+TEST(GameTests, setEventCards) {
+    Game game;
+    ASSERT_EQ(game.getChances().length(), 16);
+    ASSERT_EQ(game.getCommunityChests().length(), 16);
 
-// }
+}
