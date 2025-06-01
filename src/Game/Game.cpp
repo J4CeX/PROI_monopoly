@@ -172,11 +172,11 @@ namespace Monopoly {
                         }
                     }
                     if (unMortgage && ownableField->isMortgaged()) {
-                        players[player].setBalance(players[player].getBalance() + ownableField->mortgage());
+                        players[player].setBalance(players[player].getBalance() - ownableField->mortgage());
                         return 1;
                     }
                     else if (!unMortgage && !ownableField->isMortgaged()) {
-                        players[player].setBalance(players[player].getBalance() - ownableField->unmortgage());
+                        players[player].setBalance(players[player].getBalance() + ownableField->unmortgage());
                         return 2;
                     }
                     else {
@@ -483,12 +483,12 @@ namespace Monopoly {
             int balanceDiff = 0;
             for (auto &player: players) {
                 if (player.getPlayerId() != currentPlayer && !player.getIsBankrupt()) {
-                    player.setBalance(player.getBalance() + eventCard.getEachPlayerBalance());
+                    player.setBalance(player.getBalance() - eventCard.getEachPlayerBalance());
                     balanceDiff += eventCard.getEachPlayerBalance();
                 }
             }
 
-            players[currentPlayer].setBalance(players[currentPlayer].getBalance() - balanceDiff);
+            players[currentPlayer].setBalance(players[currentPlayer].getBalance() + balanceDiff);
         }
 
         // Check for houses and hotels
