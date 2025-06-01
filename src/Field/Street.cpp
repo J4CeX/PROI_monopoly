@@ -4,8 +4,7 @@ namespace Fields {
     Street::Street(int position, int purchasePrice, int trespassingFee,
         int firstHouseRent, int secondHouseRent, int thirdHouseRent,
         int fourthHouseRent, int fifthHouseRent, const std::string &name, Color streetColor)
-        : OwnableField(position, name, purchasePrice, trespassingFee),
-            houseCount(0), color(streetColor) {
+        : OwnableField(position, name, purchasePrice, trespassingFee), color(streetColor) {
             housesRent[0] = trespassingFee;
             housesRent[1] = firstHouseRent;
             housesRent[2] = secondHouseRent;
