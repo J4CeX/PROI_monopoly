@@ -483,12 +483,12 @@ namespace Monopoly {
             int balanceDiff = 0;
             for (auto &player: players) {
                 if (player.getPlayerId() != currentPlayer && !player.getIsBankrupt()) {
-                    player.setBalance(player.getBalance() + eventCard.getEachPlayerBalance());
+                    player.setBalance(player.getBalance() - eventCard.getEachPlayerBalance());
                     balanceDiff += eventCard.getEachPlayerBalance();
                 }
             }
 
-            players[currentPlayer].setBalance(players[currentPlayer].getBalance() - balanceDiff);
+            players[currentPlayer].setBalance(players[currentPlayer].getBalance() + balanceDiff);
         }
 
         // Check for houses and hotels
