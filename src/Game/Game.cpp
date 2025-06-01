@@ -357,7 +357,8 @@ namespace Monopoly {
                 }
                 else if (currentType == TYPE::INCOMETAX || field->getInfo() == TYPE::LUXURYTAX) {
                     if (FinancialField* financialField = dynamic_cast<FinancialField*>(field.get())) {
-                        int newBalance = players[currentPlayer].getBalance() - financialField->getIncome();
+                        players[currentPlayer].setBalance(players[currentPlayer].getBalance() - financialField->getIncome());
+
                     }
                 }
                 break;
@@ -482,12 +483,12 @@ namespace Monopoly {
             int balanceDiff = 0;
             for (auto &player: players) {
                 if (player.getPlayerId() != currentPlayer && !player.getIsBankrupt()) {
-                    player.setBalance(player.getBalance() + eventCard.getEachPlayerBalance());
+                    player.setBalance(player.getBalance() - eventCard.getEachPlayerBalance());
                     balanceDiff += eventCard.getEachPlayerBalance();
                 }
             }
 
-            players[currentPlayer].setBalance(players[currentPlayer].getBalance() - balanceDiff);
+            players[currentPlayer].setBalance(players[currentPlayer].getBalance() + balanceDiff);
         }
 
         // Check for houses and hotels
