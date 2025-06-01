@@ -383,3 +383,14 @@ void MainWindow::on_push_of_mortgage_clicked()
     else QMessageBox::warning(this, "fail", "Couldn't mortgage the field.");
 }
 
+
+void MainWindow::on_push_of_unmortgage_clicked()
+{
+    int fieldIndex = controller->selectedFieldIndex;
+    int code = controller->ofUnmortgage(fieldIndex);
+    this->updateOfLabels(fieldIndex);
+    if(code==1) QMessageBox::information(this, "success", "Successfully unmortgaged the field!");
+    else if(code==-1) QMessageBox::warning(this, "fail", "House count must be 0!");
+    else QMessageBox::warning(this, "fail", "Couldn't unmortgage the field.");
+}
+
