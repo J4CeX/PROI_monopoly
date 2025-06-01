@@ -34,6 +34,10 @@ private slots:
 
     void onStartedGame();
 
+    void onIsBuyableField(bool isBuyable, int cost);
+
+    void onTriedBuyField(int code, const QString& q_field);
+
     void onRolledDice(const QString& results, const QString& field);
 
     void on_push_options_clicked();
@@ -57,6 +61,8 @@ private slots:
     void on_push_finish_round_clicked();
 
     void on_push_exit_game_clicked();
+
+    void on_push_buy_field_clicked();
 
 private:
     Ui::MainWindow *ui;

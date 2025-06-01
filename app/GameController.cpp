@@ -42,6 +42,7 @@ void GameController::saveSettings(const QString& bankMoneyStr, const QString& pl
         emit validationError("Incorrect initial player money value");
         return;
     }
+    
     emit settingsSaved(true);
 }
 
@@ -50,6 +51,7 @@ void GameController::startNewGame()
     Game new_game;
     this->_game = new_game;
     this->_newestPlayerId = 0;
+    
 }
 
 void GameController::tryStartGame()
@@ -75,6 +77,7 @@ void GameController::addPlayer(const QString& playerName, const QString& tokenTe
     if(p_name_std.empty())
     {
         emit failAddedPlayer("Player name cannot be empty!");
+        
         return;
     }
     try
@@ -90,6 +93,7 @@ void GameController::addPlayer(const QString& playerName, const QString& tokenTe
     catch(const std::exception& e)
     {
         emit failAddedPlayer(e.what());
+        
     }
 }
 
@@ -109,11 +113,6 @@ QString GameController::getPlayerAmount() const
     int players = this->_game.getPlayers().size();
     QString q_id = QString::number(players);
     return q_id;
-}
-
-void GameController::findNextPlayer()
-{
-    this->_game.findNextPlayer();
 }
 
 QStringList GameController::playerNamesList()
@@ -139,6 +138,7 @@ QString GameController::currentPlayerName() const
 Player GameController::getPlayer(int idx) const
 {
     return this->_game.getPlayers()[idx];
+    
 }
 
 QString GameController::currentPlayerBalance() const
@@ -148,6 +148,7 @@ QString GameController::currentPlayerBalance() const
     int player_balance = current_player.getBalance();
     QString q_player_balance = QString::number(player_balance);
     return q_player_balance;
+    
 }
 
 QString GameController::currentPlayerPosition() const
@@ -164,42 +165,35 @@ QStringList GameController::playerOwnedFields(int idx) const
     QStringList q_owned_fields;
     Player player = this->getPlayer(idx);
     const auto& fields = this->_game.getFields();
+    int i = 0;
     for(const auto& field : fields)
     {
         TYPE type = field->getInfo();
         if(type == TYPE::STREET || type == TYPE::STATION || type == TYPE::UTILITY)
         {
             QString q_field = "boink";
-            if(Street* street = dynamic_cast<Street*>(field.get()))
+            if (OwnableField* ownableField = dynamic_cast<OwnableField*>(field.get()))
             {
-                size_t fieldOwner = street->getOwner();
-                if (street->isOwned() && fieldOwner == idx)
+                size_t fieldOwner = ownableField->getOwner();
+                if (ownableField->isOwned() && fieldOwner == idx)
                 {
-                    q_field = QString::fromStdString(street->getName()) + "(" + QString::number(street->getPosition()) + ")";
+                    std::cout << "owned street detected - owner: " << idx << std::endl;
+                    q_field = QString::fromStdString(ownableField->getName()) + "(" + QString::number(ownableField->getPosition()) + ")";
                     q_owned_fields.append(q_field);
-                }
-            }
-            else if(Utility* utility = dynamic_cast<Utility*>(field.get()))
-            {
-                size_t fieldOwner = utility->getOwner();
-                if (utility->isOwned() && fieldOwner == idx)
-                {
-                    q_field = QString::fromStdString(utility->getName()) + "(" + QString::number(utility->getPosition()) + ")";
-                    q_owned_fields.append(q_field);
-                }
-            }
-            else if(Station* station = dynamic_cast<Station*>(field.get()))
-            {
-                size_t fieldOwner = station->getOwner();
-                if (station->isOwned() && fieldOwner == idx)
-                {
-                    q_field = QString::fromStdString(station->getName()) + "(" + QString::number(station->getPosition()) + ")";
-                    q_owned_fields.append(q_field);
+                    i++;
                 }
             }
         }
     }
+    std::cout << player.getName() << " - owned fields amount:" << i << std::endl;
     return q_owned_fields;
+}
+
+QString GameController::getGameTurn() const
+{
+    int turn = this->_game.getTurnCounter() + 1;
+    QString q_turn = QString::number(turn);
+    return q_turn;
 }
 
 QStringList GameController::currentPlayerOwnedFields() const
@@ -208,7 +202,7 @@ QStringList GameController::currentPlayerOwnedFields() const
     return this->playerOwnedFields(idx);
 }
 
-QString GameController::currentPlayerField() const
+QString GameController::currentPlayerField()
 {
     int idx = this->_game.getCurrentPlayer();
     Player current_player = this->getPlayer(idx);
@@ -217,25 +211,14 @@ QString GameController::currentPlayerField() const
     TYPE current_type = current_field.getInfo();
     
     QString q_field = "";
-    if(current_type == TYPE::STREET)
+    if(current_type == TYPE::STREET || current_type == TYPE::STATION || current_type == TYPE::UTILITY)
     {
-        if(const Street* street = dynamic_cast<const Street*>(&current_field))
+        if(const OwnableField* ownablefield = dynamic_cast<const OwnableField*>(&current_field))
         {
-            q_field = QString::fromStdString(street->getName());
-        }
-    }
-    else if(current_type == TYPE::STATION)
-    {
-        if(const Station* station = dynamic_cast<const Station*>(&current_field))
-        {
-            q_field = QString::fromStdString(station->getName());
-        }
-    }
-    else if(current_type == TYPE::UTILITY)
-    {
-        if(const Utility* utility = dynamic_cast<const Utility*>(&current_field))
-        {
-            q_field = QString::fromStdString(utility->getName());
+            q_field = QString::fromStdString(ownablefield->getName());
+            int cost = ownablefield->getPurchasePrice();
+            if(!ownablefield->isOwned()) emit isBuyableField(true, cost);
+            else emit isBuyableField(false, cost);
         }
     }
     else if(current_type == TYPE::CHANCEFIELD)
@@ -325,4 +308,16 @@ std::vector<Token> GameController::playerTokens() const
 int GameController::getCurrentPlayerIndex() const
 {
     return this->_game.getCurrentPlayer();
+}
+
+void GameController::findNextPlayer()
+{
+    this->_game.findNextPlayer();
+}
+
+void GameController::buyField()
+{
+    int code = this->_game.buyOwnableField();
+    QString q_field = this->currentPlayerField();
+    emit triedBuyField(code, q_field);
 }

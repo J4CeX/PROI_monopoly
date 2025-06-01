@@ -24,13 +24,14 @@ public:
     Player getPlayer(int idx) const;
     QString currentPlayerBalance() const;
     QString currentPlayerPosition() const;
-    QString currentPlayerField() const;
+    QString currentPlayerField();
     QString currentPlayerToken() const;
     QString currentPlayerIndex() const;
     int getCurrentPlayerIndex() const;
     std::pair<int, int> fieldCoords(int idx) const;
     std::vector<Token> playerTokens() const;
     std::vector<Player> getPlayers() const { return this->_game.getPlayers(); };
+    QString getGameTurn() const;
     
 public slots:
     void saveSettings(const QString& bankMoney, const QString& playerName);
@@ -39,6 +40,7 @@ public slots:
     void tryStartGame();
     void rollDice();
     void findNextPlayer();
+    void buyField();
     
 signals:
     void settingsSaved(bool success);
@@ -49,6 +51,8 @@ signals:
     void fail(const QString& msg);
     void startedGame();
     void rolledDice(const QString& results, const QString& field);
+    void isBuyableField(bool isBuyable, int cost);
+    void triedBuyField(int code, const QString& q_field);
     
 private:
     Game _game;

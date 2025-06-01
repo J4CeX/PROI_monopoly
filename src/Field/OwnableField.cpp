@@ -9,12 +9,14 @@ namespace Fields {
     }
 
     int OwnableField::setOwner(const size_t newOwner) {
-        if (owned == false) {
+        // if (owned == false) {
             owner = newOwner;
             owned = true;
+            
             return purchasePrice;
-        }
-        return 0;
+        // }
+        
+        // return 0;
     }
 
     int OwnableField::removeOwner() {

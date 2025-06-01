@@ -18,8 +18,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QPixmap pix1(":/board/monopoly_map.png");
     ui->label_board->setPixmap(pix1.scaled(600, 600, Qt::KeepAspectRatio));
 
-    ui->push_finish_round->setEnabled(false);
-
     this->loadPawns();
 
     connect(controller, &GameController::settingsSaved, this, &MainWindow::onSettingsSaved);
@@ -29,6 +27,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(controller, &GameController::fail, this, &MainWindow::onFail);
     connect(controller, &GameController::startedGame, this, &MainWindow::onStartedGame);
     connect(controller, &GameController::rolledDice, this, &MainWindow::onRolledDice);
+    connect(controller, &GameController::isBuyableField, this, &MainWindow::onIsBuyableField);
+    connect(controller, &GameController::triedBuyField, this, &MainWindow::onTriedBuyField);
 }
 
 MainWindow::~MainWindow()
@@ -93,10 +93,54 @@ void MainWindow::onFail(const QString& msg)
     QMessageBox::warning(this, "Error", msg);
 }
 
+void MainWindow::onIsBuyableField(bool isBuyable, int cost)
+{
+    ui->push_buy_field->setEnabled(isBuyable);
+    if(isBuyable)
+    {
+        ui->label_field_cost->setText("Cost: " + QString::number(cost));
+    }
+    else
+    {
+        ui->label_field_cost->setText("This field is owned");
+    }
+}
+
+void MainWindow::onTriedBuyField(int code, const QString& q_field)
+{
+    if(code==1)
+    {
+        QString msg = "'" + q_field + "' bought successfully!";
+        QMessageBox::information(this, "Success", msg);
+        ui->push_buy_field->setEnabled(false);
+    }
+    else if(code==-1)
+    {
+        QString msg = "'" + q_field + "' is already owned!";
+        QMessageBox::warning(this, "Error", msg);
+        ui->push_buy_field->setEnabled(false);
+    }
+    else if(code==-2)
+    {
+        QString msg = "Not enough money to buy '" + q_field + "'";
+        QMessageBox::warning(this, "Error", msg);
+        ui->push_buy_field->setEnabled(false);
+    }
+    else
+    {
+        QMessageBox::warning(this, "Error", "ERROR Something went wrong");
+    }
+}
+
 void MainWindow::onStartedGame()
 {
     ui->stackedInterface->setCurrentIndex(3);
+    ui->push_finish_round->setEnabled(false);
+    ui->push_buy_field->setEnabled(false);
+    ui->push_roll_dice->setEnabled(true);
+    this->loadPawns();
     this->updatePlayerLabels();
+    ui->label_turn_number->setText(controller->getGameTurn());
 }
 
 void MainWindow::on_push_options_clicked()
@@ -199,11 +243,22 @@ void MainWindow::on_push_finish_round_clicked()
     ui->label_field_p->setText(controller->currentPlayerField());
     ui->push_roll_dice->setEnabled(true);
     ui->push_finish_round->setEnabled(false);
+    ui->push_buy_field->setEnabled(false);
+    ui->label_field_cost->clear();
+    ui->label_turn_number->setText(controller->getGameTurn());
 }
 
 
 void MainWindow::on_push_exit_game_clicked()
 {
     ui->stackedInterface->setCurrentIndex(0);
+}
+
+
+void MainWindow::on_push_buy_field_clicked()
+{
+    controller->buyField();
+    this->updatePlayerLabels();
+
 }
 
