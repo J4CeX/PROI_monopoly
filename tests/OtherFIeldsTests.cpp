@@ -38,3 +38,47 @@ TEST(CommunityFieldTests, InputConstructor) {
     ASSERT_EQ(communityChestField.getPosition(), 6);
     ASSERT_EQ(communityChestField.getInfo(), TYPE::COMMUNITYCHESTFIELD);
 }
+
+TEST(GoToJailTests, Constructor) {
+    GoToJail goToJail(10);
+    ASSERT_EQ(goToJail.getPosition(), 10);
+    ASSERT_EQ(goToJail.getInfo(), TYPE::GOTOJAIL);
+}
+
+TEST(GoToJailTests, InputConstructor) {
+    GoToJail goToJail;
+    std::istringstream iss("11");
+    iss >> goToJail;
+    ASSERT_EQ(goToJail.getPosition(), 11);
+    ASSERT_EQ(goToJail.getInfo(), TYPE::GOTOJAIL);
+}
+
+TEST(IncomeTaxTests, Constructor) {
+    IncomeTax incomeTax(35);
+    ASSERT_EQ(incomeTax.getPosition(), 35);
+    ASSERT_EQ(incomeTax.getInfo(), TYPE::INCOMETAX);
+    ASSERT_EQ(incomeTax.getIncome(), 200);
+}
+
+TEST(IncomeTaxTests, InputConstructor) {
+    IncomeTax incomeTax;
+    std::istringstream iss("36");
+    iss >> incomeTax;
+    ASSERT_EQ(incomeTax.getPosition(), 36);
+    ASSERT_EQ(incomeTax.getInfo(), TYPE::INCOMETAX);
+    ASSERT_EQ(incomeTax.getIncome(), 200);
+}
+
+TEST(JailTests, Constructor) {
+    Jail jail(30);
+    ASSERT_EQ(jail.getPosition(), 30);
+    ASSERT_EQ(jail.getInfo(), TYPE::JAIL);
+}
+
+TEST(JailTests, InputConstructor) {
+    Jail jail;
+    std::istringstream iss("29");
+    iss >> jail;
+    ASSERT_EQ(jail.getPosition(), 29);
+    ASSERT_EQ(jail.getInfo(), TYPE::JAIL);
+}
