@@ -16,7 +16,7 @@ namespace Fields {
     class Street: public OwnableField {
         private:
             static const int Capacity = 6;
-            int housePrice;
+            int housePrice = 50;
             int houseCount;
             int housesRent[Capacity];
             Color color;
