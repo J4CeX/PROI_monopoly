@@ -172,11 +172,11 @@ namespace Monopoly {
                         }
                     }
                     if (unMortgage && ownableField->isMortgaged()) {
-                        players[player].setBalance(players[player].getBalance() + ownableField->mortgage());
+                        players[player].setBalance(players[player].getBalance() - ownableField->mortgage());
                         return 1;
                     }
                     else if (!unMortgage && !ownableField->isMortgaged()) {
-                        players[player].setBalance(players[player].getBalance() - ownableField->unmortgage());
+                        players[player].setBalance(players[player].getBalance() + ownableField->unmortgage());
                         return 2;
                     }
                     else {
