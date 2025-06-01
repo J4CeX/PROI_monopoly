@@ -324,17 +324,19 @@ void MainWindow::updateOfLabels(int fieldIndex)
     }
     else
     {
-        ui->push_of_buy_house->setEnabled(true);
-        ui->push_of_sell_house->setEnabled(true);
         if(q_mortgaged=="Yes")
         {
             ui->push_of_mortgage->setEnabled(false);
             ui->push_of_unmortgage->setEnabled(true);
+            ui->push_of_buy_house->setEnabled(false);
+            ui->push_of_sell_house->setEnabled(false);
         }
         else
         {
             ui->push_of_mortgage->setEnabled(true);
             ui->push_of_unmortgage->setEnabled(false);
+            ui->push_of_buy_house->setEnabled(true);
+            ui->push_of_sell_house->setEnabled(true);
         }
     }
     if(q_houses == "5")
