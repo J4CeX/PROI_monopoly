@@ -80,3 +80,17 @@ TEST(ParkingTests, InputConstructor) {
     ASSERT_EQ(parking.getPosition(), 21);
     ASSERT_EQ(parking.getInfo(), TYPE::PARKING);
 }
+
+TEST(StartFieldTests, Constructor) {
+    StartField startField(0);
+    ASSERT_EQ(startField.getPosition(), 0);
+    ASSERT_EQ(startField.getInfo(), TYPE::STARTFIELD);
+}
+
+TEST(StartFieldTests, Constructor) {
+    StartField startField;
+    std::istringstream iss("1");
+    iss >> startField;
+    ASSERT_EQ(startField.getPosition(), 1);
+    ASSERT_EQ(startField.getInfo(), TYPE::STARTFIELD);
+}
