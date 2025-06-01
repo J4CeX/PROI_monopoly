@@ -18,6 +18,64 @@ MainWindow::MainWindow(QWidget *parent) :
     QPixmap pix1(":/board/monopoly_map.png");
     ui->label_board->setPixmap(pix1.scaled(600, 600, Qt::KeepAspectRatio));
 
+    QPixmap logo(":/board/monopoly_logo.png");
+    ui->label_logo->setPixmap(logo);
+
+    this->setStyleSheet("background-image: url(:/board/background.png); background-repeat: no-repeat; background-position: center;");
+
+    ui->push_new_game->setFixedSize(300, 75);
+    ui->push_new_game->setStyleSheet(
+        "QPushButton {"
+        "   border: none;"
+        "   background-image: url(:/board/button_start);"
+        "}"
+        "QPushButton:hover {"
+        "   background-image: url(:/board/button_start_hover);"
+        "}"
+        "QPushButton:pressed {"
+        "   background-image: url(:/board/button_start);"
+        "}"
+    );
+    ui->push_options->setFixedSize(300, 75);
+    ui->push_options->setStyleSheet(
+        "QPushButton {"
+        "   border: none;"
+        "   background-image: url(:/board/button_options);"
+        "}"
+        "QPushButton:hover {"
+        "   background-image: url(:/board/button_options_hover);"
+        "}"
+        "QPushButton:pressed {"
+        "   background-image: url(:/board/button_options);"
+        "}"
+    );
+    ui->push_load->setFixedSize(300, 75);
+    ui->push_load->setStyleSheet(
+        "QPushButton {"
+        "   border: none;"
+        "   background-image: url(:/board/button_load);"
+        "}"
+        "QPushButton:hover {"
+        "   background-image: url(:/board/button_load_hover);"
+        "}"
+        "QPushButton:pressed {"
+        "   background-image: url(:/board/button_load);"
+        "}"
+    );
+    ui->push_exit->setFixedSize(300, 75);
+    ui->push_exit->setStyleSheet(
+        "QPushButton {"
+        "   border: none;"
+        "   background-image: url(:/board/button_exit);"
+        "}"
+        "QPushButton:hover {"
+        "   background-image: url(:/board/button_exit_hover);"
+        "}"
+        "QPushButton:pressed {"
+        "   background-image: url(:/board/button_exit);"
+        "}"
+    );
+
     this->loadPawns();
 
     connect(controller, &GameController::settingsSaved, this, &MainWindow::onSettingsSaved);

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1502</width>
-    <height>840</height>
+    <width>1920</width>
+    <height>1080</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,21 +19,21 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>1481</width>
-      <height>821</height>
+      <width>1901</width>
+      <height>1061</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="page_main">
-     <widget class="QLabel" name="label">
+     <widget class="QLabel" name="label_logo">
       <property name="geometry">
        <rect>
-        <x>510</x>
-        <y>180</y>
-        <width>401</width>
-        <height>81</height>
+        <x>700</x>
+        <y>40</y>
+        <width>575</width>
+        <height>184</height>
        </rect>
       </property>
       <property name="font">
@@ -42,7 +42,10 @@
        </font>
       </property>
       <property name="text">
-       <string>Welcome to Monopoly Board Game Simulator!</string>
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="imgs.qrc">:/board/monopoly_logo.png</pixmap>
       </property>
       <property name="wordWrap">
        <bool>false</bool>
@@ -51,53 +54,53 @@
      <widget class="QPushButton" name="push_new_game">
       <property name="geometry">
        <rect>
-        <x>620</x>
-        <y>280</y>
-        <width>171</width>
-        <height>61</height>
+        <x>810</x>
+        <y>250</y>
+        <width>300</width>
+        <height>75</height>
        </rect>
       </property>
       <property name="text">
-       <string>Start new game</string>
+       <string/>
       </property>
      </widget>
      <widget class="QPushButton" name="push_load">
       <property name="geometry">
        <rect>
-        <x>620</x>
-        <y>400</y>
-        <width>171</width>
-        <height>61</height>
+        <x>810</x>
+        <y>410</y>
+        <width>300</width>
+        <height>75</height>
        </rect>
       </property>
       <property name="text">
-       <string>Load game</string>
+       <string/>
       </property>
      </widget>
      <widget class="QPushButton" name="push_options">
       <property name="geometry">
        <rect>
-        <x>620</x>
-        <y>340</y>
-        <width>171</width>
-        <height>61</height>
+        <x>810</x>
+        <y>330</y>
+        <width>300</width>
+        <height>75</height>
        </rect>
       </property>
       <property name="text">
-       <string>Options</string>
+       <string/>
       </property>
      </widget>
      <widget class="QPushButton" name="push_exit">
       <property name="geometry">
        <rect>
-        <x>620</x>
-        <y>460</y>
-        <width>171</width>
-        <height>61</height>
+        <x>810</x>
+        <y>490</y>
+        <width>300</width>
+        <height>75</height>
        </rect>
       </property>
       <property name="text">
-       <string>Exit</string>
+       <string/>
       </property>
      </widget>
     </widget>
@@ -958,6 +961,8 @@
    </widget>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="imgs.qrc"/>
+ </resources>
  <connections/>
 </ui>
