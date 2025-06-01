@@ -21,6 +21,7 @@ public:
     QLabel* getLabelByToken(Token token) const;
     void updatePlayerLabels();
     void updatePlayerOwnedFields();
+    void updateOfLabels(int fieldIndex);
 
 private slots:
 
@@ -70,9 +71,13 @@ private slots:
 
     void on_push_buy_field_clicked();
 
-    void on_push_manage_fields_clicked();
-
     void on_list_owned_fields_itemClicked(QListWidgetItem *item);
+
+    void on_push_of_back_clicked();
+
+    void on_push_of_buy_house_clicked();
+
+    void on_push_of_sell_house_clicked();
 
 private:
     Ui::MainWindow *ui;

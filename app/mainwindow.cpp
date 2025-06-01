@@ -137,6 +137,7 @@ void MainWindow::onTriedBuyField(int code, const QString& q_field)
 void MainWindow::onStartedGame()
 {
     ui->stackedInterface->setCurrentIndex(3);
+    ui->stacked_game_options->setCurrentIndex(0);
     ui->push_finish_round->setEnabled(false);
     ui->push_buy_field->setEnabled(false);
     ui->push_roll_dice->setEnabled(true);
@@ -229,7 +230,7 @@ void MainWindow::updatePlayerLabels()
     ui->list_players_2->clear();
     ui->list_players_2->addItems(controller->playerNamesList());
     ui->label_current_p->setText(controller->currentPlayerName());
-    ui->label_balance_p->setText(controller->currentPlayerBalance());
+    ui->label_balance_p->setText(controller->currentPlayerBalance() + " zł");
     ui->label_position_p->setText(controller->currentPlayerPosition());
     ui->label_token_p->setText(controller->currentPlayerToken());
     ui->label_index_p->setText(controller->currentPlayerIndex());
@@ -286,18 +287,68 @@ void MainWindow::on_push_buy_field_clicked()
     this->updatePlayerLabels();
 }
 
-
-void MainWindow::on_push_manage_fields_clicked()
-{
-    ui->stacked_game_options->setCurrentIndex((ui->stacked_game_options->currentIndex()+1)%2);
-}
-
-
 void MainWindow::on_list_owned_fields_itemClicked(QListWidgetItem *item)
 {
     int fieldIndex = item->data(Qt::UserRole).toInt();
-    controller->ownedFieldClicked(fieldIndex);
+    controller->selectedFieldIndex = fieldIndex;
+    ui->stacked_game_options->setCurrentIndex(1);
+    this->updateOfLabels(fieldIndex);
+}
+
+void MainWindow::updateOfLabels(int fieldIndex)
+{
+    QStringList of_info = controller->getOwnedFieldInfo(fieldIndex);
+    QString q_type = of_info[2];
+    QString q_houses = of_info[3];
+    ui->label_of_name->setText(of_info[0]);
+    ui->label_of_pos->setText(of_info[1]);
+    ui->label_of_type->setText(q_type);
+    ui->label_of_houses->setText(of_info[3]);
+    ui->label_of_rent->setText(of_info[4]);
+    if(q_type=="STATION" || q_type=="UTILITY")
+    {
+        ui->push_of_buy_house->setEnabled(false);
+        ui->push_of_mortgage->setEnabled(false);
+        ui->push_of_sell_house->setEnabled(false);
+        ui->push_of_unmortgage->setEnabled(false);
+    }
+    else
+    {
+        ui->push_of_buy_house->setEnabled(true);
+        ui->push_of_mortgage->setEnabled(true);
+        ui->push_of_sell_house->setEnabled(true);
+        ui->push_of_unmortgage->setEnabled(true);
+    }
+    if(q_houses == "5")
+    {
+        ui->push_of_buy_house->setEnabled(false);
+        ui->label_of_houses->setText("5 (max)");
+    }
     this->updatePlayerLabels();
 }
 
+void MainWindow::on_push_of_back_clicked()
+{
+    ui->stacked_game_options->setCurrentIndex(0);
+}
+
+
+void MainWindow::on_push_of_buy_house_clicked()
+{
+    int fieldIndex = controller->selectedFieldIndex;
+    int code = controller->buyOfHouse(fieldIndex);
+    this->updateOfLabels(fieldIndex);
+    if(code==2) QMessageBox::information(this, "success", "Successfully bought a house!");
+    else QMessageBox::warning(this, "fail", "Couldn't buy the house!");
+}
+
+
+void MainWindow::on_push_of_sell_house_clicked()
+{
+    int fieldIndex = controller->selectedFieldIndex;
+    int code = controller->sellOfHouse(fieldIndex);
+    this->updateOfLabels(fieldIndex);
+    if(code==1) QMessageBox::information(this, "success", "Successfully sold a house!");
+    else QMessageBox::warning(this, "fail", "Couldn't sell the house!");
+}
 

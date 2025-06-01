@@ -195,17 +195,6 @@ std::vector<std::pair<QString, size_t>> GameController::playerOwnedFields(int id
     return result;
 }
 
-void GameController::ownedFieldClicked(size_t idx)
-{
-    std::cout << "Clicked field: " << idx << std::endl;
-    size_t player_idx = this->_game.getCurrentPlayerId()-1;
-    std::cout << "Current player id: " << player_idx << std::endl;
-    int code = this->_game.playerBuyHouse(player_idx, idx);
-    std::cout << "Buying code: " << code << std::endl;
-    Player player = this->getPlayer(player_idx);
-    std::cout << "New balance of " << player.getName() << ": " << player.getBalance() << std::endl;
-}
-
 QString GameController::getGameTurn() const
 {
     int turn = this->_game.getTurnCounter() + 1;
@@ -300,6 +289,60 @@ QString GameController::currentPlayerField()
         }
     }
     return q_field;
+}
+
+QStringList GameController::getOwnedFieldInfo(int position)
+{
+    const auto& fields = this->_game.getFields();
+    const auto& field = *(fields[position]); // zakładamy, że position jest poprawne
+    TYPE type = field.getInfo();
+
+    QString name = "Unknown";
+    QString pos_str = QString::number(position);
+    QString type_str = "UNKNOWN";
+    QString house_count = "doesn't apply";
+    QString rent = "Unknown";
+
+    if (const OwnableField* ownable = dynamic_cast<const OwnableField*>(&field))
+    {
+        name = QString::fromStdString(ownable->getName());
+        rent = QString::number(ownable->getRent()) + " zł";
+
+        if (type == TYPE::STREET)
+        {
+            type_str = "STREET";
+            if (const Street* street = dynamic_cast<const Street*>(ownable))
+            {
+                house_count = QString::number(street->getHouseCount());
+            }
+        }
+        else if (type == TYPE::STATION)
+        {
+            type_str = "STATION";
+        }
+        else if (type == TYPE::UTILITY)
+        {
+            type_str = "UTILITY";
+        }
+    }
+
+    return { name, pos_str, type_str, house_count, rent };
+}
+
+int GameController::buyOfHouse(int pos)
+{
+    size_t player_id = this->_game.getCurrentPlayerId()-1;
+    size_t field_id = static_cast<size_t>(pos);
+    int code = this->_game.playerBuyHouse(player_id, field_id);
+    return code;
+}
+
+int GameController::sellOfHouse(int pos)
+{
+    size_t player_id = this->_game.getCurrentPlayerId()-1;
+    size_t field_id = static_cast<size_t>(pos);
+    int code = this->_game.playerBuyHouse(player_id, field_id, true);
+    return code;
 }
 
 std::pair<int,int> GameController::fieldCoords(int idx) const

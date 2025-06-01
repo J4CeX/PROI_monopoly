@@ -16,6 +16,9 @@ class GameController : public QObject
     
 public:
     explicit GameController(QObject *parent = nullptr);
+
+    int selectedFieldIndex = -1;
+
     QString getPlayerAmount() const;
     QStringList playerNamesList();
     std::vector<std::pair<QString, size_t>> playerOwnedFields(int idx) const;
@@ -32,6 +35,7 @@ public:
     std::vector<Token> playerTokens() const;
     std::vector<Player> getPlayers() const { return this->_game.getPlayers(); };
     QString getGameTurn() const;
+    QStringList getOwnedFieldInfo(int position);
     
 public slots:
     void saveSettings(const QString& bankMoney, const QString& playerName);
@@ -41,7 +45,8 @@ public slots:
     void rollDice();
     void findNextPlayer();
     void buyField();
-    void ownedFieldClicked(size_t idx);
+    int buyOfHouse(int pos);
+    int sellOfHouse(int pos);
     
 signals:
     void settingsSaved(bool success);
