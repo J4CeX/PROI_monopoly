@@ -140,6 +140,7 @@ namespace Monopoly {
             LOG(1, "Double rolled while player was in jail");
         }
         else if (players[currentPlayer].getInJailRounds() > 0) {
+            players[currentPlayer].setInJailRounds(players[currentPlayer].getInJailRounds() - 1);
             return;
         }
 
@@ -160,6 +161,10 @@ namespace Monopoly {
         if (isFinished) {
             LOG(3, "Attempted to find a new player, while Game has ended");
             return false;
+        }
+
+        if (diceDoubleCounter > 0 && !players[currentPlayer].getIsBankrupt()) {
+            return true;
         }
 
         diceDoubleCounter = 0;
@@ -207,11 +212,11 @@ namespace Monopoly {
                     }
 
                     if (unMortgage && ownableField->isMortgaged()) {
-                        players[player].setBalance(players[player].getBalance() + ownableField->mortgage());
+                        players[player].setBalance(players[player].getBalance() - ownableField->unmortgage());
                         return 1;
                     }
                     else if (!unMortgage && !ownableField->isMortgaged()) {
-                        players[player].setBalance(players[player].getBalance() - ownableField->unmortgage());
+                        players[player].setBalance(players[player].getBalance() + ownableField->mortgage());
                         return 2;
                     }
                     else {
@@ -308,7 +313,7 @@ namespace Monopoly {
 
     void Game::movePlayer(size_t newPosition, bool goFieldCollectable) {
         LOGII(1, "Attempting to move a Player to new Field", currentPlayer, newPosition);
-        
+
         if (goFieldCollectable) {
             size_t currentPosition = players[currentPlayer].getPosition();
             if (newPosition < currentPosition) {
@@ -400,7 +405,8 @@ namespace Monopoly {
                 }
                 else if (currentType == TYPE::INCOMETAX || field->getInfo() == TYPE::LUXURYTAX) {
                     if (FinancialField* financialField = dynamic_cast<FinancialField*>(field.get())) {
-                        int newBalance = players[currentPlayer].getBalance() - financialField->getIncome();
+                        players[currentPlayer].setBalance(players[currentPlayer].getBalance() - financialField->getIncome());
+
                     }
                 }
                 break;
@@ -538,12 +544,12 @@ namespace Monopoly {
             int balanceDiff = 0;
             for (auto &player: players) {
                 if (player.getPlayerId() != currentPlayer && !player.getIsBankrupt()) {
-                    player.setBalance(player.getBalance() + eventCard.getEachPlayerBalance());
+                    player.setBalance(player.getBalance() - eventCard.getEachPlayerBalance());
                     balanceDiff += eventCard.getEachPlayerBalance();
                 }
             }
 
-            players[currentPlayer].setBalance(players[currentPlayer].getBalance() - balanceDiff);
+            players[currentPlayer].setBalance(players[currentPlayer].getBalance() + balanceDiff);
 
             LOGI(0, "Player balance settled to:", balanceDiff);
         }

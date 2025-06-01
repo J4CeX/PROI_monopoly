@@ -6,7 +6,7 @@ namespace Fields {
         int firstHouseRent, int secondHouseRent, int thirdHouseRent,
         int fourthHouseRent, int fifthHouseRent, const std::string &name, Color streetColor)
         : OwnableField(position, name, purchasePrice, trespassingFee),
-        housePrice(50), houseCount(0), color(streetColor) {
+            houseCount(0), color(streetColor) {
             housesRent[0] = trespassingFee;
             housesRent[1] = firstHouseRent;
             housesRent[2] = secondHouseRent;

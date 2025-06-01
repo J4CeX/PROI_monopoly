@@ -1,4 +1,5 @@
 #pragma once
+
 #include <iostream>
 #include <vector>
 #include "Field/headers.hpp"
@@ -83,7 +84,7 @@ namespace Monopoly {
             // Game loop
             int getTurnCounter() const { return turnCounter; }
             bool findNextPlayer();
-            size_t getCurrentPlayer() const { return currentPlayer; }
+            size_t getCurrentPlayerId() const { return players[currentPlayer].getPlayerId(); }
             bool useGetOutOfJailCard();
             bool checkIfPlayerIsBankrupt();
             int playerMortgageField(size_t& player, size_t& fieldPosition, bool unMortgage = false);
