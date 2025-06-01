@@ -59,6 +59,6 @@ signals:
     
 private:
     Game _game;
-    int _newestPlayerId = 0;
+    int _newestPlayerId = 1;
     int _playerMoved = 0;
 };

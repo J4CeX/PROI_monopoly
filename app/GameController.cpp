@@ -49,7 +49,7 @@ void GameController::saveSettings(const QString& bankMoneyStr, const QString& pl
 void GameController::startNewGame()
 {
     this->_game = Game();
-    this->_newestPlayerId = 0;
+    this->_newestPlayerId = 1;
 }
 
 void GameController::tryStartGame()
@@ -97,11 +97,11 @@ void GameController::addPlayer(const QString& playerName, const QString& tokenTe
 
 void GameController::rollDice()
 {
-    Player player = this->getPlayer(this->_game.getCurrentPlayer());
+    Player player = this->getPlayer(this->_game.getCurrentPlayerId()-1);
     int old_bal = player.getBalance(), old_pos = player.getPosition();
     this->_game.rollDice();
     this->_playerMoved = 1;
-    player = this->getPlayer(this->_game.getCurrentPlayer());
+    player = this->getPlayer(this->_game.getCurrentPlayerId()-1);
     int new_bal = player.getBalance(), new_pos = player.getPosition();
     if(old_bal != new_bal)
     {
@@ -137,7 +137,7 @@ QStringList GameController::playerNamesList()
 
 QString GameController::currentPlayerName() const
 {
-    int current_player_idx = this->_game.getCurrentPlayer();
+    int current_player_idx = this->_game.getCurrentPlayerId()-1;
     Player current_player = this->getPlayer(current_player_idx);
     std::string player_name = current_player.getName();
     QString q_player_name = QString::fromStdString(player_name);
@@ -152,7 +152,7 @@ Player GameController::getPlayer(int idx) const
 
 QString GameController::currentPlayerBalance() const
 {
-    int current_player_idx = this->_game.getCurrentPlayer();
+    int current_player_idx = this->_game.getCurrentPlayerId()-1;
     Player current_player = this->getPlayer(current_player_idx);
     int player_balance = current_player.getBalance();
     QString q_player_balance = QString::number(player_balance);
@@ -162,7 +162,7 @@ QString GameController::currentPlayerBalance() const
 
 QString GameController::currentPlayerPosition() const
 {
-    int current_player_idx = this->_game.getCurrentPlayer();
+    int current_player_idx = this->_game.getCurrentPlayerId()-1;
     Player current_player = this->getPlayer(current_player_idx);
     int player_pos = current_player.getPosition();
     QString q_player_pos = QString::number(player_pos);
@@ -198,7 +198,7 @@ std::vector<std::pair<QString, size_t>> GameController::playerOwnedFields(int id
 void GameController::ownedFieldClicked(size_t idx)
 {
     std::cout << "Clicked field: " << idx << std::endl;
-    size_t player_idx = this->_game.getCurrentPlayer();
+    size_t player_idx = this->_game.getCurrentPlayerId()-1;
     std::cout << "Current player id: " << player_idx << std::endl;
     int code = this->_game.playerBuyHouse(player_idx, idx);
     std::cout << "Buying code: " << code << std::endl;
@@ -215,13 +215,13 @@ QString GameController::getGameTurn() const
 
 std::vector<std::pair<QString, size_t>> GameController::currentPlayerOwnedFields() const
 {
-    int idx = this->_game.getCurrentPlayer();
+    int idx = this->_game.getCurrentPlayerId()-1;
     return this->playerOwnedFields(idx);
 }
 
 QString GameController::currentPlayerField()
 {
-    int idx = this->_game.getCurrentPlayer();
+    int idx = this->_game.getCurrentPlayerId()-1;
     Player current_player = this->getPlayer(idx);
     const auto& fields = this->_game.getFields();
     const auto& current_field = *(fields[current_player.getPosition()]);
@@ -309,7 +309,7 @@ std::pair<int,int> GameController::fieldCoords(int idx) const
 
 QString GameController::currentPlayerToken() const
 {
-    int current_player_idx = this->_game.getCurrentPlayer();
+    int current_player_idx = this->_game.getCurrentPlayerId()-1;
     Player current_player = this->getPlayer(current_player_idx);
     Token player_token = current_player.getToken();
     std::string player_token_std = str_token_map[player_token];
@@ -319,7 +319,7 @@ QString GameController::currentPlayerToken() const
 
 QString GameController::currentPlayerIndex() const
 {
-    int current_player_idx = this->_game.getCurrentPlayer();
+    int current_player_idx = this->_game.getCurrentPlayerId()-1;
     QString q_player_idx = QString::number(current_player_idx);
     return q_player_idx;
 }
@@ -336,7 +336,7 @@ std::vector<Token> GameController::playerTokens() const
 
 int GameController::getCurrentPlayerIndex() const
 {
-    return this->_game.getCurrentPlayer();
+    return this->_game.getCurrentPlayerId()-1;
 }
 
 void GameController::findNextPlayer()
