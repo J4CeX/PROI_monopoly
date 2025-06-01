@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QLabel>
+#include <QListWidgetItem>
 #include "GameController.h"
 
 namespace Ui {
@@ -19,6 +20,7 @@ public:
     void loadPawns();
     QLabel* getLabelByToken(Token token) const;
     void updatePlayerLabels();
+    void updatePlayerOwnedFields();
 
 private slots:
 
@@ -41,6 +43,8 @@ private slots:
     void onRolledDice(const QString& results, const QString& field);
 
     void onBalanceChanged(int difference);
+
+    void onCurrentEvent(const QString& eventText);
 
     void on_push_options_clicked();
 
@@ -67,6 +71,8 @@ private slots:
     void on_push_buy_field_clicked();
 
     void on_push_manage_fields_clicked();
+
+    void on_list_owned_fields_itemClicked(QListWidgetItem *item);
 
 private:
     Ui::MainWindow *ui;

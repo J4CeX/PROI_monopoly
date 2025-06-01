@@ -30,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(controller, &GameController::isBuyableField, this, &MainWindow::onIsBuyableField);
     connect(controller, &GameController::triedBuyField, this, &MainWindow::onTriedBuyField);
     connect(controller, &GameController::balanceChanged, this, &MainWindow::onBalanceChanged);
+    connect(controller, &GameController::currentEvent, this, &MainWindow::onCurrentEvent);
 }
 
 MainWindow::~MainWindow()
@@ -149,6 +150,11 @@ void MainWindow::onBalanceChanged(int difference)
     QMessageBox::information(this, "Info", "Balance changed: " + QString::number(difference));
 }
 
+void MainWindow::onCurrentEvent(const QString& eventText)
+{
+    QMessageBox::information(this, "info", eventText);
+}
+
 void MainWindow::on_push_options_clicked()
 {
     ui->stackedInterface->setCurrentIndex(1);
@@ -204,6 +210,20 @@ void MainWindow::on_push_add_player_clicked()
     controller->addPlayer(player_name, token_text);
 }
 
+void MainWindow::updatePlayerOwnedFields()
+{
+    auto owned_fields = controller->currentPlayerOwnedFields();
+    ui->list_owned_fields->clear(); // czyść starą listę
+
+    for (const auto& [label, position] : owned_fields)
+    {
+        QListWidgetItem* item = new QListWidgetItem(label);
+        item->setData(Qt::UserRole, static_cast<int>(position));
+        ui->list_owned_fields->addItem(item);
+    }
+
+}
+
 void MainWindow::updatePlayerLabels()
 {
     ui->list_players_2->clear();
@@ -213,8 +233,7 @@ void MainWindow::updatePlayerLabels()
     ui->label_position_p->setText(controller->currentPlayerPosition());
     ui->label_token_p->setText(controller->currentPlayerToken());
     ui->label_index_p->setText(controller->currentPlayerIndex());
-    ui->list_owned_fields->clear();
-    ui->list_owned_fields->addItems(controller->currentPlayerOwnedFields());
+    this->updatePlayerOwnedFields();
                                            
     for(Player player : controller->getPlayers())
     {
@@ -272,4 +291,13 @@ void MainWindow::on_push_manage_fields_clicked()
 {
     ui->stacked_game_options->setCurrentIndex((ui->stacked_game_options->currentIndex()+1)%2);
 }
+
+
+void MainWindow::on_list_owned_fields_itemClicked(QListWidgetItem *item)
+{
+    int fieldIndex = item->data(Qt::UserRole).toInt();
+    controller->ownedFieldClicked(fieldIndex);
+    this->updatePlayerLabels();
+}
+
 

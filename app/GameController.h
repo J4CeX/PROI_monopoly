@@ -18,8 +18,8 @@ public:
     explicit GameController(QObject *parent = nullptr);
     QString getPlayerAmount() const;
     QStringList playerNamesList();
-    QStringList playerOwnedFields(int idx) const;
-    QStringList currentPlayerOwnedFields() const;
+    std::vector<std::pair<QString, size_t>> playerOwnedFields(int idx) const;
+    std::vector<std::pair<QString, size_t>> currentPlayerOwnedFields() const;
     QString currentPlayerName() const;
     Player getPlayer(int idx) const;
     QString currentPlayerBalance() const;
@@ -41,6 +41,7 @@ public slots:
     void rollDice();
     void findNextPlayer();
     void buyField();
+    void ownedFieldClicked(size_t idx);
     
 signals:
     void settingsSaved(bool success);
@@ -54,8 +55,10 @@ signals:
     void isBuyableField(bool isBuyable, int cost);
     void triedBuyField(int code, const QString& q_field);
     void balanceChanged(int difference);
+    void currentEvent(const QString& eventText);
     
 private:
     Game _game;
     int _newestPlayerId = 0;
+    int _playerMoved = 0;
 };

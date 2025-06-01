@@ -98,11 +98,16 @@ void GameController::addPlayer(const QString& playerName, const QString& tokenTe
 void GameController::rollDice()
 {
     Player player = this->getPlayer(this->_game.getCurrentPlayer());
-    int old_bal = player.getBalance();
+    int old_bal = player.getBalance(), old_pos = player.getPosition();
     this->_game.rollDice();
+    this->_playerMoved = 1;
     player = this->getPlayer(this->_game.getCurrentPlayer());
-    int new_bal = player.getBalance();
-    if(old_bal != new_bal) emit balanceChanged(new_bal - old_bal);
+    int new_bal = player.getBalance(), new_pos = player.getPosition();
+    if(old_bal != new_bal)
+    {
+        if(new_pos < old_pos) emit currentEvent("Przeszedłeś przez start. Otrzymujesz 200zł!");
+        else emit balanceChanged(new_bal - old_bal);
+    }
 
     int r1 = _game.getDice().first, r2 = _game.getDice().second;
     std::string results = std::to_string(r1) + " " + std::to_string(r2); 
@@ -164,31 +169,41 @@ QString GameController::currentPlayerPosition() const
     return q_player_pos;
 }
 
-QStringList GameController::playerOwnedFields(int idx) const
+std::vector<std::pair<QString, size_t>> GameController::playerOwnedFields(int idx) const
 {
-    QStringList q_owned_fields;
-    Player player = this->getPlayer(idx);
+    std::vector<std::pair<QString, size_t>> result;
     const auto& fields = this->_game.getFields();
-    int i = 0;
-    for(const auto& field : fields)
+
+    for (const auto& field : fields)
     {
         TYPE type = field->getInfo();
-        if(type == TYPE::STREET || type == TYPE::STATION || type == TYPE::UTILITY)
+        if (type == TYPE::STREET || type == TYPE::STATION || type == TYPE::UTILITY)
         {
-            QString q_field = "boink";
             if (OwnableField* ownableField = dynamic_cast<OwnableField*>(field.get()))
             {
-                size_t fieldOwner = ownableField->getOwner();
-                if (ownableField->isOwned() && fieldOwner == idx)
+                if (ownableField->isOwned() && ownableField->getOwner() == idx)
                 {
-                    q_field = QString::fromStdString(ownableField->getName()) + "(" + QString::number(ownableField->getPosition()) + ")";
-                    q_owned_fields.append(q_field);
-                    i++;
+                    QString name = QString::fromStdString(ownableField->getName());
+                    int position = ownableField->getPosition();
+                    QString label = name + "(" + QString::number(position) + ")";
+                    result.emplace_back(label, position);
                 }
             }
         }
     }
-    return q_owned_fields;
+
+    return result;
+}
+
+void GameController::ownedFieldClicked(size_t idx)
+{
+    std::cout << "Clicked field: " << idx << std::endl;
+    size_t player_idx = this->_game.getCurrentPlayer();
+    std::cout << "Current player id: " << player_idx << std::endl;
+    int code = this->_game.playerBuyHouse(player_idx, idx);
+    std::cout << "Buying code: " << code << std::endl;
+    Player player = this->getPlayer(player_idx);
+    std::cout << "New balance of " << player.getName() << ": " << player.getBalance() << std::endl;
 }
 
 QString GameController::getGameTurn() const
@@ -198,7 +213,7 @@ QString GameController::getGameTurn() const
     return q_turn;
 }
 
-QStringList GameController::currentPlayerOwnedFields() const
+std::vector<std::pair<QString, size_t>> GameController::currentPlayerOwnedFields() const
 {
     int idx = this->_game.getCurrentPlayer();
     return this->playerOwnedFields(idx);
@@ -228,6 +243,12 @@ QString GameController::currentPlayerField()
         if(const ChanceField* chancefield = dynamic_cast<const ChanceField*>(&current_field))
         {
             q_field = "Chance!";
+            if(this->_playerMoved)
+            {
+                EventCard event = this->_game.getCurrentEvent();
+                std::string event_txt = event.getText();
+                emit currentEvent(QString::fromStdString(event_txt));
+            }
         }
     }
     else if(current_type == TYPE::COMMUNITYCHESTFIELD)
@@ -235,6 +256,12 @@ QString GameController::currentPlayerField()
         if(const CommunityChestField* communitychest = dynamic_cast<const CommunityChestField*>(&current_field))
         {
             q_field = "Community chest!";
+            if(this->_playerMoved)
+            {
+                EventCard event = this->_game.getCurrentEvent();
+                std::string event_txt = event.getText();
+                emit currentEvent(QString::fromStdString(event_txt));
+            }
         }
     }
     else if(current_type == TYPE::JAIL)
@@ -314,6 +341,7 @@ int GameController::getCurrentPlayerIndex() const
 
 void GameController::findNextPlayer()
 {
+    this->_playerMoved = 0;
     this->_game.findNextPlayer();
 }
 
