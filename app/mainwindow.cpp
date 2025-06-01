@@ -259,6 +259,11 @@ void MainWindow::on_push_buy_field_clicked()
 {
     controller->buyField();
     this->updatePlayerLabels();
+}
 
+
+void MainWindow::on_push_manage_fields_clicked()
+{
+    ui->stacked_game_options->setCurrentIndex((ui->stacked_game_options->currentIndex()+1)%2);
 }
 

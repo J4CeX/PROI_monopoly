@@ -64,6 +64,8 @@ private slots:
 
     void on_push_buy_field_clicked();
 
+    void on_push_manage_fields_clicked();
+
 private:
     Ui::MainWindow *ui;
     GameController* controller;

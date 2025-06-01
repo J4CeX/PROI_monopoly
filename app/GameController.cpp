@@ -48,10 +48,8 @@ void GameController::saveSettings(const QString& bankMoneyStr, const QString& pl
 
 void GameController::startNewGame()
 {
-    Game new_game;
-    this->_game = new_game;
+    this->_game = Game();
     this->_newestPlayerId = 0;
-    
 }
 
 void GameController::tryStartGame()
@@ -177,7 +175,6 @@ QStringList GameController::playerOwnedFields(int idx) const
                 size_t fieldOwner = ownableField->getOwner();
                 if (ownableField->isOwned() && fieldOwner == idx)
                 {
-                    std::cout << "owned street detected - owner: " << idx << std::endl;
                     q_field = QString::fromStdString(ownableField->getName()) + "(" + QString::number(ownableField->getPosition()) + ")";
                     q_owned_fields.append(q_field);
                     i++;
@@ -185,7 +182,6 @@ QStringList GameController::playerOwnedFields(int idx) const
             }
         }
     }
-    std::cout << player.getName() << " - owned fields amount:" << i << std::endl;
     return q_owned_fields;
 }
 
