@@ -357,7 +357,8 @@ namespace Monopoly {
                 }
                 else if (currentType == TYPE::INCOMETAX || field->getInfo() == TYPE::LUXURYTAX) {
                     if (FinancialField* financialField = dynamic_cast<FinancialField*>(field.get())) {
-                        int newBalance = players[currentPlayer].getBalance() - financialField->getIncome();
+                        players[currentPlayer].setBalance(players[currentPlayer].getBalance() - financialField->getIncome());
+
                     }
                 }
                 break;
