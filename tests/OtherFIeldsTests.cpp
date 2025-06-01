@@ -87,7 +87,7 @@ TEST(StartFieldTests, Constructor) {
     ASSERT_EQ(startField.getInfo(), TYPE::STARTFIELD);
 }
 
-TEST(StartFieldTests, Constructor) {
+TEST(StartFieldTests, InputConstructor) {
     StartField startField;
     std::istringstream iss("1");
     iss >> startField;
