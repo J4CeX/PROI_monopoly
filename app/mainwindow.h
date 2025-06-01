@@ -47,6 +47,8 @@ private slots:
 
     void onCurrentEvent(const QString& eventText);
 
+    void onFinishedGameSignal(const QString& winnerName);
+
     void on_push_options_clicked();
 
     void on_push_back_clicked();
@@ -82,6 +84,8 @@ private slots:
     void on_push_of_mortgage_clicked();
 
     void on_push_of_unmortgage_clicked();
+
+    void on_push_go_bankrupt_clicked();
 
 private:
     Ui::MainWindow *ui;

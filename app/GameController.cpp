@@ -405,6 +405,12 @@ void GameController::findNextPlayer()
 {
     this->_playerMoved = 0;
     this->_game.findNextPlayer();
+    if(this->_game.getIsFinished())
+    {
+        int winner_id = this->_game.getCurrentPlayerId()-1;
+        Player winner = this->getPlayer(winner_id);
+        this->finishedGame(winner);
+    }
 }
 
 void GameController::buyField()
@@ -412,4 +418,15 @@ void GameController::buyField()
     int code = this->_game.buyOwnableField();
     QString q_field = this->currentPlayerField();
     emit triedBuyField(code, q_field);
+}
+
+void GameController::goBankrupt()
+{
+    size_t player_id = static_cast<size_t>(this->getCurrentPlayerIndex()-1);
+    this->_game.goCurrentPlayerBankrupt();
+}
+
+void GameController::finishedGame(Player winner)
+{
+    emit finishedGameSignal(QString::fromStdString(winner.getName()));
 }

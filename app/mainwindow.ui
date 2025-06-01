@@ -368,7 +368,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="page_players">
        <widget class="QLabel" name="label_9">
@@ -486,6 +486,19 @@
         </property>
         <property name="text">
          <string>&lt;field_cost&gt;</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="push_go_bankrupt">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>400</y>
+          <width>101</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Go bankrupt</string>
         </property>
        </widget>
       </widget>

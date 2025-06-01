@@ -36,6 +36,7 @@ public:
     std::vector<Player> getPlayers() const { return this->_game.getPlayers(); };
     QString getGameTurn() const;
     QStringList getOwnedFieldInfo(int position);
+    void goBankrupt();
     
 public slots:
     void saveSettings(const QString& bankMoney, const QString& playerName);
@@ -63,9 +64,11 @@ signals:
     void triedBuyField(int code, const QString& q_field);
     void balanceChanged(int difference);
     void currentEvent(const QString& eventText);
+    void finishedGameSignal(const QString& winnerName);
     
 private:
     Game _game;
     int _newestPlayerId = 1;
     int _playerMoved = 0;
+    void finishedGame(Player winner);
 };

@@ -31,6 +31,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(controller, &GameController::triedBuyField, this, &MainWindow::onTriedBuyField);
     connect(controller, &GameController::balanceChanged, this, &MainWindow::onBalanceChanged);
     connect(controller, &GameController::currentEvent, this, &MainWindow::onCurrentEvent);
+    connect(controller, &GameController::finishedGameSignal, this, &MainWindow::onFinishedGameSignal);
 }
 
 MainWindow::~MainWindow()
@@ -392,5 +393,25 @@ void MainWindow::on_push_of_unmortgage_clicked()
     if(code==1) QMessageBox::information(this, "success", "Successfully unmortgaged the field!");
     else if(code==-1) QMessageBox::warning(this, "fail", "House count must be 0!");
     else QMessageBox::warning(this, "fail", "Couldn't unmortgage the field.");
+}
+
+void MainWindow::onFinishedGameSignal(const QString& winnerName)
+{
+    QMessageBox msgBox;
+    msgBox.setWindowTitle("Game Over");
+    msgBox.setText("Game over!\nWinner: " + winnerName +"\n Congratulations!");
+
+    QPushButton* backButton = msgBox.addButton("Back to menu", QMessageBox::AcceptRole);
+    msgBox.exec();
+
+    if (msgBox.clickedButton() == backButton) {
+        ui->stackedInterface->setCurrentIndex(0);
+    }
+}
+
+void MainWindow::on_push_go_bankrupt_clicked()
+{
+    controller->goBankrupt();
+    this->updatePlayerLabels();
 }
 
