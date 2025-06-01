@@ -53,22 +53,6 @@ TEST(GoToJailTests, InputConstructor) {
     ASSERT_EQ(goToJail.getInfo(), TYPE::GOTOJAIL);
 }
 
-TEST(IncomeTaxTests, Constructor) {
-    IncomeTax incomeTax(35);
-    ASSERT_EQ(incomeTax.getPosition(), 35);
-    ASSERT_EQ(incomeTax.getInfo(), TYPE::INCOMETAX);
-    ASSERT_EQ(incomeTax.getIncome(), 200);
-}
-
-TEST(IncomeTaxTests, InputConstructor) {
-    IncomeTax incomeTax;
-    std::istringstream iss("36");
-    iss >> incomeTax;
-    ASSERT_EQ(incomeTax.getPosition(), 36);
-    ASSERT_EQ(incomeTax.getInfo(), TYPE::INCOMETAX);
-    ASSERT_EQ(incomeTax.getIncome(), 200);
-}
-
 TEST(JailTests, Constructor) {
     Jail jail(30);
     ASSERT_EQ(jail.getPosition(), 30);
@@ -81,4 +65,18 @@ TEST(JailTests, InputConstructor) {
     iss >> jail;
     ASSERT_EQ(jail.getPosition(), 29);
     ASSERT_EQ(jail.getInfo(), TYPE::JAIL);
+}
+
+TEST(ParkingTests, Constructor) {
+    Parking parking(20);
+    ASSERT_EQ(parking.getPosition(), 20);
+    ASSERT_EQ(parking.getInfo(), TYPE::PARKING);
+}
+
+TEST(ParkingTests, InputConstructor) {
+    Parking parking;
+    std::istringstream iss("21");
+    iss >> parking;
+    ASSERT_EQ(parking.getPosition(), 21);
+    ASSERT_EQ(parking.getInfo(), TYPE::PARKING);
 }
