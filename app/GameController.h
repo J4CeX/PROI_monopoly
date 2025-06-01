@@ -48,7 +48,7 @@ public slots:
     int buyOfHouse(int pos);
     int sellOfHouse(int pos);
     int ofMortgage(int pos);
-    int ofUnmortgage(int pos);
+    // int ofUnmortgage(int pos);
     
 signals:
     void settingsSaved(bool success);

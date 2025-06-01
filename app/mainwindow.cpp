@@ -377,6 +377,7 @@ void MainWindow::on_push_of_mortgage_clicked()
     int code = controller->ofMortgage(fieldIndex);
     this->updateOfLabels(fieldIndex);
     if(code==2) QMessageBox::information(this, "success", "Successfully mortgaged the field!");
-    else QMessageBox::warning(this, "fail", "Couldn't mortgage the field");
+    else if(code==-1) QMessageBox::warning(this, "fail", "House count must be 0!");
+    else QMessageBox::warning(this, "fail", "Couldn't mortgage the field.");
 }
 

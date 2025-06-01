@@ -352,7 +352,7 @@ int GameController::ofMortgage(int pos)
 {
     size_t player_id = this->_game.getCurrentPlayerId()-1;
     size_t field_id = static_cast<size_t>(pos);
-    int code = this->_game.playerMortgageField(player_id, field_id);
+    int code = this->_game.playerMortgageField(player_id, field_id, false);
     return code;
 }
 
