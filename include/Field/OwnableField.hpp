@@ -7,14 +7,13 @@ namespace Fields {
             std::string name;
             int purchasePrice;
             int trespassingFee;
-            bool owned;
-            bool mortgaged;
-            size_t owner;
+            bool owned = false;
+            bool mortgaged = false;
+            size_t owner = 0;
         public:
             OwnableField() = default;
             OwnableField(int position, const std::string &name, int purchasePrice, int trespassingFee)
-                : Field(position), name(name), purchasePrice(purchasePrice), trespassingFee(trespassingFee),
-                owned(false), mortgaged(false), owner(0) {}
+                : Field(position), name(name), purchasePrice(purchasePrice), trespassingFee(trespassingFee) {}
             std::string getName() const { return name; }
             int getPurchasePrice() const { return purchasePrice; }
             virtual TYPE getInfo() const = 0;

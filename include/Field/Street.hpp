@@ -17,7 +17,7 @@ namespace Fields {
         private:
             static const int Capacity = 6;
             int housePrice = 50;
-            int houseCount;
+            int houseCount = 0;
             int housesRent[Capacity];
             Color color;
         public:
