@@ -6,7 +6,7 @@
 
 using namespace Fields;
 
-TEST(StreetTests, Constructor) {
+TEST(StreetTests, StreetConstructor) {
     Street street(10, 200, 24, 50, 100, 200, 300, 400, "test street", Color::Lightblue);
     ASSERT_EQ(street.getPosition(), 10);
     ASSERT_EQ(street.getPurchasePrice(), 200);
@@ -21,7 +21,7 @@ TEST(StreetTests, Constructor) {
     ASSERT_EQ(street.getColor(), Color::Lightblue);
 }
 
-TEST(StreetTests, MortgageAndPurchase) {
+TEST(StreetTests, StreetMortgageAndPurchase) {
     Street street(10, 200, 24, 50, 100, 200, 300, 400, "test street", Color::Lightblue);
     ASSERT_FALSE(street.isOwned());
     ASSERT_FALSE(street.isMortgaged());
@@ -36,7 +36,7 @@ TEST(StreetTests, MortgageAndPurchase) {
     ASSERT_EQ(street.removeOwner(), 200);
 }
 
-TEST(StreetTests, Houses) {
+TEST(StreetTests, StreetHouses) {
     Street street(10, 200, 24, 50, 100, 200, 300, 400, "test street", Color::Lightblue);
     street.setOwner(3);
     ASSERT_EQ(street.getHouseCount(), 0);
@@ -73,7 +73,7 @@ TEST(StreetTests, Houses) {
     ASSERT_EQ(street.getRent(), 24);
 }
 
-TEST(StreetTests, InputConstructor) {
+TEST(StreetTests, StreetInputConstructor) {
     Street street;
     std::istringstream iss("9 120 8 40 100 300 450 600 Lightblue Targowa");
     iss >> street;
@@ -108,7 +108,7 @@ TEST(StreetTests, InputConstructor) {
     ASSERT_EQ(street.getRent(), 600);
 }
 
-TEST(StationTests, Constructor) {
+TEST(StationTests, StationConstructor) {
     Station station(5, "station");
     ASSERT_EQ(station.getPosition(), 5);
     ASSERT_EQ(station.getName(), "station");
@@ -117,7 +117,7 @@ TEST(StationTests, Constructor) {
     ASSERT_EQ(station.getRent(), 50);
 }
 
-TEST(StationTests, MortgageAndPurchase) {
+TEST(StationTests, StationMortgageAndPurchase) {
     Station station(15, "station");
     ASSERT_FALSE(station.isOwned());
     ASSERT_FALSE(station.isMortgaged());
