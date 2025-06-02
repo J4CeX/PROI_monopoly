@@ -356,3 +356,79 @@ TEST(GameTests, GoOnOwnableFieldAndPurchaseIt) {
 
     ASSERT_EQ(game.getCurrentPlayerId(), 1);
 }
+
+TEST(GameTests, purchaseHouse) {
+    TestGame game;
+    Player firstPlayer(1, "test1", Token::cat);
+    Player secondPlayer(2, "test2", Token::penguin);
+    game.addPlayer(firstPlayer);
+    game.addPlayer(secondPlayer);
+    std::vector<Player> gamePlayers;
+
+    ASSERT_EQ(game.getCurrentPlayerId(), 1);
+    game.setNextRoll(4, 2);
+    game.rollDice();
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[0].getPosition(), 6);
+
+    Street* street = dynamic_cast<Street*>(game.getFields()[6].get());
+    ASSERT_FALSE(street->isOwned());
+    ASSERT_EQ(game.buyOwnableField(), 1);
+    gamePlayers = game.getPlayers();
+    ASSERT_TRUE(street->isOwned());
+    ASSERT_EQ(street->getOwner(), 0);
+    ASSERT_EQ(gamePlayers[0].getBalance(), 400);
+
+    ASSERT_EQ(street->getRent(), 6);
+    ASSERT_EQ(street->getHouseCount(), 0);
+    size_t position = 6;
+    size_t playerIndex = 0;
+    ASSERT_EQ(game.playerBuyHouse(playerIndex, position), 2);
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[0].getBalance(), 350);
+    ASSERT_EQ(street->getRent(), 30);
+    ASSERT_EQ(street->getHouseCount(), 1);
+
+    game.findNextPlayer();
+    ASSERT_EQ(game.getCurrentPlayerId(), 2);
+    game.setNextRoll(4, 2);
+    game.rollDice();
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[1].getPosition(), 6);
+    ASSERT_EQ(gamePlayers[1].getBalance(), 470);
+    ASSERT_EQ(gamePlayers[0].getBalance(), 380);
+    ASSERT_EQ(game.buyOwnableField(), -1);
+    game.findNextPlayer();
+
+    ASSERT_EQ(game.getCurrentPlayerId(), 1);
+    ASSERT_EQ(game.playerBuyHouse(playerIndex, position), 2);
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[0].getBalance(), 330);
+    ASSERT_EQ(street->getRent(), 90);
+    ASSERT_EQ(street->getHouseCount(), 2);
+    ASSERT_EQ(game.playerBuyHouse(playerIndex, position), 2);
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[0].getBalance(), 280);
+    ASSERT_EQ(street->getRent(), 270);
+    ASSERT_EQ(street->getHouseCount(), 3);
+    ASSERT_EQ(game.playerBuyHouse(playerIndex, position), 2);
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[0].getBalance(), 230);
+    ASSERT_EQ(street->getRent(), 400);
+    ASSERT_EQ(street->getHouseCount(), 4);
+    ASSERT_EQ(game.playerBuyHouse(playerIndex, position), 2);
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[0].getBalance(), 180);
+    ASSERT_EQ(street->getRent(), 550);
+    ASSERT_EQ(street->getHouseCount(), 5);
+    ASSERT_EQ(game.playerBuyHouse(playerIndex, position), -2);
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[0].getBalance(), 180);
+    ASSERT_EQ(street->getRent(), 550);
+    ASSERT_EQ(street->getHouseCount(), 5);
+    ASSERT_EQ(game.playerBuyHouse(playerIndex, position, true), 1);
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[0].getBalance(), 230);
+    ASSERT_EQ(street->getRent(), 400);
+    ASSERT_EQ(street->getHouseCount(), 4);
+}
