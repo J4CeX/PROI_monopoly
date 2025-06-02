@@ -261,6 +261,7 @@ namespace Monopoly {
                                 price /= 2;
                             }
                             players[player].setBalance(players[player].getBalance() + price);
+                            ownableField->unmortgage();
                             ownableField->removeOwner();
                             return 1;
                         }
