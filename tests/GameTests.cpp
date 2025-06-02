@@ -297,7 +297,7 @@ TEST(GameTests, diceDouble) {
     ASSERT_EQ(game.getCurrentPlayerId(), 2);
 }
 
-TEST(GameTests, GoOnOwnableFieldAndPurchaseIt) {
+TEST(GameTests, GoOnOwnableFieldAndPurchaseItMortgageAndSell) {
     TestGame game;
     Player firstPlayer(1, "test1", Token::cat);
     Player secondPlayer(2, "test2", Token::penguin);
@@ -355,6 +355,21 @@ TEST(GameTests, GoOnOwnableFieldAndPurchaseIt) {
     game.findNextPlayer();
 
     ASSERT_EQ(game.getCurrentPlayerId(), 1);
+    size_t position = 5;
+    size_t playerIndex = 0;
+    ASSERT_EQ(game.playerMortgageField(playerIndex, position), 2);
+    gamePlayers = game.getPlayers();
+    ownableField = dynamic_cast<Station*>(game.getFields()[5].get());
+    ASSERT_TRUE(ownableField->isOwned());
+    ASSERT_TRUE(ownableField->isMortgaged());
+    ASSERT_EQ(gamePlayers[0].getBalance(), 400);
+    game.sellOwnableField(playerIndex, position);
+    gamePlayers = game.getPlayers();
+    ownableField = dynamic_cast<Station*>(game.getFields()[5].get());
+    ASSERT_FALSE(ownableField->isOwned());
+    ASSERT_FALSE(ownableField->isMortgaged());
+    ASSERT_EQ(gamePlayers[0].getBalance(), 500);
+
 }
 
 TEST(GameTests, purchaseHouse) {
