@@ -251,7 +251,7 @@ namespace Monopoly {
                     }
                 }
                 if (OwnableField* ownableField = dynamic_cast<OwnableField*>(field.get())) {
-                    if (ownableField->isOwned()) {
+                    if (!ownableField->isOwned()) {
                         return -2;
                     }
                     else {
