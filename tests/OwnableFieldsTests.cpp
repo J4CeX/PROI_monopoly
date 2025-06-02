@@ -131,3 +131,14 @@ TEST(StationTests, StationMortgageAndPurchase) {
     ASSERT_EQ(station.unmortgage(), 100);
     ASSERT_EQ(station.removeOwner(), 200);
 }
+
+TEST(StationTests, StationInputConstructor) {
+    Station station;
+    std::istringstream iss("5 Dworzec Zachodni");
+    iss >> station;
+    ASSERT_EQ(station.getPosition(), 5);
+    ASSERT_EQ(station.getName(), "Dworzec Zachodni");
+    ASSERT_EQ(station.getInfo(), TYPE::STATION);
+    ASSERT_EQ(station.getPurchasePrice(), 200);
+    ASSERT_EQ(station.getRent(), 50);
+}
