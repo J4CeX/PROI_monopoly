@@ -12,7 +12,6 @@ MainWindow::MainWindow(QWidget *parent) :
     controller = new GameController(this);
 
     ui->stackedInterface->setCurrentIndex(0);
-    // ui->stackedInterface->setCurrentIndex(4);
     this->board = new BoardWidget(ui->widget_board);
     this->board->setGeometry(ui->widget_board->rect());
     this->board->show();
@@ -23,7 +22,6 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setStyleSheet("background-image: url(:/board/background.png); background-repeat: no-repeat; background-position: center;");
 
     this->loadButtons();
-    this->loadPawns();
 
     connect(controller, &GameController::settingsSaved, this, &MainWindow::onSettingsSaved);
     connect(controller, &GameController::validationError, this, &MainWindow::onValidationError);
@@ -42,34 +40,6 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
-}
-
-void MainWindow::loadPawns()
-{
-    QPixmap pixRaceCar(":/board/racecar.png");
-    ui->label_pawn_raceCar->setPixmap(pixRaceCar);
-    ui->label_pawn_raceCar->hide();
-
-    QPixmap pixTopHat(":/board/tophat.png");
-    ui->label_pawn_topHat->setPixmap(pixTopHat);
-    ui->label_pawn_topHat->hide();
-
-    QPixmap pixThimble(":/board/thimble.png");
-    ui->label_pawn_thimble->setPixmap(pixThimble);
-    ui->label_pawn_thimble->hide();
-
-    QPixmap pixScottTerr(":/board/scottishterrier.png");
-    ui->label_pawn_scottTerr->setPixmap(pixScottTerr);
-    ui->label_pawn_scottTerr->hide();
-}
-
-QLabel* MainWindow::getLabelByToken(Token token) const
-{
-    std::map<Token, QLabel*> token_label_map = {{Token::raceCar, ui->label_pawn_raceCar},
-                                                {Token::topHat, ui->label_pawn_topHat},
-                                                {Token::thimble, ui->label_pawn_thimble},
-                                                {Token::scottishTerrier, ui->label_pawn_scottTerr}};
-    return token_label_map[token];
 }
 
 void MainWindow::onSettingsSaved(bool success) {
@@ -147,14 +117,9 @@ void MainWindow::onStartedGame()
     ui->push_finish_round->setEnabled(false);
     ui->push_buy_field->setEnabled(false);
     ui->push_roll_dice->setEnabled(true);
-    this->loadPawns();
-    this->updatePlayerLabels();
     ui->label_turn_number->setText(controller->getGameTurn());
     this->board->setPlayers(controller->getPlayers());
-    this->board->updatePawnPosition(0, 39);
-    this->board->updatePawnPosition(1, 39);
-    this->board->updatePawnPosition(2, 39);
-    this->board->updatePawnPosition(3, 39);
+    this->updatePlayerLabels();
 }
 
 void MainWindow::onBalanceChanged(int difference)
@@ -249,13 +214,9 @@ void MainWindow::updatePlayerLabels()
                                            
     for(Player player : controller->getPlayers())
     {
+        int idx = player.getPlayerId()-1;
         int pos = player.getPosition();
-        std::pair<int, int> currentField = controller->fieldCoords(pos);
-        Token token = player.getToken();
-        int idx = player.getPlayerId();
-        QLabel* label = this->getLabelByToken(token);
-        label->show();
-        label->move(currentField.first+idx*10, currentField.second+idx*10);
+        this->board->updatePawnPosition(idx, pos);
     }
 }
 

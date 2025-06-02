@@ -20,8 +20,6 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void loadPawns();
-    QLabel* getLabelByToken(Token token) const;
     void updatePlayerLabels();
     void updatePlayerOwnedFields();
     void updateOfLabels(int fieldIndex);
