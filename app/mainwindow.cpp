@@ -15,8 +15,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->stackedInterface->setCurrentIndex(0);
 
-    QPixmap pix1(":/board/monopoly_map.png");
-    ui->label_board->setPixmap(pix1.scaled(600, 600, Qt::KeepAspectRatio));
+    QPixmap pix1(":/board/monopoly_board.png");
+    ui->label_board->setPixmap(pix1.scaled(900, 900, Qt::KeepAspectRatio));
 
     QPixmap logo(":/board/monopoly_logo.png");
     ui->label_logo->setPixmap(logo);

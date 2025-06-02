@@ -16,5 +16,6 @@
         <file>button_exit_hover.png</file>
         <file>background.png</file>
         <file>monopoly_logo.png</file>
+        <file>monopoly_board.png</file>
     </qresource>
 </RCC>

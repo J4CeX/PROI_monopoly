@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="page_main">
      <widget class="QLabel" name="label_logo">
@@ -353,8 +353,8 @@
        <rect>
         <x>100</x>
         <y>0</y>
-        <width>600</width>
-        <height>600</height>
+        <width>900</width>
+        <height>900</height>
        </rect>
       </property>
       <property name="text">
