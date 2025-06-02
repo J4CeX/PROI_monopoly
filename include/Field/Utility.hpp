@@ -12,7 +12,7 @@ namespace Fields {
             int getRent(int diceSum) const { return diceSum * 4; }
             ~Utility() = default;
             friend std::istream& operator>>(std::istream& is, Utility& utility) {
-                is >> utility.position >> std::skipws;
+                is >> utility.position >> std::ws;
                 std::getline(is, utility.name);
                 return is;
             }

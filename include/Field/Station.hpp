@@ -11,7 +11,7 @@ namespace Fields {
             std::unique_ptr<Field> clone() const override { return std::make_unique<Station>(*this); }
             ~Station() = default;
             friend std::istream& operator>>(std::istream& is, Station& station) {
-                is >> station.position >> std::skipws;
+                is >> station.position >> std::ws;
                 std::getline(is, station.name);
                 return is;
             }
