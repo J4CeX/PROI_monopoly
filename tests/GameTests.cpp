@@ -192,28 +192,37 @@ TEST(GameTests, AddPlayer) {
 }
 
 TEST(GameTests, rollDiceAndMovePlayer) {
-    Game game;
+    TestGame game;
     Player firstPlayer(1, "test1", Token::cat);
     Player secondPlayer(2, "test2", Token::penguin);
-    std::vector<Player> gamePlayers = game.getPlayers();
     game.addPlayer(firstPlayer);
     game.addPlayer(secondPlayer);
-    ASSERT_EQ(game.getCurrentPlayerId(), 1);
-    game.rollDice();
-    ASSERT_TRUE(gamePlayers[0].getPosition() != 0);
-    size_t firstPlayerNextPosition = gamePlayers[0].getPosition();
-    game.findNextPlayer();
-    ASSERT_EQ(game.getCurrentPlayerId(), 2);
+    std::vector<Player> gamePlayers;
 
-    game.rollDice();
-    ASSERT_TRUE(gamePlayers[1].getPosition() != 0);
-    size_t secondPlayerNextPosition = gamePlayers[1].getPosition();
-    game.findNextPlayer();
     ASSERT_EQ(game.getCurrentPlayerId(), 1);
+    game.setNextRoll(2, 4);
     game.rollDice();
-    ASSERT_TRUE(gamePlayers[0].getPosition() != firstPlayerNextPosition);
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[0].getPosition(), 6);
     game.findNextPlayer();
+
     ASSERT_EQ(game.getCurrentPlayerId(), 2);
+    game.setNextRoll(3, 5);
     game.rollDice();
-    ASSERT_TRUE(gamePlayers[1].getPosition() != secondPlayerNextPosition);
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[1].getPosition(), 8);
+    game.findNextPlayer();
+
+    ASSERT_EQ(game.getCurrentPlayerId(), 1);
+    game.setNextRoll(3, 2);
+    game.rollDice();
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[0].getPosition(), 11);
+    game.findNextPlayer();
+
+    ASSERT_EQ(game.getCurrentPlayerId(), 2);
+    game.setNextRoll(4, 3);
+    game.rollDice();
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[1].getPosition(), 15);
 }
