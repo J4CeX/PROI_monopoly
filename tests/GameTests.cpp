@@ -7,25 +7,25 @@
 using namespace Monopoly;
 
 class TestGame : public Monopoly::Game {
-public:
-    TestGame() : Game() {}
-
-    void setNextRoll(int first, int second) {
-        nextRolls = {first, second};
-        rollIndex = 0;
-    }
-
-protected:
-    int randomNumber() override {
-        if (rollIndex < nextRolls.size()) {
-            return nextRolls[rollIndex++];
+    protected:
+        int randomNumber() override {
+            if (rollIndex < nextRolls.size()) {
+                return nextRolls[rollIndex++];
+            }
+            return 1;
         }
-        return 1; // fallback
-    }
 
-private:
-    std::vector<int> nextRolls;
-    size_t rollIndex = 0;
+    private:
+        std::vector<int> nextRolls;
+        size_t rollIndex = 0;
+
+    public:
+        TestGame() : Game() {}
+        bool shuffleEventCards = false;
+        void setNextRoll(int first, int second) {
+            nextRolls = {first, second};
+            rollIndex = 0;
+        }
 };
 
 
