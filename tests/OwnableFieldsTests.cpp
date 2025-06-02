@@ -142,3 +142,38 @@ TEST(StationTests, StationInputConstructor) {
     ASSERT_EQ(station.getPurchasePrice(), 200);
     ASSERT_EQ(station.getRent(), 50);
 }
+
+TEST(UtilityTests, UtilityConstructor) {
+    Utility utility(28, "Wodociągi");
+    ASSERT_EQ(utility.getPosition(), 28);
+    ASSERT_EQ(utility.getName(), "Wodociągi");
+    ASSERT_EQ(utility.getInfo(), TYPE::UTILITY);
+    ASSERT_EQ(utility.getPurchasePrice(), 150);
+    ASSERT_EQ(utility.getRent(6), 24);
+}
+
+TEST(UtilityTests, UtilityMortgageAndPurchase) {
+    Utility utility(15, "utility");
+    ASSERT_FALSE(utility.isOwned());
+    ASSERT_FALSE(utility.isMortgaged());
+    ASSERT_EQ(utility.mortgage(), 0);
+    ASSERT_EQ(utility.unmortgage(), 0);
+    ASSERT_EQ(utility.removeOwner(), 0);
+    utility.setOwner(2);
+    ASSERT_TRUE(utility.isOwned());
+    ASSERT_EQ(utility.getOwner(), 2);
+    ASSERT_EQ(utility.mortgage(), 75);
+    ASSERT_EQ(utility.unmortgage(), 75);
+    ASSERT_EQ(utility.removeOwner(), 150);
+}
+
+TEST(UtilityTests, UtilityInputConstructor) {
+    Utility utility;
+    std::istringstream iss("12 Elektrownia");
+    iss >> utility;
+    ASSERT_EQ(utility.getPosition(), 12);
+    ASSERT_EQ(utility.getName(), "Elektrownia");
+    ASSERT_EQ(utility.getInfo(), TYPE::UTILITY);
+    ASSERT_EQ(utility.getPurchasePrice(), 150);
+    ASSERT_EQ(utility.getRent(12), 48);
+}
