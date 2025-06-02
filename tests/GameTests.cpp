@@ -186,9 +186,11 @@ TEST(GameTests, AddPlayer) {
     ASSERT_EQ(gamePlayers[0].getPlayerId(), 1);
     ASSERT_EQ(gamePlayers[0].getName(), "test1");
     ASSERT_EQ(gamePlayers[0].getToken(), Token::cat);
+    ASSERT_EQ(gamePlayers[0].getBalance(), 500);
     ASSERT_EQ(gamePlayers[1].getPlayerId(), 2);
     ASSERT_EQ(gamePlayers[1].getName(), "test2");
     ASSERT_EQ(gamePlayers[1].getToken(), Token::penguin);
+    ASSERT_EQ(gamePlayers[1].getBalance(), 500);
 }
 
 TEST(GameTests, rollDiceAndMovePlayer) {
@@ -293,4 +295,64 @@ TEST(GameTests, diceDouble) {
     game.findNextPlayer();
 
     ASSERT_EQ(game.getCurrentPlayerId(), 2);
+}
+
+TEST(GameTests, GoOnOwnableFieldAndPurchaseIt) {
+    TestGame game;
+    Player firstPlayer(1, "test1", Token::cat);
+    Player secondPlayer(2, "test2", Token::penguin);
+    game.addPlayer(firstPlayer);
+    game.addPlayer(secondPlayer);
+    std::vector<Player> gamePlayers;
+
+    ASSERT_EQ(game.getCurrentPlayerId(), 1);
+    game.setNextRoll(3, 2);
+    game.rollDice();
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[0].getPosition(), 5);
+
+    // STATION
+    OwnableField* ownableField = dynamic_cast<Station*>(game.getFields()[5].get());
+    ASSERT_FALSE(ownableField->isOwned());
+    ASSERT_EQ(gamePlayers[0].getBalance(), 500);
+    ASSERT_EQ(game.buyOwnableField(), 1);
+    gamePlayers = game.getPlayers();
+    ASSERT_TRUE(ownableField->isOwned());
+    ASSERT_EQ(ownableField->getOwner(), 0);
+    ASSERT_EQ(gamePlayers[0].getBalance(), 300);
+    game.findNextPlayer();
+
+    ASSERT_EQ(game.getCurrentPlayerId(), 2);
+    game.setNextRoll(3, 3);
+    game.rollDice();
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[1].getPosition(), 6);
+
+    // STREET
+    ownableField = dynamic_cast<Street*>(game.getFields()[6].get());
+    ASSERT_FALSE(ownableField->isOwned());
+    ASSERT_EQ(game.buyOwnableField(), 1);
+    gamePlayers = game.getPlayers();
+    ASSERT_TRUE(ownableField->isOwned());
+    ASSERT_EQ(ownableField->getOwner(), 1);
+    ASSERT_EQ(gamePlayers[1].getBalance(), 400);
+    game.findNextPlayer();
+
+    ASSERT_EQ(game.getCurrentPlayerId(), 2);
+    game.setNextRoll(5, 1);
+    game.rollDice();
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[1].getPosition(), 12);
+
+    // UTILITY
+    ownableField = dynamic_cast<Utility*>(game.getFields()[12].get());
+    ASSERT_FALSE(ownableField->isOwned());
+    ASSERT_EQ(game.buyOwnableField(), 1);
+    gamePlayers = game.getPlayers();
+    ASSERT_TRUE(ownableField->isOwned());
+    ASSERT_EQ(ownableField->getOwner(), 1);
+    ASSERT_EQ(gamePlayers[1].getBalance(), 250);
+    game.findNextPlayer();
+
+    ASSERT_EQ(game.getCurrentPlayerId(), 1);
 }
