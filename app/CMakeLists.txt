@@ -10,6 +10,7 @@ qt_add_executable(boardgame
     mainwindow.cpp
     main.cpp
     GameController.cpp
+    BoardWidget.cpp
     ${RESOURCES}
 )
 

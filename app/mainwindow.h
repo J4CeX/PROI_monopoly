@@ -4,7 +4,10 @@
 #include <QMainWindow>
 #include <QLabel>
 #include <QListWidgetItem>
+#include <QMessageBox>
+#include <QPixmap>
 #include "GameController.h"
+#include "BoardWidget.h"
 
 namespace Ui {
 class MainWindow;
@@ -90,6 +93,8 @@ private slots:
 private:
     Ui::MainWindow *ui;
     GameController* controller;
+    BoardWidget* board;
+    void loadButtons();
 };
 
 #endif // MAINWINDOW_H

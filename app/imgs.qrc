@@ -17,5 +17,7 @@
         <file>background.png</file>
         <file>monopoly_logo.png</file>
         <file>monopoly_board.png</file>
+        <file>racecar_new.png</file>
+        <file>tophat_new.png</file>
     </qresource>
 </RCC>

@@ -1,5 +1,3 @@
-#include <QMessageBox>
-#include <QPixmap>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -14,68 +12,23 @@ MainWindow::MainWindow(QWidget *parent) :
     controller = new GameController(this);
 
     ui->stackedInterface->setCurrentIndex(0);
+    // ui->stackedInterface->setCurrentIndex(4);
+    this->board = new BoardWidget(ui->widget_board);
+    this->board->setGeometry(ui->widget_board->rect());
+    this->board->show();
 
-    QPixmap pix1(":/board/monopoly_board.png");
-    ui->label_board->setPixmap(pix1.scaled(900, 900, Qt::KeepAspectRatio));
+
+
+    QPixmap pix1(":/board/monopoly_map.png");
+
+    ui->label_board->setPixmap(pix1.scaled(600, 600, Qt::KeepAspectRatio));
 
     QPixmap logo(":/board/monopoly_logo.png");
     ui->label_logo->setPixmap(logo);
 
     this->setStyleSheet("background-image: url(:/board/background.png); background-repeat: no-repeat; background-position: center;");
 
-    ui->push_new_game->setFixedSize(300, 75);
-    ui->push_new_game->setStyleSheet(
-        "QPushButton {"
-        "   border: none;"
-        "   background-image: url(:/board/button_start);"
-        "}"
-        "QPushButton:hover {"
-        "   background-image: url(:/board/button_start_hover);"
-        "}"
-        "QPushButton:pressed {"
-        "   background-image: url(:/board/button_start);"
-        "}"
-    );
-    ui->push_options->setFixedSize(300, 75);
-    ui->push_options->setStyleSheet(
-        "QPushButton {"
-        "   border: none;"
-        "   background-image: url(:/board/button_options);"
-        "}"
-        "QPushButton:hover {"
-        "   background-image: url(:/board/button_options_hover);"
-        "}"
-        "QPushButton:pressed {"
-        "   background-image: url(:/board/button_options);"
-        "}"
-    );
-    ui->push_load->setFixedSize(300, 75);
-    ui->push_load->setStyleSheet(
-        "QPushButton {"
-        "   border: none;"
-        "   background-image: url(:/board/button_load);"
-        "}"
-        "QPushButton:hover {"
-        "   background-image: url(:/board/button_load_hover);"
-        "}"
-        "QPushButton:pressed {"
-        "   background-image: url(:/board/button_load);"
-        "}"
-    );
-    ui->push_exit->setFixedSize(300, 75);
-    ui->push_exit->setStyleSheet(
-        "QPushButton {"
-        "   border: none;"
-        "   background-image: url(:/board/button_exit);"
-        "}"
-        "QPushButton:hover {"
-        "   background-image: url(:/board/button_exit_hover);"
-        "}"
-        "QPushButton:pressed {"
-        "   background-image: url(:/board/button_exit);"
-        "}"
-    );
-
+    this->loadButtons();
     this->loadPawns();
 
     connect(controller, &GameController::settingsSaved, this, &MainWindow::onSettingsSaved);
@@ -203,6 +156,9 @@ void MainWindow::onStartedGame()
     this->loadPawns();
     this->updatePlayerLabels();
     ui->label_turn_number->setText(controller->getGameTurn());
+    // ui->stackedInterface->setCurrentIndex(4);
+    // this->board->setPlayers(controller->getPlayers());
+    // this->board->updatePawnPosition(0, 1);
 }
 
 void MainWindow::onBalanceChanged(int difference)
@@ -473,3 +429,58 @@ void MainWindow::on_push_go_bankrupt_clicked()
     this->updatePlayerLabels();
 }
 
+void MainWindow::loadButtons()
+{
+    ui->push_new_game->setFixedSize(300, 75);
+    ui->push_new_game->setStyleSheet(
+        "QPushButton {"
+        "   border: none;"
+        "   background-image: url(:/board/button_start);"
+        "}"
+        "QPushButton:hover {"
+        "   background-image: url(:/board/button_start_hover);"
+        "}"
+        "QPushButton:pressed {"
+        "   background-image: url(:/board/button_start);"
+        "}"
+    );
+    ui->push_options->setFixedSize(300, 75);
+    ui->push_options->setStyleSheet(
+        "QPushButton {"
+        "   border: none;"
+        "   background-image: url(:/board/button_options);"
+        "}"
+        "QPushButton:hover {"
+        "   background-image: url(:/board/button_options_hover);"
+        "}"
+        "QPushButton:pressed {"
+        "   background-image: url(:/board/button_options);"
+        "}"
+    );
+    ui->push_load->setFixedSize(300, 75);
+    ui->push_load->setStyleSheet(
+        "QPushButton {"
+        "   border: none;"
+        "   background-image: url(:/board/button_load);"
+        "}"
+        "QPushButton:hover {"
+        "   background-image: url(:/board/button_load_hover);"
+        "}"
+        "QPushButton:pressed {"
+        "   background-image: url(:/board/button_load);"
+        "}"
+    );
+    ui->push_exit->setFixedSize(300, 75);
+    ui->push_exit->setStyleSheet(
+        "QPushButton {"
+        "   border: none;"
+        "   background-image: url(:/board/button_exit);"
+        "}"
+        "QPushButton:hover {"
+        "   background-image: url(:/board/button_exit_hover);"
+        "}"
+        "QPushButton:pressed {"
+        "   background-image: url(:/board/button_exit);"
+        "}"
+    );
+}

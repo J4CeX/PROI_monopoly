@@ -353,8 +353,8 @@
        <rect>
         <x>100</x>
         <y>0</y>
-        <width>900</width>
-        <height>900</height>
+        <width>600</width>
+        <height>600</height>
        </rect>
       </property>
       <property name="text">
@@ -955,6 +955,31 @@
       </property>
       <property name="text">
        <string>&lt;token_p&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_TEST">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>450</y>
+        <width>50</width>
+        <height>50</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>TEST</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="page_testing">
+     <widget class="QWidget" name="widget_board" native="true">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>900</width>
+        <height>900</height>
+       </rect>
       </property>
      </widget>
     </widget>
