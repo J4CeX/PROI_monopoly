@@ -369,7 +369,48 @@ TEST(GameTests, GoOnOwnableFieldAndPurchaseItMortgageAndSell) {
     ASSERT_FALSE(ownableField->isOwned());
     ASSERT_FALSE(ownableField->isMortgaged());
     ASSERT_EQ(gamePlayers[0].getBalance(), 500);
+    game.findNextPlayer();
 
+    ASSERT_EQ(game.getCurrentPlayerId(), 2);
+    gamePlayers = game.getPlayers();
+
+    position = 6;
+    playerIndex = 1;
+    ASSERT_EQ(game.playerMortgageField(playerIndex, position), 2);
+    gamePlayers = game.getPlayers();
+    ownableField = dynamic_cast<Street*>(game.getFields()[6].get());
+    ASSERT_TRUE(ownableField->isOwned());
+    ASSERT_TRUE(ownableField->isMortgaged());
+    ASSERT_EQ(gamePlayers[1].getBalance(), 300);
+    game.playerMortgageField(playerIndex, position, true);
+    gamePlayers = game.getPlayers();
+    ownableField = dynamic_cast<Street*>(game.getFields()[6].get());
+    ASSERT_TRUE(ownableField->isOwned());
+    ASSERT_FALSE(ownableField->isMortgaged());
+    ASSERT_EQ(gamePlayers[1].getBalance(), 250);
+
+    position = 12;
+    game.sellOwnableField(playerIndex, position);
+    gamePlayers = game.getPlayers();
+    ownableField = dynamic_cast<Utility*>(game.getFields()[12].get());
+    ASSERT_FALSE(ownableField->isOwned());
+    ASSERT_FALSE(ownableField->isMortgaged());
+    ASSERT_EQ(gamePlayers[1].getBalance(), 400);
+
+    position = 16;
+    game.setNextRoll(3, 1);
+    game.rollDice();
+    ASSERT_EQ(game.buyOwnableField(), 1);
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[1].getPosition(), 16);
+    ownableField = dynamic_cast<Street*>(game.getFields()[16].get());
+    ASSERT_TRUE(ownableField->isOwned());
+    ASSERT_EQ(game.playerBuyHouse(playerIndex, position), 2);
+    ASSERT_EQ(game.sellOwnableField(playerIndex, position), -1);
+    ASSERT_EQ(game.playerBuyHouse(playerIndex, position, true), 1);
+    ASSERT_EQ(game.sellOwnableField(playerIndex, position), 1);
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[1].getBalance(), 400);
 }
 
 TEST(GameTests, purchaseHouse) {
