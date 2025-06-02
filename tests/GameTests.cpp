@@ -6,6 +6,29 @@
 
 using namespace Monopoly;
 
+class TestGame : public Monopoly::Game {
+public:
+    TestGame() : Game() {}
+
+    void setNextRoll(int first, int second) {
+        nextRolls = {first, second};
+        rollIndex = 0;
+    }
+
+protected:
+    int randomNumber() override {
+        if (rollIndex < nextRolls.size()) {
+            return nextRolls[rollIndex++];
+        }
+        return 1; // fallback
+    }
+
+private:
+    std::vector<int> nextRolls;
+    size_t rollIndex = 0;
+};
+
+
 TEST(GameTests, Constructor) {
     Game game;
     ASSERT_EQ(game.getTurnCounter(), 0);
@@ -151,4 +174,46 @@ TEST(GameTests, setFields) {
         ASSERT_EQ(game.getFields()[i]->getInfo(), fields[i]->getInfo());
         ASSERT_EQ(game.getFields()[i]->getPosition(), fields[i]->getPosition());
     }
+}
+
+TEST(GameTests, AddPlayer) {
+    Game game;
+    Player firstPlayer(1, "test1", Token::cat);
+    Player secondPlayer(2, "test2", Token::penguin);
+    game.addPlayer(firstPlayer);
+    game.addPlayer(secondPlayer);
+    std::vector<Player> gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[0].getPlayerId(), 1);
+    ASSERT_EQ(gamePlayers[0].getName(), "test1");
+    ASSERT_EQ(gamePlayers[0].getToken(), Token::cat);
+    ASSERT_EQ(gamePlayers[1].getPlayerId(), 2);
+    ASSERT_EQ(gamePlayers[1].getName(), "test2");
+    ASSERT_EQ(gamePlayers[1].getToken(), Token::penguin);
+}
+
+TEST(GameTests, rollDiceAndMovePlayer) {
+    Game game;
+    Player firstPlayer(1, "test1", Token::cat);
+    Player secondPlayer(2, "test2", Token::penguin);
+    std::vector<Player> gamePlayers = game.getPlayers();
+    game.addPlayer(firstPlayer);
+    game.addPlayer(secondPlayer);
+    ASSERT_EQ(game.getCurrentPlayerId(), 1);
+    game.rollDice();
+    ASSERT_TRUE(gamePlayers[0].getPosition() != 0);
+    size_t firstPlayerNextPosition = gamePlayers[0].getPosition();
+    game.findNextPlayer();
+    ASSERT_EQ(game.getCurrentPlayerId(), 2);
+
+    game.rollDice();
+    ASSERT_TRUE(gamePlayers[1].getPosition() != 0);
+    size_t secondPlayerNextPosition = gamePlayers[1].getPosition();
+    game.findNextPlayer();
+    ASSERT_EQ(game.getCurrentPlayerId(), 1);
+    game.rollDice();
+    ASSERT_TRUE(gamePlayers[0].getPosition() != firstPlayerNextPosition);
+    game.findNextPlayer();
+    ASSERT_EQ(game.getCurrentPlayerId(), 2);
+    game.rollDice();
+    ASSERT_TRUE(gamePlayers[1].getPosition() != secondPlayerNextPosition);
 }
