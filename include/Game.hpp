@@ -51,7 +51,10 @@ namespace Monopoly {
 
             void movePlayer(size_t newPosition, bool goFieldCollectable = true);
 
-            int randomNumber();
+            virtual int randomNumber();
+
+        protected:
+            bool shuffleEventCards = true;
 
         public:
             Game();
