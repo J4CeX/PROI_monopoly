@@ -17,12 +17,6 @@ MainWindow::MainWindow(QWidget *parent) :
     this->board->setGeometry(ui->widget_board->rect());
     this->board->show();
 
-
-
-    QPixmap pix1(":/board/monopoly_map.png");
-
-    ui->label_board->setPixmap(pix1.scaled(600, 600, Qt::KeepAspectRatio));
-
     QPixmap logo(":/board/monopoly_logo.png");
     ui->label_logo->setPixmap(logo);
 
@@ -156,9 +150,11 @@ void MainWindow::onStartedGame()
     this->loadPawns();
     this->updatePlayerLabels();
     ui->label_turn_number->setText(controller->getGameTurn());
-    // ui->stackedInterface->setCurrentIndex(4);
-    // this->board->setPlayers(controller->getPlayers());
-    // this->board->updatePawnPosition(0, 1);
+    this->board->setPlayers(controller->getPlayers());
+    this->board->updatePawnPosition(0, 39);
+    this->board->updatePawnPosition(1, 39);
+    this->board->updatePawnPosition(2, 39);
+    this->board->updatePawnPosition(3, 39);
 }
 
 void MainWindow::onBalanceChanged(int difference)

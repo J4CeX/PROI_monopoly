@@ -11,6 +11,10 @@ QPixmap BoardWidget::pixmapForToken(Token token) {
             return QPixmap(":/board/racecar_new.png").scaled(50, 50, Qt::KeepAspectRatio, Qt::SmoothTransformation);
         case Token::topHat:
             return QPixmap(":/board/tophat_new.png").scaled(50, 50, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        case Token::thimble:
+            return QPixmap(":/board/thimble_new.png").scaled(50, 50, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        case Token::scottishTerrier:
+            return QPixmap(":/board/scottishterrier_new.png").scaled(50, 50, Qt::KeepAspectRatio, Qt::SmoothTransformation);
         default:
             return QPixmap(); // pusty pixmap na wypadek błędu
     }

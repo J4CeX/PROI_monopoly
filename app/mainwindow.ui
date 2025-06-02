@@ -45,7 +45,7 @@
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap resource="imgs.qrc">:/board/monopoly_logo.png</pixmap>
+       <pixmap>:/board/monopoly_logo.png</pixmap>
       </property>
       <property name="wordWrap">
        <bool>false</bool>
@@ -348,19 +348,6 @@
      </widget>
     </widget>
     <widget class="QWidget" name="page_game">
-     <widget class="QLabel" name="label_board">
-      <property name="geometry">
-       <rect>
-        <x>100</x>
-        <y>0</y>
-        <width>600</width>
-        <height>600</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>&lt;board&gt;</string>
-      </property>
-     </widget>
      <widget class="QStackedWidget" name="stacked_game_options">
       <property name="geometry">
        <rect>
@@ -970,12 +957,10 @@
        <string>TEST</string>
       </property>
      </widget>
-    </widget>
-    <widget class="QWidget" name="page_testing">
      <widget class="QWidget" name="widget_board" native="true">
       <property name="geometry">
        <rect>
-        <x>10</x>
+        <x>50</x>
         <y>10</y>
         <width>900</width>
         <height>900</height>
@@ -983,11 +968,10 @@
       </property>
      </widget>
     </widget>
+    <widget class="QWidget" name="page_testing"/>
    </widget>
   </widget>
  </widget>
- <resources>
-  <include location="imgs.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

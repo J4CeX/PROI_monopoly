@@ -19,5 +19,7 @@
         <file>monopoly_board.png</file>
         <file>racecar_new.png</file>
         <file>tophat_new.png</file>
+        <file>thimble_new.png</file>
+        <file>scottishterrier_new.png</file>
     </qresource>
 </RCC>
