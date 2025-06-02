@@ -53,6 +53,9 @@ namespace Monopoly {
 
             virtual int randomNumber();
 
+        protected:
+            bool shuffleEventCards = true;
+
         public:
             Game();
             Game(const Game& secGame);
