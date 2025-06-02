@@ -16,9 +16,10 @@ namespace Monopoly {
 
         try {
             setEventCards();
-
-            communityChests.shuffle();
-            chances.shuffle();
+            if (shuffleEventCards) {
+                communityChests.shuffle();
+                chances.shuffle();
+            }
 
             communityChestsCounter = communityChests.length();
             chancesCounter = chances.length();
