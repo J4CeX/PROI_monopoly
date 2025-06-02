@@ -6,7 +6,7 @@
 
 using namespace Monopoly;
 
-class TestGame : public Monopoly::Game {
+class TestGame : public Game {
     protected:
         int randomNumber() override {
             if (rollIndex < nextRolls.size()) {
@@ -225,4 +225,72 @@ TEST(GameTests, rollDiceAndMovePlayer) {
     game.rollDice();
     gamePlayers = game.getPlayers();
     ASSERT_EQ(gamePlayers[1].getPosition(), 15);
+}
+
+TEST(GameTests, diceDouble) {
+    TestGame game;
+    Player firstPlayer(1, "test1", Token::cat);
+    Player secondPlayer(2, "test2", Token::penguin);
+    game.addPlayer(firstPlayer);
+    game.addPlayer(secondPlayer);
+    std::vector<Player> gamePlayers;
+
+    ASSERT_EQ(game.getCurrentPlayerId(), 1);
+    game.setNextRoll(3, 3);
+    game.rollDice();
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[0].getPosition(), 6);
+    game.findNextPlayer();
+
+    ASSERT_EQ(game.getCurrentPlayerId(), 1);
+    game.setNextRoll(1, 1);
+    game.rollDice();
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[0].getPosition(), 8);
+    game.findNextPlayer();
+
+    // JAIL
+    ASSERT_EQ(game.getCurrentPlayerId(), 1);
+    game.setNextRoll(5, 5);
+    game.rollDice();
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[0].getPosition(), 10);
+    game.findNextPlayer();
+
+    ASSERT_EQ(game.getCurrentPlayerId(), 2);
+    game.setNextRoll(2, 3);
+    game.rollDice();
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[1].getPosition(), 5);
+    game.findNextPlayer();
+
+    ASSERT_EQ(game.getCurrentPlayerId(), 1);
+    game.setNextRoll(3, 2);
+    game.rollDice();
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[0].getPosition(), 10);
+    game.findNextPlayer();
+
+    ASSERT_EQ(game.getCurrentPlayerId(), 2);
+    game.setNextRoll(3, 2);
+    game.rollDice();
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[1].getPosition(), 10);
+    game.findNextPlayer();
+
+    ASSERT_EQ(game.getCurrentPlayerId(), 1);
+    game.setNextRoll(3, 3);
+    game.rollDice();
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[0].getPosition(), 16);
+    game.findNextPlayer();
+
+    ASSERT_EQ(game.getCurrentPlayerId(), 1);
+    game.setNextRoll(3, 2);
+    game.rollDice();
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[0].getPosition(), 21);
+    game.findNextPlayer();
+
+    ASSERT_EQ(game.getCurrentPlayerId(), 2);
 }
