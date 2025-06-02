@@ -488,3 +488,15 @@ TEST(GameTests, purchaseHouse) {
     ASSERT_EQ(street->getRent(), 400);
     ASSERT_EQ(street->getHouseCount(), 4);
 }
+
+TEST(GameTests, useGetOutOfJailCard) {
+
+}
+
+TEST(GameTests, executeEventCard) {
+
+}
+
+TEST(GameTests, finishGame) {
+
+}
