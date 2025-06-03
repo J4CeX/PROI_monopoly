@@ -67,7 +67,7 @@ class EventCard {
 		bool isGoFieldCollectable() const { return goFieldCollectable_; };
 		bool isGetOutOfJailFree() const { return isGetOutOfJailFree_; };
 
-        unsigned int movementTarget(const unsigned int currentField, const unsigned int fieldCount) const;
+        unsigned int movementTarget(unsigned int currentField, unsigned int fieldCount) const;
 
         friend std::istream& operator>>(std::istream& is, EventCard& ec);
         friend std::ostream& operator<<(std::ostream& os, const EventCard& ec);
