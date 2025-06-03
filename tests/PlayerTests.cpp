@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "Player.hpp"
+#include <sstream>
 
 using namespace MonopolyPlayer;
 
@@ -50,4 +51,25 @@ TEST(PlayerTests, checkIfBankrupt) {
     ASSERT_FALSE(player.checkIfBankrupt());
     player.setBalance(-1);
     ASSERT_TRUE(player.checkIfBankrupt());
+}
+
+TEST(PlayerTests, InputConstructor) {
+    Player player;
+    std::istringstream iss("1 5 200 0 20 3 1 player");
+    iss >> player;
+    EXPECT_EQ(player.getPlayerId(), 1);
+    EXPECT_EQ(player.getName(), "player");
+    EXPECT_EQ(player.getToken(), Token::cat);
+    EXPECT_EQ(player.getBalance(), 200);
+    ASSERT_FALSE(player.getIsBankrupt());
+    EXPECT_EQ(player.getPosition(), 20);
+    EXPECT_EQ(player.getInJailRounds(), 3);
+    ASSERT_TRUE(player.getGetOutOfJailCard());
+}
+
+TEST(PlayerTests, Output) {
+    Player player(1, "player", Token::cat);
+    std::ostringstream oss;
+    oss << player;
+    ASSERT_EQ(oss.str(), "1 5 500 0 0 0 0 player");
 }
