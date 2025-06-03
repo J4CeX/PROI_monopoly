@@ -537,7 +537,7 @@ namespace Monopoly {
 
     bool Game::load() {
         std::ifstream file(savePath);
-        if (!file.good() || file.eof()) {
+        if (!file.good() || std::filesystem::file_size(savePath) == 0) {
             return false;
         }
         file >> this;

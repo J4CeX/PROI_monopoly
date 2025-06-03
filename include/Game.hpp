@@ -6,6 +6,7 @@
 #include "EventCardContainer.hpp"
 #include <memory>
 #include <fstream>
+#include <filesystem>
 
 using namespace Fields;
 using namespace Events;
