@@ -19,6 +19,7 @@ namespace Monopoly {
         private:
             bool filled;
             bool isFinished;
+            bool shuffleEventCards_;
 
             // Randomness source
             std::random_device randomDevice;
@@ -53,11 +54,8 @@ namespace Monopoly {
 
             virtual int randomNumber();
 
-        protected:
-            bool shuffleEventCards = true;
-
         public:
-            Game();
+            Game(bool shuffleEventCards = true);
             Game(const Game& secGame);
             Game& operator=(const Game& secGame);
             Game(Game&& secGame);
