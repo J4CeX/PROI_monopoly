@@ -531,7 +531,7 @@ namespace Monopoly {
         if (!file.good()) {
             return false;
         }
-        file << this;
+        file << *this;
         return true;
     }
 
@@ -540,7 +540,7 @@ namespace Monopoly {
         if (!file.good() || std::filesystem::file_size(savePath) == 0) {
             return false;
         }
-        file >> this;
+        file >> *this;
         return true;
     }
 
@@ -557,12 +557,11 @@ namespace Monopoly {
             << game.dice.first << " "
             << game.dice.second << " "
             << game.diceDoubleCounter << " "
-            << game.currentEvent << " "
-            << game.isFinished << endl;
+            << (game.isFinished? 1: 0) << endl;
 
         for (const auto& field: game.fields) {
             if (OwnableField* ownableField = dynamic_cast<OwnableField*>(field.get())) {
-                os << ownableField << endl;
+                os << *ownableField << endl;
             }
         }
 
@@ -583,7 +582,6 @@ namespace Monopoly {
             >> game.dice.first
             >> game.dice.second
             >> game.diceDoubleCounter
-            >> game.currentEvent
             >> game.isFinished;
 
         for (int i = 0; i < 28; i++) {
