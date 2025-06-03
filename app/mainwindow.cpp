@@ -380,12 +380,6 @@ void MainWindow::onFinishedGameSignal(const QString& winnerName)
     }
 }
 
-void MainWindow::on_push_go_bankrupt_clicked()
-{
-    controller->goBankrupt();
-    this->updatePlayerLabels();
-}
-
 void MainWindow::loadButtons()
 {
     ui->push_new_game->setFixedSize(300, 75);

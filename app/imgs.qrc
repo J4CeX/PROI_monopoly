@@ -1,11 +1,5 @@
 <RCC>
     <qresource prefix="/board">
-        <file>monopoly_map.png</file>
-        <file>pawn.png</file>
-        <file>racecar.png</file>
-        <file>tophat.png</file>
-        <file>thimble.png</file>
-        <file>scottishterrier.png</file>
         <file>button_start.png</file>
         <file>button_start_hover.png</file>
         <file>button_options.png</file>
@@ -16,10 +10,14 @@
         <file>button_exit_hover.png</file>
         <file>background.png</file>
         <file>monopoly_logo.png</file>
+        <file>racecar.png</file>
+        <file>tophat.png</file>
+        <file>thimble.png</file>
+        <file>scottishterrier.png</file>
+        <file>sackofmoney.png</file>
+        <file>cat.png</file>
+        <file>penguin.png</file>
+        <file>rubberduck.png</file>
         <file>monopoly_board.png</file>
-        <file>racecar_new.png</file>
-        <file>tophat_new.png</file>
-        <file>thimble_new.png</file>
-        <file>scottishterrier_new.png</file>
     </qresource>
 </RCC>

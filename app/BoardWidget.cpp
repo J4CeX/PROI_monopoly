@@ -8,13 +8,21 @@ BoardWidget::BoardWidget(QWidget *parent) : QWidget(parent) {
 QPixmap BoardWidget::pixmapForToken(Token token) {
     switch (token) {
         case Token::raceCar:
-            return QPixmap(":/board/racecar_new.png").scaled(50, 50, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            return QPixmap(":/board/racecar.png").scaled(50, 50, Qt::KeepAspectRatio, Qt::SmoothTransformation);
         case Token::topHat:
-            return QPixmap(":/board/tophat_new.png").scaled(50, 50, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            return QPixmap(":/board/tophat.png").scaled(50, 50, Qt::KeepAspectRatio, Qt::SmoothTransformation);
         case Token::thimble:
-            return QPixmap(":/board/thimble_new.png").scaled(50, 50, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            return QPixmap(":/board/thimble.png").scaled(50, 50, Qt::KeepAspectRatio, Qt::SmoothTransformation);
         case Token::scottishTerrier:
-            return QPixmap(":/board/scottishterrier_new.png").scaled(50, 50, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            return QPixmap(":/board/scottishterrier.png").scaled(50, 50, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        case Token::sackOfMoney:
+            return QPixmap(":/board/sackofmoney.png").scaled(50, 50, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        case Token::cat:
+            return QPixmap(":/board/cat.png").scaled(50, 50, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        case Token::penguin:
+            return QPixmap(":/board/penguin.png").scaled(50, 50, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        case Token::rubberDuck:
+            return QPixmap(":/board/rubberduck.png").scaled(50, 50, Qt::KeepAspectRatio, Qt::SmoothTransformation);
         default:
             return QPixmap(); // pusty pixmap na wypadek błędu
     }

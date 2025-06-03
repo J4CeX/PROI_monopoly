@@ -420,12 +420,6 @@ void GameController::buyField()
     emit triedBuyField(code, q_field);
 }
 
-void GameController::goBankrupt()
-{
-    size_t player_id = static_cast<size_t>(this->getCurrentPlayerIndex()-1);
-    this->_game.goCurrentPlayerBankrupt();
-}
-
 void GameController::finishedGame(Player winner)
 {
     emit finishedGameSignal(QString::fromStdString(winner.getName()));
