@@ -20,7 +20,7 @@ class TestGame : public Game {
         size_t rollIndex = 0;
 
     public:
-        TestGame() : Game(false) {};
+        TestGame(): Game(false) {};
         void setNextRoll(int first, int second) {
             nextRolls = {first, second};
             rollIndex = 0;
@@ -669,6 +669,44 @@ TEST(GameTests, executeEventCard) {
     std::vector<Player> gamePlayers;
 
     EventCardContainer chances = game.getChances();
+    EventCardContainer communityChests = game.getCommunityChests();
     ASSERT_EQ(chances[0].getCardId(), 0);
     ASSERT_EQ(chances[15].getCardId(), 15);
+    ASSERT_EQ(communityChests[0].getCardId(), 0);
+    ASSERT_EQ(communityChests[15].getCardId(), 15);
+
+    ASSERT_EQ(game.getCurrentPlayerId(), 1);
+    game.setNextRoll(1, 1);
+    game.rollDice();
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[0].getPosition(), 2);
+    EventCard currentEventCard = communityChests[15];
+    ASSERT_EQ(game.getCurrentEvent().getCardId(), currentEventCard.getCardId());
+    ASSERT_EQ(game.getCurrentEvent().getCardType(), currentEventCard.getCardType());
+    ASSERT_EQ(gamePlayers[0].getBalance(), 600);
+
+    game.findNextPlayer();
+
+    ASSERT_EQ(game.getCurrentPlayerId(), 1);
+    game.setNextRoll(2, 3);
+    game.rollDice();
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[0].getPosition(), 7);
+    currentEventCard = chances[15];
+    ASSERT_EQ(game.getCurrentEvent().getCardId(), currentEventCard.getCardId());
+    ASSERT_EQ(game.getCurrentEvent().getCardType(), currentEventCard.getCardType());
+    ASSERT_EQ(gamePlayers[0].getBalance(), 450);
+
+    game.findNextPlayer();
+
+    ASSERT_EQ(game.getCurrentPlayerId(), 2);
+    game.setNextRoll(1, 1);
+    game.rollDice();
+    gamePlayers = game.getPlayers();
+    currentEventCard = communityChests[14];
+    ASSERT_EQ(game.getCurrentEvent().getCardId(), currentEventCard.getCardId());
+    ASSERT_EQ(game.getCurrentEvent().getCardType(), currentEventCard.getCardType());
+    // ASSERT_EQ(gamePlayers[1].getPosition(), 39);
+    // ASSERT_EQ(gamePlayers[1].getBalance(), 700);
+    // niby teraz position = 9
 }
