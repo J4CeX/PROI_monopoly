@@ -6,6 +6,7 @@
 #include "EventCardContainer.hpp"
 #include <memory>
 #include <fstream>
+#include <filesystem>
 
 using namespace Fields;
 using namespace Events;
@@ -93,5 +94,11 @@ namespace Monopoly {
             int sellOwnableField(size_t& player, size_t& fieldPosition);
             bool getIsFinished() { return isFinished; }
             const EventCard& getCurrentEvent() { return currentEvent; }
+
+            bool save() const;
+            bool load();
+
+            friend std::ostream& operator<<(std::ostream& os, Game game);
+            friend std::istream& operator>>(std::istream& is, Game game);
     };
 }
