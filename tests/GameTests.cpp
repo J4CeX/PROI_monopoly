@@ -534,5 +534,42 @@ TEST(GameTests, executeEventCard) {
 }
 
 TEST(GameTests, finishGame) {
+    TestGame game;
+    Player firstPlayer(1, "test1", Token::cat);
+    Player secondPlayer(2, "test2", Token::penguin);
+    game.addPlayer(firstPlayer);
+    game.addPlayer(secondPlayer);
+    std::vector<Player> gamePlayers;
 
+    ASSERT_FALSE(game.getIsFinished());
+
+    ASSERT_EQ(game.getCurrentPlayerId(), 1);
+    game.setNextRoll(4, 2);
+    game.rollDice();
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[0].getPosition(), 6);
+    ASSERT_EQ(game.buyOwnableField(), 1);
+    size_t position = 6;
+    size_t playerIndex = 0;
+    ASSERT_EQ(game.playerBuyHouse(playerIndex, position), 2);
+    ASSERT_EQ(game.playerBuyHouse(playerIndex, position), 2);
+    ASSERT_EQ(game.playerBuyHouse(playerIndex, position), 2);
+    ASSERT_EQ(game.playerBuyHouse(playerIndex, position), 2);
+    ASSERT_EQ(game.playerBuyHouse(playerIndex, position), 2);
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[0].getBalance(), 150);
+    Street* street = dynamic_cast<Street*>(game.getFields()[6].get());
+    ASSERT_TRUE(street->isOwned());
+    ASSERT_EQ(street->getOwner(), 0);
+    ASSERT_EQ(street->getRent(), 550);
+
+    game.findNextPlayer();
+    ASSERT_EQ(game.getCurrentPlayerId(), 2);
+    game.setNextRoll(4, 2);
+    game.rollDice();
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[1].getPosition(), 6);
+    ASSERT_EQ(gamePlayers[1].getBalance(), -50);
+    game.findNextPlayer();
+    ASSERT_TRUE(game.getIsFinished());
 }
