@@ -122,6 +122,7 @@ void MainWindow::onStartedGame()
     ui->label_turn_number->setText(controller->getGameTurn());
     this->board->setPlayers(controller->getPlayers());
     this->updatePlayerLabels();
+    this->updatePlayersPositions();
 }
 
 void MainWindow::onBalanceChanged(int difference)
@@ -144,11 +145,12 @@ void MainWindow::on_push_back_clicked()
     ui->stackedInterface->setCurrentIndex(0);
 }
 
-void MainWindow::onRolledDice(const QString& results, const QString& field)
+void MainWindow::onRolledDice(const QString& results)
 {
     this->updatePlayerLabels();
+    std::cout << "updated player labels, popup should show now" << std::endl;
+    this->updatePlayersPositions();
     ui->label_dice_result->setText(results);
-    ui->label_field_p->setText(field);
     ui->push_roll_dice->setEnabled(false);
     ui->push_finish_round->setEnabled(true);
 }
@@ -212,7 +214,10 @@ void MainWindow::updatePlayerLabels()
     ui->label_token_p->setText(controller->currentPlayerToken());
     ui->label_field_p->setText(controller->currentPlayerField());
     this->updatePlayerOwnedFields();
-                                           
+}
+
+void MainWindow::updatePlayersPositions()
+{
     for(Player player : controller->getPlayers())
     {
         int idx = player.getPlayerId()-1;
@@ -237,9 +242,9 @@ void MainWindow::on_push_finish_round_clicked()
 {
     controller->findNextPlayer();
     this->updatePlayerLabels();
+    std::cout << "pushed finish round, popup shouldnt show" << std::endl;
     ui->frame_field_info->hide();
     ui->label_dice_result->clear();
-    ui->label_field_p->setText(controller->currentPlayerField());
     ui->push_roll_dice->setEnabled(true);
     ui->push_finish_round->setEnabled(false);
     ui->push_buy_field->setEnabled(false);
@@ -258,6 +263,7 @@ void MainWindow::on_push_buy_field_clicked()
 {
     controller->buyField();
     this->updatePlayerLabels();
+    std::cout<<"2"<<std::endl;
 }
 
 void MainWindow::on_list_owned_fields_itemClicked(QListWidgetItem *item)
@@ -318,6 +324,7 @@ void MainWindow::updateOfLabels(int fieldIndex)
         ui->label_of_houses->setText("5 (max)");
     }
     this->updatePlayerLabels();
+    std::cout<<"1"<<std::endl;
 }
 
 void MainWindow::on_push_of_back_clicked()

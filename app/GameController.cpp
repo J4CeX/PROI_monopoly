@@ -112,9 +112,8 @@ void GameController::rollDice()
     int r1 = _game.getDice().first, r2 = _game.getDice().second;
     std::string results = std::to_string(r1) + " " + std::to_string(r2); 
     QString q_results = QString::fromStdString(results);
-    QString q_field = this->currentPlayerField();
     
-    emit rolledDice(q_results, q_field);
+    emit rolledDice(q_results);
 }
 
 QString GameController::getPlayerAmount() const
@@ -258,6 +257,11 @@ QString GameController::currentPlayerField()
         if(const Jail* jail = dynamic_cast<const Jail*>(&current_field))
         {
             q_field = "Jail!";
+            if(this->_playerMoved)
+            {
+                if(current_player.getInJailRounds()) emit currentEvent("Trafiłeś do więzienia! Poczekaj 3 tury lub wyrzuć dublet.");
+                emit currentEvent("Odwiedzasz więzienie.");
+            }
         }
     }
     else if(current_type == TYPE::INCOMETAX)
@@ -265,6 +269,7 @@ QString GameController::currentPlayerField()
         if(const IncomeTax* incometax = dynamic_cast<const IncomeTax*>(&current_field))
         {
             q_field = "Income tax!";
+            if(this->_playerMoved) emit currentEvent("Podatek dochodowy! Płacisz 200zł.");
         }
     }
     else if(current_type == TYPE::PARKING)
@@ -272,6 +277,7 @@ QString GameController::currentPlayerField()
         if(const Parking* parking = dynamic_cast<const Parking*>(&current_field))
         {
             q_field = "Parking!";
+            if(this->_playerMoved) emit currentEvent("Bezpłatny parking.");
         }
     }
     else if(current_type == TYPE::LUXURYTAX)
@@ -279,6 +285,7 @@ QString GameController::currentPlayerField()
         if(const LuxuryTax* luxurytax = dynamic_cast<const LuxuryTax*>(&current_field))
         {
             q_field = "Luxury tax!";
+            if(this->_playerMoved) emit currentEvent("Podatek od zbytku! Płacisz 100zł.");
         }
     }
     else if(current_type == TYPE::STARTFIELD)
@@ -286,6 +293,7 @@ QString GameController::currentPlayerField()
         if(const StartField* startfield = dynamic_cast<const StartField*>(&current_field))
         {
             q_field = "Start!";
+            if(this->_playerMoved) emit currentEvent("Witamy na starcie!");
         }
     }
     return q_field;

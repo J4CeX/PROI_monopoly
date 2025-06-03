@@ -21,6 +21,7 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     void updatePlayerLabels();
+    void updatePlayersPositions();
     void updatePlayerOwnedFields();
     void updateOfLabels(int fieldIndex);
 
@@ -42,7 +43,7 @@ private slots:
 
     void onTriedBuyField(int code, const QString& q_field);
 
-    void onRolledDice(const QString& results, const QString& field);
+    void onRolledDice(const QString& results);
 
     void onBalanceChanged(int difference);
 

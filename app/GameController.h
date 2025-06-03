@@ -58,7 +58,7 @@ signals:
     void failAddedPlayer(const QString& msg);
     void fail(const QString& msg);
     void startedGame();
-    void rolledDice(const QString& results, const QString& field);
+    void rolledDice(const QString& results);
     void isBuyableField(bool isBuyable, int cost);
     void triedBuyField(int code, const QString& q_field);
     void balanceChanged(int difference);
