@@ -113,6 +113,8 @@ void MainWindow::onTriedBuyField(int code, const QString& q_field)
 void MainWindow::onStartedGame()
 {
     ui->stackedInterface->setCurrentIndex(3);
+    ui->label_dice_result->setText("");
+    ui->label_field_cost->setText("");
     ui->frame_field_info->hide();
     ui->push_finish_round->setEnabled(false);
     ui->push_buy_field->setEnabled(false);
@@ -208,6 +210,7 @@ void MainWindow::updatePlayerLabels()
     ui->label_current_p->setText(controller->currentPlayerName());
     ui->label_balance_p->setText(controller->currentPlayerBalance() + " zł");
     ui->label_token_p->setText(controller->currentPlayerToken());
+    ui->label_field_p->setText(controller->currentPlayerField());
     this->updatePlayerOwnedFields();
                                            
     for(Player player : controller->getPlayers())
