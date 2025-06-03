@@ -573,3 +573,94 @@ TEST(GameTests, finishGame) {
     game.findNextPlayer();
     ASSERT_TRUE(game.getIsFinished());
 }
+
+TEST(GameTests, FinancialFields) {
+    TestGame game;
+    Player firstPlayer(1, "test1", Token::cat);
+    Player secondPlayer(2, "test2", Token::penguin);
+    game.addPlayer(firstPlayer);
+    game.addPlayer(secondPlayer);
+    std::vector<Player> gamePlayers;
+
+    ASSERT_EQ(game.getCurrentPlayerId(), 1);
+    game.setNextRoll(6, 6);
+    game.rollDice();
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[0].getPosition(), 12);
+
+    game.findNextPlayer();
+
+    ASSERT_EQ(game.getCurrentPlayerId(), 1);
+    game.setNextRoll(6, 6);
+    game.rollDice();
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[0].getPosition(), 24);
+
+    game.findNextPlayer();
+
+    ASSERT_EQ(game.getCurrentPlayerId(), 1);
+    game.setNextRoll(5, 6);
+    game.rollDice();
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[0].getPosition(), 35);
+
+    game.findNextPlayer();
+
+    ASSERT_EQ(game.getCurrentPlayerId(), 2);
+    game.setNextRoll(1, 3);
+    game.rollDice();
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[1].getPosition(), 4);
+    ASSERT_EQ(gamePlayers[1].getBalance(), 300);
+
+    game.findNextPlayer();
+
+    ASSERT_EQ(game.getCurrentPlayerId(), 1);
+    game.setNextRoll(2, 1);
+    game.rollDice();
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[0].getPosition(), 38);
+    ASSERT_EQ(gamePlayers[0].getBalance(), 400);
+
+    game.findNextPlayer();
+
+    ASSERT_EQ(game.getCurrentPlayerId(), 2);
+    game.setNextRoll(6, 6);
+    game.rollDice();
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[1].getPosition(), 16);
+
+    game.findNextPlayer();
+
+    ASSERT_EQ(game.getCurrentPlayerId(), 2);
+    game.setNextRoll(6, 6);
+    game.rollDice();
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[1].getPosition(), 28);
+
+    game.findNextPlayer();
+
+    ASSERT_EQ(game.getCurrentPlayerId(), 2);
+    game.setNextRoll(4, 5);
+    game.rollDice();
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[1].getPosition(), 37);
+
+    game.findNextPlayer();
+
+    ASSERT_EQ(game.getCurrentPlayerId(), 1);
+    game.setNextRoll(2, 1);
+    game.rollDice();
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[0].getPosition(), 1);
+    ASSERT_EQ(gamePlayers[0].getBalance(), 600);
+
+    game.findNextPlayer();
+
+    ASSERT_EQ(game.getCurrentPlayerId(), 2);
+    game.setNextRoll(1, 2);
+    game.rollDice();
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[1].getPosition(), 0);
+    ASSERT_EQ(gamePlayers[1].getBalance(), 500);
+}
