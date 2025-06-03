@@ -98,7 +98,7 @@ namespace Monopoly {
             bool save() const;
             bool load();
 
-            friend std::ostream& operator<<(std::ostream& os, Game game);
-            friend std::istream& operator>>(std::istream& is, Game game);
+            friend std::ostream& operator<<(std::ostream& os, const Game& game);
+            friend std::istream& operator>>(std::istream& is, Game& game);
     };
 }
