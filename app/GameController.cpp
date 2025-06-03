@@ -42,7 +42,7 @@ void GameController::saveSettings(const QString& bankMoneyStr, const QString& pl
         emit validationError("Incorrect initial player money value");
         return;
     }
-    
+
     emit settingsSaved(true);
 }
 
@@ -75,7 +75,7 @@ void GameController::addPlayer(const QString& playerName, const QString& tokenTe
     if(p_name_std.empty())
     {
         emit failAddedPlayer("Player name cannot be empty!");
-        
+
         return;
     }
     try
@@ -91,7 +91,7 @@ void GameController::addPlayer(const QString& playerName, const QString& tokenTe
     catch(const std::exception& e)
     {
         emit failAddedPlayer(e.what());
-        
+
     }
 }
 
@@ -110,10 +110,10 @@ void GameController::rollDice()
     }
 
     int r1 = _game.getDice().first, r2 = _game.getDice().second;
-    std::string results = std::to_string(r1) + " " + std::to_string(r2); 
+    std::string results = std::to_string(r1) + " " + std::to_string(r2);
     QString q_results = QString::fromStdString(results);
     QString q_field = this->currentPlayerField();
-    
+
     emit rolledDice(q_results, q_field);
 }
 
@@ -147,7 +147,7 @@ QString GameController::currentPlayerName() const
 Player GameController::getPlayer(int idx) const
 {
     return this->_game.getPlayers()[idx];
-    
+
 }
 
 QString GameController::currentPlayerBalance() const
@@ -157,7 +157,7 @@ QString GameController::currentPlayerBalance() const
     int player_balance = current_player.getBalance();
     QString q_player_balance = QString::number(player_balance);
     return q_player_balance;
-    
+
 }
 
 QString GameController::currentPlayerPosition() const
@@ -215,7 +215,7 @@ QString GameController::currentPlayerField()
     const auto& fields = this->_game.getFields();
     const auto& current_field = *(fields[current_player.getPosition()]);
     TYPE current_type = current_field.getInfo();
-    
+
     QString q_field = "";
     if(current_type == TYPE::STREET || current_type == TYPE::STATION || current_type == TYPE::UTILITY)
     {

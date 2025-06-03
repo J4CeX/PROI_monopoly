@@ -1,5 +1,4 @@
 #pragma once
-#include <QObject>
 #include <QSettings>
 #include <QString>
 #include "Game.hpp"
@@ -10,12 +9,12 @@
 
 using namespace Monopoly;
 
-class GameController : public QObject
+class GameController //: public QObject
 {
-    Q_OBJECT
-    
+    // Q_OBJECT
+
 public:
-    explicit GameController(QObject *parent = nullptr);
+    // explicit GameController(QObject *parent = nullptr);
 
     int selectedFieldIndex = -1;
 
@@ -36,7 +35,7 @@ public:
     std::vector<Player> getPlayers() const { return this->_game.getPlayers(); };
     QString getGameTurn() const;
     QStringList getOwnedFieldInfo(int position);
-    
+
 public slots:
     void saveSettings(const QString& bankMoney, const QString& playerName);
     void startNewGame();
@@ -49,7 +48,7 @@ public slots:
     int sellOfHouse(int pos);
     int ofMortgage(int pos);
     int ofUnmortgage(int pos);
-    
+
 signals:
     void settingsSaved(bool success);
     void validationError(const QString& message);
@@ -64,7 +63,7 @@ signals:
     void balanceChanged(int difference);
     void currentEvent(const QString& eventText);
     void finishedGameSignal(const QString& winnerName);
-    
+
 private:
     Game _game;
     int _newestPlayerId = 1;

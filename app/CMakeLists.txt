@@ -21,5 +21,4 @@ set_target_properties(boardgame PROPERTIES
     MACOSX_BUNDLE OFF
 )
 
-include_directories(${PROJECT_SOURCE_DIR}/app/include)
 
