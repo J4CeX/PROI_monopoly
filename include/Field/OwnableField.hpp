@@ -28,11 +28,7 @@ namespace Fields {
             int setOwner(const size_t newOwner);
             int removeOwner();
             void setTrespassingFee(int newRent) { trespassingFee = newRent; }
-            virtual std::string save() const {
-                std::stringstream ss;
-                ss << position << " " << owner << " " << (mortgaged? 1: 0);
-                return ss.str();
-            }
+            virtual std::string save() const;
             virtual ~OwnableField() = default;
             virtual std::istream& loadSave(std::istream& is);
             friend std::ostream& operator<<(std::ostream& os, const OwnableField& ownableField);

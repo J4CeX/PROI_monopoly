@@ -42,8 +42,14 @@ namespace Fields {
         return 0;
     }
 
+    std::string OwnableField::save() const {
+        std::stringstream ss;
+        ss << position << " " << owner << " " << (owned? 1: 0) << " " << (mortgaged? 1: 0);
+        return ss.str();
+    }
+
     std::istream& OwnableField::loadSave(std::istream& is) {
-        is >> owner >> mortgaged;
+        is >> owner >> owned >> mortgaged;
         return is;
     }
 
