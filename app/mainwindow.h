@@ -87,6 +87,8 @@ private slots:
 
     void on_push_of_unmortgage_clicked();
 
+    void on_push_load_clicked();
+
 private:
     Ui::MainWindow *ui;
     GameController* controller;

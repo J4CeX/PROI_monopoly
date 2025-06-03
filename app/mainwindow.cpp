@@ -255,6 +255,8 @@ void MainWindow::on_push_finish_round_clicked()
 
 void MainWindow::on_push_exit_game_clicked()
 {
+    int code = controller->saveGame();
+    std::cout << code << std::endl;
     ui->stackedInterface->setCurrentIndex(0);
 }
 
@@ -449,3 +451,9 @@ void MainWindow::loadButtons()
         "}"
     );
 }
+void MainWindow::on_push_load_clicked()
+{
+    int code = controller->loadGame();
+    if(code) this->onStartedGame();
+}
+

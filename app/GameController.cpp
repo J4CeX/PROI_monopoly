@@ -23,6 +23,20 @@ using namespace MonopolyPlayer;
 
 GameController::GameController(QObject *parent): QObject(parent) { }
 
+int GameController::loadGame()
+{
+    Game loadedGame;
+    int code = loadedGame.load();
+    if(code) this->_game = loadedGame;
+    return code;
+}
+
+int GameController::saveGame()
+{
+    int code = this->_game.save();
+    return code;
+}
+
 void GameController::saveSettings(const QString& bankMoneyStr, const QString& playerMoneyStr)
 {
     bool ok;

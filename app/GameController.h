@@ -48,6 +48,8 @@ public slots:
     int sellOfHouse(int pos);
     int ofMortgage(int pos);
     int ofUnmortgage(int pos);
+    int loadGame();
+    int saveGame();
     
 signals:
     void settingsSaved(bool success);
