@@ -96,11 +96,11 @@ bool Player::checkIfBankrupt() {
 
 // Serialization for Player
 std::ostream& operator<<(std::ostream& os, const Player& p) {
-	os << p.playerId_ << p.token_
-	   << p.balance_
-	   << std::noboolalpha << p.isBankrupt_
-	   << p.position_ << p.inJailRounds_
-	   << p.hasGetOutOfJailCard_
+	os << p.playerId_ << " " << p.token_ << " "
+	   << p.balance_ << " "
+	   << std::noboolalpha << p.isBankrupt_ << " "
+	   << p.position_ << " " << p.inJailRounds_ << " "
+	   << p.hasGetOutOfJailCard_ << " "
 	   << p.name_ << std::endl;
 
 	return os;
