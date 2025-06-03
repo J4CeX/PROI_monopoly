@@ -45,7 +45,7 @@
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap resource="imgs.qrc">:/board/monopoly_logo.png</pixmap>
+       <pixmap resource="images/imgs.qrc">:/board/monopoly_logo.png</pixmap>
       </property>
       <property name="wordWrap">
        <bool>false</bool>
@@ -1213,7 +1213,7 @@
   </widget>
  </widget>
  <resources>
-  <include location="imgs.qrc"/>
+  <include location="images/imgs.qrc"/>
  </resources>
  <connections/>
 </ui>
