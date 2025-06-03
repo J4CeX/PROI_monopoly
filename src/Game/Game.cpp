@@ -1,11 +1,11 @@
 #include "Game.hpp"
 
 namespace Monopoly {
-    Game::Game():
+    Game::Game(bool shuffleEventCards):
     turnCounter(0), currentPlayer(0), dice(0, 0),
     diceDoubleCounter(0), filled(false),
     randomDevice(), gen(randomDevice()), distribution(1, 6),
-    isFinished(false) {
+    isFinished(false), shuffleEventCards_(shuffleEventCards) {
         try {
             setFields();
         }
@@ -118,6 +118,7 @@ namespace Monopoly {
         // If player in jail and rolled a dublet - get out of jail
         if (diceDoubleCounter > 0 && players[currentPlayer].getInJailRounds() > 0) {
             players[currentPlayer].setInJailRounds(0);
+            players[currentPlayer].setGetOutOfJailCard(false);
         }
         else if (players[currentPlayer].getInJailRounds() > 0) {
             players[currentPlayer].setInJailRounds(players[currentPlayer].getInJailRounds() - 1);
@@ -251,7 +252,7 @@ namespace Monopoly {
                     }
                 }
                 if (OwnableField* ownableField = dynamic_cast<OwnableField*>(field.get())) {
-                    if (ownableField->isOwned()) {
+                    if (!ownableField->isOwned()) {
                         return -2;
                     }
                     else {
@@ -261,6 +262,7 @@ namespace Monopoly {
                                 price /= 2;
                             }
                             players[player].setBalance(players[player].getBalance() + price);
+                            ownableField->unmortgage();
                             ownableField->removeOwner();
                             return 1;
                         }
@@ -522,5 +524,15 @@ namespace Monopoly {
             size_t targetField = eventCard.movementTarget(players[currentPlayer].getPosition(), fields.size());
             movePlayer(targetField, eventCard.isGoFieldCollectable());
         }
+    }
+
+    std::ostream& operator<<(std::ostream& os, Game game) {
+
+        return os;
+    }
+
+    std::istream& operator>>(std::istream& is, Game game) {
+
+        return is;
     }
 }

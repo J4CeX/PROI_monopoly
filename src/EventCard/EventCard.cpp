@@ -2,14 +2,22 @@
 
 namespace Events {
 
-unsigned int EventCard::movementTarget(const unsigned int currentField, const unsigned int fieldCount) const {
+unsigned int EventCard::movementTarget(unsigned int currentField, unsigned int fieldCount) const {
+    int out = 0;
+
     if (movement_ == MovementType::relativeForward) {
-        return (currentField + location_) % fieldCount;
+        out = (currentField + location_) % fieldCount;
     } else if (movement_ == MovementType::relativeBackward) {
-        return (currentField - location_) % fieldCount;
+        out = (signed)(currentField - location_);
+
+        if (out < 0) {
+            out += fieldCount;
+        }
     } else { // if (movement_ == MovementType::absolute) {
-        return location_ % fieldCount;
+        out = location_ % fieldCount;
     }
+
+    return out;
 }
 
 // Serialization for MovementType

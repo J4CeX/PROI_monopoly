@@ -35,9 +35,10 @@ namespace Fields {
             ~Street() = default;
             friend std::istream& operator>>(std::istream& is, Street& street) {
                 std::string curColor;
-                is >> street.position >> street.purchasePrice >> street.trespassingFee
-                    >> street.housesRent[0] >> street.housesRent[1] >> street.housesRent[2]
-                    >> street.housesRent[3] >> street.housesRent[4] >> curColor >> std::ws;
+                is >> street.position >> street.purchasePrice >> street.housesRent[0]
+                    >> street.housesRent[1] >> street.housesRent[2] >> street.housesRent[3]
+                    >> street.housesRent[4] >> street.housesRent[5] >> curColor >> std::ws;
+                street.trespassingFee = street.housesRent[0];
                 if (curColor == "Brown") {
                     street.color = Color::Brown;
                 }

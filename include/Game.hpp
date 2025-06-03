@@ -19,6 +19,7 @@ namespace Monopoly {
         private:
             bool filled;
             bool isFinished;
+            bool shuffleEventCards_;
 
             // Randomness source
             std::random_device randomDevice;
@@ -53,11 +54,8 @@ namespace Monopoly {
 
             virtual int randomNumber();
 
-        protected:
-            bool shuffleEventCards = true;
-
         public:
-            Game();
+            Game(bool shuffleEventCards = true);
             Game(const Game& secGame);
             Game& operator=(const Game& secGame);
             Game(Game&& secGame);
@@ -95,5 +93,8 @@ namespace Monopoly {
             int sellOwnableField(size_t& player, size_t& fieldPosition);
             bool getIsFinished() { return isFinished; }
             const EventCard& getCurrentEvent() { return currentEvent; }
+
+            friend std::ostream& operator<<(std::ostream& os, Game game);
+            friend std::istream& operator>>(std::istream& is, Game game);
     };
 }
