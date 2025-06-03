@@ -2,7 +2,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)  # <- to jest kluczowe
 set(CMAKE_AUTOUIC ON)
 
-qt_add_resources(RESOURCES imgs.qrc)
+qt_add_resources(RESOURCES images/imgs.qrc)
 
 
 qt_add_executable(boardgame
