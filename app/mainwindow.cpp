@@ -148,7 +148,6 @@ void MainWindow::on_push_back_clicked()
 void MainWindow::onRolledDice(const QString& results)
 {
     this->updatePlayerLabels();
-    std::cout << "updated player labels, popup should show now" << std::endl;
     this->updatePlayersPositions();
     ui->label_dice_result->setText(results);
     ui->push_roll_dice->setEnabled(false);
@@ -242,7 +241,6 @@ void MainWindow::on_push_finish_round_clicked()
 {
     controller->findNextPlayer();
     this->updatePlayerLabels();
-    std::cout << "pushed finish round, popup shouldnt show" << std::endl;
     ui->frame_field_info->hide();
     ui->label_dice_result->clear();
     ui->push_roll_dice->setEnabled(true);
@@ -263,7 +261,6 @@ void MainWindow::on_push_buy_field_clicked()
 {
     controller->buyField();
     this->updatePlayerLabels();
-    std::cout<<"2"<<std::endl;
 }
 
 void MainWindow::on_list_owned_fields_itemClicked(QListWidgetItem *item)
@@ -324,7 +321,6 @@ void MainWindow::updateOfLabels(int fieldIndex)
         ui->label_of_houses->setText("5 (max)");
     }
     this->updatePlayerLabels();
-    std::cout<<"1"<<std::endl;
 }
 
 void MainWindow::on_push_of_back_clicked()

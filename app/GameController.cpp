@@ -106,7 +106,6 @@ void GameController::rollDice()
     if(old_bal != new_bal)
     {
         if(new_pos < old_pos) emit currentEvent("Przeszedłeś przez start. Otrzymujesz 200zł!");
-        else emit balanceChanged(new_bal - old_bal);
     }
 
     int r1 = _game.getDice().first, r2 = _game.getDice().second;
@@ -223,7 +222,18 @@ QString GameController::currentPlayerField()
             q_field = QString::fromStdString(ownablefield->getName());
             int cost = ownablefield->getPurchasePrice();
             if(!ownablefield->isOwned()) emit isBuyableField(true, cost);
-            else emit isBuyableField(false, cost);
+            else
+            {
+                emit isBuyableField(false, cost);
+                if(idx != ownablefield->getOwner() && this->_playerMoved)
+                {
+                    Player owner = this->getPlayer(ownablefield->getOwner());
+                    std::string oName = owner.getName();
+                    int rent = ownablefield->getRent();
+                    std::string msg = "Trafiłeś na pole gracza " + oName + " - płacisz czynsz w wysokości " + std::to_string(rent) + "zł!";
+                    emit currentEvent(QString::fromStdString(msg));
+                }
+            }
         }
     }
     else if(current_type == TYPE::CHANCEFIELD)
@@ -260,7 +270,7 @@ QString GameController::currentPlayerField()
             if(this->_playerMoved)
             {
                 if(current_player.getInJailRounds()) emit currentEvent("Trafiłeś do więzienia! Poczekaj 3 tury lub wyrzuć dublet.");
-                emit currentEvent("Odwiedzasz więzienie.");
+                else emit currentEvent("Odwiedzasz więzienie.");
             }
         }
     }
