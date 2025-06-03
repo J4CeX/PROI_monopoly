@@ -1,5 +1,7 @@
 #pragma once
 #include "Field.hpp"
+#include <fstream>
+#include <sstream>
 
 namespace Fields {
     class OwnableField: public Field {
@@ -26,6 +28,9 @@ namespace Fields {
             int setOwner(const size_t newOwner);
             int removeOwner();
             void setTrespassingFee(int newRent) { trespassingFee = newRent; }
+            virtual std::string save() const;
             virtual ~OwnableField() = default;
+            virtual std::istream& loadSave(std::istream& is);
+            friend std::ostream& operator<<(std::ostream& os, const OwnableField& ownableField);
     };
 }

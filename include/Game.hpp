@@ -94,6 +94,9 @@ namespace Monopoly {
             bool getIsFinished() { return isFinished; }
             const EventCard& getCurrentEvent() { return currentEvent; }
 
+            bool save() const;
+            bool load();
+
             friend std::ostream& operator<<(std::ostream& os, Game game);
             friend std::istream& operator>>(std::istream& is, Game game);
     };

@@ -32,6 +32,8 @@ namespace Fields {
             std::unique_ptr<Field> clone() const override { return std::make_unique<Street>(*this); }
             int purchaseHouse();
             int sellHouse();
+            std::string save() const override;
+            std::istream& loadSave(std::istream& is) override;
             ~Street() = default;
             friend std::istream& operator>>(std::istream& is, Street& street) {
                 std::string curColor;

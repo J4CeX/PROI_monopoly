@@ -526,12 +526,84 @@ namespace Monopoly {
         }
     }
 
+    bool Game::save() const {
+        std::ofstream file(savePath);
+        if (!file.good()) {
+            return false;
+        }
+        file << this;
+        return true;
+    }
+
+    bool Game::load() {
+        std::ifstream file(savePath);
+        if (!file.good() || file.eof()) {
+            return false;
+        }
+        file >> this;
+        return true;
+    }
+
     std::ostream& operator<<(std::ostream& os, Game game) {
+        using std::endl;
+
+        os << game.players.size() << endl;
+        for (const auto& player: game.players) {
+            os << player;
+        }
+
+        os << game.currentPlayer << " "
+            << game.turnCounter << " "
+            << game.dice.first << " "
+            << game.dice.second << " "
+            << game.diceDoubleCounter << " "
+            << game.currentEvent << " "
+            << game.isFinished << endl;
+
+        for (const auto& field: game.fields) {
+            if (OwnableField* ownableField = dynamic_cast<OwnableField*>(field.get())) {
+                os << ownableField << endl;
+            }
+        }
 
         return os;
     }
 
     std::istream& operator>>(std::istream& is, Game game) {
+        int playerCounter;
+        is >> playerCounter;
+        for (int i = 0; i < playerCounter; i++) {
+            Player newPlayer;
+            is >> newPlayer;
+            game.addPlayer(newPlayer);
+        }
+
+        is >> game.currentPlayer
+            >> game.turnCounter
+            >> game.dice.first
+            >> game.dice.second
+            >> game.diceDoubleCounter
+            >> game.currentEvent
+            >> game.isFinished;
+
+        for (int i = 0; i < 28; i++) {
+            int currentPosition;
+            is >> currentPosition;
+            for (auto& field: game.fields) {
+                if (currentPosition == field->getPosition()) {
+                    if (Street* street = dynamic_cast<Street*>(field.get())) {
+                        street->loadSave(is);
+                    }
+                    else if (OwnableField* ownableField = dynamic_cast<OwnableField*>(field.get())) {
+                        ownableField->loadSave(is);
+                    }
+                    else {
+                        throw (std::invalid_argument("File error! Corrupted data in save.txt file!"));
+                    }
+                    break;
+                }
+            }
+        }
 
         return is;
     }
