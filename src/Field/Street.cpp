@@ -37,7 +37,7 @@ namespace Fields {
 
     std::string Street::save() const {
         std::stringstream ss;
-        ss << position << " " << owner << " " << (owned? 1: 0) << " " << (mortgaged? 1: 0) << houseCount;
+        ss << position << " " << owner << " " << (owned? 1: 0) << " " << (mortgaged? 1: 0) << " " << houseCount;
         return ss.str();
     }
 
