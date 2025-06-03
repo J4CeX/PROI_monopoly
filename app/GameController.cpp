@@ -23,7 +23,7 @@ using namespace MonopolyPlayer;
 
 GameController::GameController(QObject *parent): QObject(parent) { }
 
-int GameController::loadGame()
+bool GameController::loadGame()
 {
     Game loadedGame;
     int code = loadedGame.load();
@@ -31,7 +31,7 @@ int GameController::loadGame()
     return code;
 }
 
-int GameController::saveGame()
+bool GameController::saveGame()
 {
     int code = this->_game.save();
     return code;
