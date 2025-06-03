@@ -1,11 +1,11 @@
 #include "Game.hpp"
 
 namespace Monopoly {
-    Game::Game():
+    Game::Game(bool shuffleEventCards):
     turnCounter(0), currentPlayer(0), dice(0, 0),
     diceDoubleCounter(0), filled(false),
     randomDevice(), gen(randomDevice()), distribution(1, 6),
-    isFinished(false) {
+    isFinished(false), shuffleEventCards_(shuffleEventCards) {
         try {
             setFields();
         }
