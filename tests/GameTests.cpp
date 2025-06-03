@@ -20,8 +20,7 @@ class TestGame : public Game {
         size_t rollIndex = 0;
 
     public:
-        TestGame() : Game() {}
-        bool shuffleEventCards = false;
+        TestGame() : Game(false) {};
         void setNextRoll(int first, int second) {
             nextRolls = {first, second};
             rollIndex = 0;
@@ -529,10 +528,6 @@ TEST(GameTests, useGetOutOfJailCard) {
     ASSERT_FALSE(gamePlayers[0].getGetOutOfJailCard());
 }
 
-TEST(GameTests, executeEventCard) {
-
-}
-
 TEST(GameTests, finishGame) {
     TestGame game;
     Player firstPlayer(1, "test1", Token::cat);
@@ -663,4 +658,17 @@ TEST(GameTests, FinancialFields) {
     gamePlayers = game.getPlayers();
     ASSERT_EQ(gamePlayers[1].getPosition(), 0);
     ASSERT_EQ(gamePlayers[1].getBalance(), 500);
+}
+
+TEST(GameTests, executeEventCard) {
+    TestGame game;
+    Player firstPlayer(1, "test1", Token::cat);
+    Player secondPlayer(2, "test2", Token::penguin);
+    game.addPlayer(firstPlayer);
+    game.addPlayer(secondPlayer);
+    std::vector<Player> gamePlayers;
+
+    EventCardContainer chances = game.getChances();
+    ASSERT_EQ(chances[0].getCardId(), 0);
+    ASSERT_EQ(chances[15].getCardId(), 15);
 }
