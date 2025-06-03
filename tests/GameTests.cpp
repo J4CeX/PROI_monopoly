@@ -490,7 +490,43 @@ TEST(GameTests, purchaseHouse) {
 }
 
 TEST(GameTests, useGetOutOfJailCard) {
+    TestGame game;
+    Player firstPlayer(1, "test1", Token::cat, 500, false, 0, 0, true);
+    Player secondPlayer(2, "test2", Token::penguin);
+    game.addPlayer(firstPlayer);
+    game.addPlayer(secondPlayer);
+    std::vector<Player> gamePlayers = game.getPlayers();
 
+    ASSERT_TRUE(gamePlayers[0].getGetOutOfJailCard());
+
+    ASSERT_EQ(game.getCurrentPlayerId(), 1);
+    game.setNextRoll(6, 6);
+    game.rollDice();
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[0].getPosition(), 12);
+
+    ASSERT_EQ(game.getCurrentPlayerId(), 1);
+    game.setNextRoll(6, 6);
+    game.rollDice();
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[0].getPosition(), 24);
+
+    ASSERT_EQ(game.getCurrentPlayerId(), 1);
+    game.setNextRoll(4, 2);
+    game.rollDice();
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[0].getPosition(), 10);
+
+    game.findNextPlayer();
+    game.findNextPlayer();
+
+    ASSERT_EQ(game.getCurrentPlayerId(), 1);
+    game.setNextRoll(2, 2);
+    game.rollDice();
+    gamePlayers = game.getPlayers();
+    ASSERT_EQ(gamePlayers[0].getPosition(), 14);
+
+    ASSERT_FALSE(gamePlayers[0].getGetOutOfJailCard());
 }
 
 TEST(GameTests, executeEventCard) {
