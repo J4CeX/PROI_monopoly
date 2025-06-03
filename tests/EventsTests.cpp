@@ -43,10 +43,10 @@ TEST(EventCardTests, movementTarget) {
     ASSERT_EQ(firstEventCard.movementTarget(10, 20), 10);
     EventCard secEventCard(MovementType::absolute, 10, 0, CardType::chance,
         "test", 50, 10, 20, 30, true, false);
-    ASSERT_EQ(secEventCard.movementTarget(50, 40), 10);
+    ASSERT_EQ(secEventCard.movementTarget(30, 40), 10);
     EventCard thEventCard(MovementType::relativeBackward, 10, 0, CardType::chance,
         "test", 50, 10, 20, 30, true, false);
-    ASSERT_EQ(thEventCard.movementTarget(50, 40), 0);
+    ASSERT_EQ(thEventCard.movementTarget(30, 40), 20);
 }
 
 TEST(EventCardTests, InputEventCardConstructor) {
