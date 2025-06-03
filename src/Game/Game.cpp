@@ -121,6 +121,7 @@ namespace Monopoly {
         }
         else if (players[currentPlayer].getInJailRounds() > 0) {
             players[currentPlayer].setInJailRounds(players[currentPlayer].getInJailRounds() - 1);
+            players[currentPlayer].setGetOutOfJailCard(false);
             return;
         }
 
