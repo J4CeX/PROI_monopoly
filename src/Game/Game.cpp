@@ -525,4 +525,14 @@ namespace Monopoly {
             movePlayer(targetField, eventCard.isGoFieldCollectable());
         }
     }
+
+    std::ostream& operator<<(std::ostream& os, Game game) {
+
+        return os;
+    }
+
+    std::istream& operator>>(std::istream& is, Game game) {
+
+        return is;
+    }
 }
