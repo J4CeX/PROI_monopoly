@@ -41,4 +41,14 @@ namespace Fields {
         }
         return 0;
     }
+
+    std::istream& OwnableField::loadSave(std::istream& is) {
+        is >> owner >> mortgaged;
+        return is;
+    }
+
+    std::ostream& operator<<(std::ostream& os, const OwnableField& ownableField) {
+        os << ownableField.save();
+        return os;
+    }
 }
