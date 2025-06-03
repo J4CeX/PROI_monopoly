@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="page_main">
      <widget class="QLabel" name="label_logo">
@@ -838,7 +838,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Buy current field</string>
+        <string>Can't buy field now</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_field_cost">

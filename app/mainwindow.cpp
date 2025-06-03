@@ -71,9 +71,10 @@ void MainWindow::onFail(const QString& msg)
     QMessageBox::warning(this, "Error", msg);
 }
 
-void MainWindow::onIsBuyableField(bool isBuyable, int cost)
+void MainWindow::onIsBuyableField(bool isBuyable, int cost, const QString& qName)
 {
     ui->push_buy_field->setEnabled(isBuyable);
+    ui->push_buy_field->setText("Buy '" + qName + "'");
     if(isBuyable)
     {
         ui->label_field_cost->setText("Cost: " + QString::number(cost));
@@ -248,6 +249,7 @@ void MainWindow::on_push_finish_round_clicked()
     ui->push_buy_field->setEnabled(false);
     ui->label_field_cost->clear();
     ui->label_turn_number->setText(controller->getGameTurn());
+    ui->push_buy_field->setText("Can't buy field now");
 }
 
 

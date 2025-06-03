@@ -215,10 +215,10 @@ QString GameController::currentPlayerField()
         {
             q_field = QString::fromStdString(ownablefield->getName());
             int cost = ownablefield->getPurchasePrice();
-            if(!ownablefield->isOwned()) emit isBuyableField(true, cost);
+            if(!ownablefield->isOwned()) emit isBuyableField(true, cost, q_field);
             else
             {
-                emit isBuyableField(false, cost);
+                emit isBuyableField(false, cost, q_field);
                 if(idx != ownablefield->getOwner() && this->_playerMoved)
                 {
                     Player owner = this->getPlayer(ownablefield->getOwner());

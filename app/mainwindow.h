@@ -39,7 +39,7 @@ private slots:
 
     void onStartedGame();
 
-    void onIsBuyableField(bool isBuyable, int cost);
+    void onIsBuyableField(bool isBuyable, int cost, const QString& qName);
 
     void onTriedBuyField(int code, const QString& q_field);
 
