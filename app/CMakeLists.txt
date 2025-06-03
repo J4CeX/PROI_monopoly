@@ -12,6 +12,7 @@ qt_add_executable(boardgame
     GameController.cpp
     BoardWidget.cpp
     ${RESOURCES}
+
 )
 
 target_link_libraries(boardgame PRIVATE Qt6::Widgets richpp)

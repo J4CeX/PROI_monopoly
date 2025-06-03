@@ -19,5 +19,6 @@
         <file>penguin.png</file>
         <file>rubberduck.png</file>
         <file>monopoly_board.png</file>
+        <file>house1.png</file>
     </qresource>
 </RCC>

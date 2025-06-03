@@ -336,7 +336,11 @@ void MainWindow::on_push_of_buy_house_clicked()
     int fieldIndex = controller->selectedFieldIndex;
     int code = controller->buyOfHouse(fieldIndex);
     this->updateOfLabels(fieldIndex);
-    if(code==2) QMessageBox::information(this, "success", "Successfully bought a house!");
+    if(code==2)
+    {
+        QMessageBox::information(this, "success", "Successfully bought a house!");
+        this->board->addHouse(fieldIndex, 1);
+    }
     else QMessageBox::warning(this, "fail", "Couldn't buy the house!");
 }
 
@@ -346,7 +350,11 @@ void MainWindow::on_push_of_sell_house_clicked()
     int fieldIndex = controller->selectedFieldIndex;
     int code = controller->sellOfHouse(fieldIndex);
     this->updateOfLabels(fieldIndex);
-    if(code==1) QMessageBox::information(this, "success", "Successfully sold a house!");
+    if(code==1)
+    {
+        QMessageBox::information(this, "success", "Successfully sold a house!");
+        this->board->removeHouse(fieldIndex);
+    }
     else QMessageBox::warning(this, "fail", "Couldn't sell the house!");
 }
 
