@@ -18,12 +18,6 @@ std::map<Token, std::string> str_token_map{{Token::raceCar, "Race Car"},
                                             {Token::penguin, "Penguin"},
                                             {Token::rubberDuck, "Rubber Duck"}};
 
-std::pair<int, int> coordinates[40] = {{650, 550}, {585, 550}, {520, 550}, {460, 550}, {410, 550}, {370, 550}, {325, 550}, {275, 550}, {225, 550},
-                                       {175, 550}, {115, 550}, {115, 500}, {115, 445}, {115, 390}, {115, 335}, {115, 285}, {115, 235}, {115, 175},
-                                       {115, 110}, {115, 60}, {115, 10}, {175, 10}, {235, 10}, {295, 10}, {350, 10}, {410, 10}, {465, 10},
-                                       {515, 10}, {560, 10}, {595, 10}, {645, 10}, {645, 70}, {645, 140}, {645, 210}, {645, 260}, {645, 320},
-                                       {645, 365}, {645, 410}, {645, 460}, {645, 510}};
-
 using namespace Monopoly;
 using namespace MonopolyPlayer;
 
@@ -269,7 +263,12 @@ QString GameController::currentPlayerField()
             q_field = "Jail!";
             if(this->_playerMoved)
             {
-                if(current_player.getInJailRounds()) emit currentEvent("Trafiłeś do więzienia! Poczekaj 3 tury lub wyrzuć dublet.");
+                int jailRounds = current_player.getInJailRounds();
+                if(jailRounds)
+                {
+                    if(jailRounds==3) emit currentEvent("Trafiłeś do więzienia! Poczekaj 3 tury lub wyrzuć dublet.");
+                    else emit currentEvent("Jesteś w więzieniu. Poczekaj " + QString::number(jailRounds) + " tury lub wyrzuć dublet.");
+                }
                 else emit currentEvent("Odwiedzasz więzienie.");
             }
         }
@@ -380,11 +379,6 @@ int GameController::ofUnmortgage(int pos)
     size_t field_id = static_cast<size_t>(pos);
     int code = this->_game.playerMortgageField(player_id, field_id, true);
     return code;
-}
-
-std::pair<int,int> GameController::fieldCoords(int idx) const
-{
-    return coordinates[idx];
 }
 
 QString GameController::currentPlayerToken() const

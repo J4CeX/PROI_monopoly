@@ -31,7 +31,6 @@ public:
     QString currentPlayerToken() const;
     QString currentPlayerIndex() const;
     int getCurrentPlayerIndex() const;
-    std::pair<int, int> fieldCoords(int idx) const;
     std::vector<Token> playerTokens() const;
     std::vector<Player> getPlayers() const { return this->_game.getPlayers(); };
     QString getGameTurn() const;
