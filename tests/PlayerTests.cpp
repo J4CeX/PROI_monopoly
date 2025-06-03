@@ -71,5 +71,5 @@ TEST(PlayerTests, Output) {
     Player player(1, "player", Token::cat);
     std::ostringstream oss;
     oss << player;
-    ASSERT_EQ(oss.str(), "1 5 500 0 0 0 0 player");
+    ASSERT_EQ(oss.str(), "1 5 500 0 0 0 0 player\n");
 }
