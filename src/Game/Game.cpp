@@ -41,7 +41,7 @@ namespace Monopoly {
 
         chances = secGame.chances;
         communityChests = secGame.communityChests;
-
+        fields.clear();
         for (const auto& field: secGame.fields) {
             fields.push_back(field->clone());
         }
@@ -70,7 +70,7 @@ namespace Monopoly {
 
             chances = secGame.chances;
             communityChests = secGame.communityChests;
-
+            fields.clear();
             for (const auto& field: secGame.fields) {
                 fields.push_back(field->clone());
             }
