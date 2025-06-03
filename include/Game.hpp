@@ -95,14 +95,5 @@ namespace Monopoly {
             int sellOwnableField(size_t& player, size_t& fieldPosition);
             bool getIsFinished() { return isFinished; }
             const EventCard& getCurrentEvent() { return currentEvent; }
-
-            // debug
-            void goCurrentPlayerBankrupt()
-            {
-                size_t current_player = getCurrentPlayerId()-1;
-                const int new_bal = -1;
-                players[current_player].setBalance(new_bal);
-                std::cout << "Balance: " << players[current_player].getBalance() << std::endl;
-            }
     };
 }
