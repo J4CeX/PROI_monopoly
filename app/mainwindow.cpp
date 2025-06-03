@@ -113,7 +113,7 @@ void MainWindow::onTriedBuyField(int code, const QString& q_field)
 void MainWindow::onStartedGame()
 {
     ui->stackedInterface->setCurrentIndex(3);
-    ui->stacked_game_options->setCurrentIndex(0);
+    ui->frame_field_info->hide();
     ui->push_finish_round->setEnabled(false);
     ui->push_buy_field->setEnabled(false);
     ui->push_roll_dice->setEnabled(true);
@@ -190,7 +190,7 @@ void MainWindow::on_push_add_player_clicked()
 void MainWindow::updatePlayerOwnedFields()
 {
     auto owned_fields = controller->currentPlayerOwnedFields();
-    ui->list_owned_fields->clear(); // czyść starą listę
+    ui->list_owned_fields->clear();
 
     for (const auto& [label, position] : owned_fields)
     {
@@ -207,9 +207,7 @@ void MainWindow::updatePlayerLabels()
     ui->list_players_2->addItems(controller->playerNamesList());
     ui->label_current_p->setText(controller->currentPlayerName());
     ui->label_balance_p->setText(controller->currentPlayerBalance() + " zł");
-    ui->label_position_p->setText(controller->currentPlayerPosition());
     ui->label_token_p->setText(controller->currentPlayerToken());
-    ui->label_index_p->setText(controller->currentPlayerIndex());
     this->updatePlayerOwnedFields();
                                            
     for(Player player : controller->getPlayers())
@@ -236,8 +234,8 @@ void MainWindow::on_push_finish_round_clicked()
 {
     controller->findNextPlayer();
     this->updatePlayerLabels();
+    ui->frame_field_info->hide();
     ui->label_dice_result->clear();
-    ui->label_position_p->setText(controller->currentPlayerPosition());
     ui->label_field_p->setText(controller->currentPlayerField());
     ui->push_roll_dice->setEnabled(true);
     ui->push_finish_round->setEnabled(false);
@@ -263,7 +261,7 @@ void MainWindow::on_list_owned_fields_itemClicked(QListWidgetItem *item)
 {
     int fieldIndex = item->data(Qt::UserRole).toInt();
     controller->selectedFieldIndex = fieldIndex;
-    ui->stacked_game_options->setCurrentIndex(1);
+    ui->frame_field_info->show();
     this->updateOfLabels(fieldIndex);
 }
 
@@ -321,7 +319,7 @@ void MainWindow::updateOfLabels(int fieldIndex)
 
 void MainWindow::on_push_of_back_clicked()
 {
-    ui->stacked_game_options->setCurrentIndex(0);
+    ui->frame_field_info->hide();
 }
 
 
