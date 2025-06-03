@@ -20,3 +20,6 @@ set_target_properties(boardgame PROPERTIES
     WIN32_EXECUTABLE OFF
     MACOSX_BUNDLE OFF
 )
+
+include_directories(${PROJECT_SOURCE_DIR}/app/include)
+
