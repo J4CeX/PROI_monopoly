@@ -2,7 +2,7 @@
 #include "Field/Street.hpp"
 #include "Field/Station.hpp"
 #include "Field/Utility.hpp"
-#include <strstream>
+#include <sstream>
 
 using namespace Fields;
 
