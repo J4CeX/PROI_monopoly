@@ -5,8 +5,7 @@ namespace Fields {
     Street::Street(int position, int purchasePrice, int trespassingFee,
         int firstHouseRent, int secondHouseRent, int thirdHouseRent,
         int fourthHouseRent, int fifthHouseRent, const std::string &name, Color streetColor)
-        : OwnableField(position, name, purchasePrice, trespassingFee),
-            houseCount(0), color(streetColor) {
+        : OwnableField(position, name, purchasePrice, trespassingFee), color(streetColor) {
             housesRent[0] = trespassingFee;
             housesRent[1] = firstHouseRent;
             housesRent[2] = secondHouseRent;
@@ -39,5 +38,16 @@ namespace Fields {
 
         LOGI(2, "Attempted to sell house from an empty street", position);
         return 0;
+    }
+
+    std::string Street::save() const {
+        std::stringstream ss;
+        ss << position << " " << owner << " " << (owned? 1: 0) << " " << (mortgaged? 1: 0) << " " << houseCount;
+        return ss.str();
+    }
+
+    std::istream& Street::loadSave(std::istream& is) {
+        is >> owner >> owned >> mortgaged >> houseCount;
+        return is;
     }
 }

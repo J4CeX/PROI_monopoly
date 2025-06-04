@@ -3,11 +3,11 @@
 
 
 namespace Monopoly {
-    Game::Game():
+    Game::Game(bool shuffleEventCards):
     turnCounter(0), currentPlayer(0), dice(0, 0),
     diceDoubleCounter(0), filled(false),
     randomDevice(), gen(randomDevice()), distribution(1, 6),
-    isFinished(false) {
+    isFinished(false), shuffleEventCards_(shuffleEventCards) {
         try {
             setFields();
         }
@@ -18,9 +18,10 @@ namespace Monopoly {
 
         try {
             setEventCards();
-
-            communityChests.shuffle();
-            chances.shuffle();
+            if (shuffleEventCards) {
+                communityChests.shuffle();
+                chances.shuffle();
+            }
 
             communityChestsCounter = communityChests.length();
             chancesCounter = chances.length();
@@ -136,8 +137,7 @@ namespace Monopoly {
         // If player in jail and rolled a double - get out of jail
         if (diceDoubleCounter > 0 && players[currentPlayer].getInJailRounds() > 0) {
             players[currentPlayer].setInJailRounds(0);
-
-            LOG(1, "Double rolled while player was in jail");
+            players[currentPlayer].setGetOutOfJailCard(false);
         }
         else if (players[currentPlayer].getInJailRounds() > 0) {
             players[currentPlayer].setInJailRounds(players[currentPlayer].getInJailRounds() - 1);
@@ -212,8 +212,14 @@ namespace Monopoly {
                     }
 
                     if (unMortgage && ownableField->isMortgaged()) {
-                        players[player].setBalance(players[player].getBalance() - ownableField->unmortgage());
-                        return 1;
+                        int newBalance = players[player].getBalance() - ownableField->unmortgage();
+                        if (newBalance >= 0) {
+                            players[player].setBalance(newBalance);
+                            return 1;
+                        }
+                        else {
+                            return -4;
+                        }
                     }
                     else if (!unMortgage && !ownableField->isMortgaged()) {
                         players[player].setBalance(players[player].getBalance() + ownableField->mortgage());
@@ -290,7 +296,7 @@ namespace Monopoly {
                     }
                 }
                 if (OwnableField* ownableField = dynamic_cast<OwnableField*>(field.get())) {
-                    if (ownableField->isOwned()) {
+                    if (!ownableField->isOwned()) {
                         return -2;
                     }
                     else {
@@ -300,6 +306,7 @@ namespace Monopoly {
                                 price /= 2;
                             }
                             players[player].setBalance(players[player].getBalance() + price);
+                            ownableField->unmortgage();
                             ownableField->removeOwner();
                             return 1;
                         }
@@ -585,5 +592,85 @@ namespace Monopoly {
 
             LOGI(0, "Player moved to field at position:", targetField);
         }
+    }
+
+    bool Game::save() const {
+        std::ofstream file(savePath);
+        if (!file.good()) {
+            return false;
+        }
+        file << *this;
+        return true;
+    }
+
+    bool Game::load() {
+        std::ifstream file(savePath);
+        if (!file.good() || std::filesystem::file_size(savePath) == 0) {
+            return false;
+        }
+        file >> *this;
+        return true;
+    }
+
+    std::ostream& operator<<(std::ostream& os, Game game) {
+        using std::endl;
+
+        os << game.players.size() << endl;
+        for (const auto& player: game.players) {
+            os << player;
+        }
+
+        os << game.currentPlayer << " "
+            << game.turnCounter << " "
+            << game.dice.first << " "
+            << game.dice.second << " "
+            << game.diceDoubleCounter << " "
+            << (game.isFinished? 1: 0) << endl;
+
+        for (const auto& field: game.fields) {
+            if (OwnableField* ownableField = dynamic_cast<OwnableField*>(field.get())) {
+                os << *ownableField << endl;
+            }
+        }
+
+        return os;
+    }
+
+    std::istream& operator>>(std::istream& is, Game game) {
+        int playerCounter;
+        is >> playerCounter;
+        for (int i = 0; i < playerCounter; i++) {
+            Player newPlayer;
+            is >> newPlayer;
+            game.addPlayer(newPlayer);
+        }
+
+        is >> game.currentPlayer
+            >> game.turnCounter
+            >> game.dice.first
+            >> game.dice.second
+            >> game.diceDoubleCounter
+            >> game.isFinished;
+
+        for (int i = 0; i < 28; i++) {
+            int currentPosition;
+            is >> currentPosition;
+            for (auto& field: game.fields) {
+                if (currentPosition == field->getPosition()) {
+                    if (Street* street = dynamic_cast<Street*>(field.get())) {
+                        street->loadSave(is);
+                    }
+                    else if (OwnableField* ownableField = dynamic_cast<OwnableField*>(field.get())) {
+                        ownableField->loadSave(is);
+                    }
+                    else {
+                        throw (std::invalid_argument("File error! Corrupted data in save.txt file!"));
+                    }
+                    break;
+                }
+            }
+        }
+
+        return is;
     }
 }
