@@ -1,5 +1,6 @@
 #pragma once
 #include "OwnableField.hpp"
+#include "Logger.hpp"
 
 namespace Fields {
     enum class Color {
@@ -66,7 +67,7 @@ namespace Fields {
                     street.color = Color::Darkblue;
                 }
                 else {
-                    std::cerr << "Wrond color type for street!" << std::endl;
+                    LOG(2, "While deserializing Street Field: wrong color type for street!");
                 }
                 std::string curName;
                 std::getline(is, curName);

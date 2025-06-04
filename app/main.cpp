@@ -3,8 +3,7 @@
 #include "mainwindow.h"
 
 int main(int argc, char *argv[]) {
-
-    std::cout << "BoardGame v. 0.0.1" << std::endl;
+    std::cout << "BoardGame v. 1.0.0" << std::endl;
 
     QApplication a(argc, argv);
     MainWindow mw;

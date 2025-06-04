@@ -2,27 +2,32 @@
 
 #include <iostream>
 #include <string>
+#include <fstream>
 
 class Logger {
     private:
         unsigned int level_;
         unsigned int count_;
 
+        std::ofstream logFile;
+
         template <typename T, typename... Us>
         void print(T value, Us... args) {
-            std::cout << " " << value;
+            logFile << " " << value;
 
             print(args...);
         }
 
         template <typename T>
         void print(T value) {
-            std::cout << " " << value;
+            logFile << " " << value;
         }
+
+        std::string logFilename() const;
 
     public:
         Logger(unsigned logLevel):
-            level_(logLevel) {};
+            level_(logLevel), logFile(logFilename()) {};
 
         Logger(Logger&) = delete;
         void operator=(const Logger&) = delete;
@@ -40,23 +45,21 @@ class Logger {
 
             if (level >= level_) {
 
-                std::cout << count_;
-                if (level == 0) { std::cout << " [debug]"; }
-                else if (level == 1) { std::cout << "  [info]"; }
-                else if (level == 2) { std::cout << "  [warn]"; }
-                else if (level == 3) { std::cout << " [error]"; }
-                else if (level >= 4) { std::cout << "  [crit]"; }
-                std::cout << " @ " << name << ":" << line << ":";
+                logFile << count_;
+                if (level == 0) { logFile << " [debug]"; }
+                else if (level == 1) { logFile << "  [info]"; }
+                else if (level == 2) { logFile << "  [warn]"; }
+                else if (level == 3) { logFile << " [error]"; }
+                else if (level >= 4) { logFile << "  [crit]"; }
+                logFile << " @ " << name << ":" << line << ":";
 
                 // Recursively print everything from variadic template
                 print(args...);
 
-                std::cout << std::endl;
+                logFile << std::endl;
             }
         }
 };
-
-std::string logFilename();
 
 #define LOGGING_LEVEL @RICHPP_LOG_LEVEL@
 

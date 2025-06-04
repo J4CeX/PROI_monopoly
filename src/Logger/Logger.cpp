@@ -4,7 +4,7 @@
 
 #include "Logger.hpp"
 
-std::string logFilename() {
+std::string Logger::logFilename() const {
     auto now = std::chrono::system_clock::now();
     std::time_t now_c = std::chrono::system_clock::to_time_t(now);
 
