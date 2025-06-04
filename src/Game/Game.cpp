@@ -41,7 +41,7 @@ namespace Monopoly {
 
         chances = secGame.chances;
         communityChests = secGame.communityChests;
-
+        fields.clear();
         for (const auto& field: secGame.fields) {
             fields.push_back(field->clone());
         }
@@ -70,7 +70,7 @@ namespace Monopoly {
 
             chances = secGame.chances;
             communityChests = secGame.communityChests;
-
+            fields.clear();
             for (const auto& field: secGame.fields) {
                 fields.push_back(field->clone());
             }
@@ -544,7 +544,7 @@ namespace Monopoly {
         return true;
     }
 
-    std::ostream& operator<<(std::ostream& os, Game game) {
+    std::ostream& operator<<(std::ostream& os, const Game& game) {
         using std::endl;
 
         os << game.players.size() << endl;
@@ -568,7 +568,7 @@ namespace Monopoly {
         return os;
     }
 
-    std::istream& operator>>(std::istream& is, Game game) {
+    std::istream& operator>>(std::istream& is, Game& game) {
         int playerCounter;
         is >> playerCounter;
         for (int i = 0; i < playerCounter; i++) {

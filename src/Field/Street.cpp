@@ -43,6 +43,7 @@ namespace Fields {
 
     std::istream& Street::loadSave(std::istream& is) {
         is >> owner >> owned >> mortgaged >> houseCount;
+        trespassingFee = housesRent[houseCount];
         return is;
     }
 }
