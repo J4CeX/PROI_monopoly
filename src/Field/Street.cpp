@@ -18,12 +18,12 @@ namespace Fields {
         if (houseCount < Capacity - 1) {
             trespassingFee = housesRent[++houseCount];
 
-            LOGII(0, "Housed purchased", position, houseCount);
+            LOG(0, "Housed purchased", position, houseCount);
 
             return housePrice;
         }
-        
-        LOGI(2, "Attempted to purchase a house that is above a capacity of the street", position);
+
+        LOG(2, "Attempted to purchase a house that is above a capacity of the street", position);
         return 0;
     }
 
@@ -31,12 +31,12 @@ namespace Fields {
         if (houseCount > 0) {
             trespassingFee = housesRent[--houseCount];
 
-            LOGII(0, "Housed sold", position, houseCount);
+            LOG(0, "Housed sold", position, houseCount);
 
             return housePrice;
         }
 
-        LOGI(2, "Attempted to sell house from an empty street", position);
+        LOG(2, "Attempted to sell house from an empty street", position);
         return 0;
     }
 

@@ -8,35 +8,48 @@ class Logger {
         unsigned int level_;
         unsigned int count_;
 
+        template <typename T, typename... Us>
+        void print(T value, Us... args) {
+            std::cout << " " << value;
+
+            print(args...);
+        }
+
+        template <typename T>
+        void print(T value) {
+            std::cout << " " << value;
+        }
+
     public:
         Logger(unsigned logLevel):
             level_(logLevel) {};
 
-
         Logger(Logger&) = delete;
         void operator=(const Logger&) = delete;
+        Logger(Logger&&) = delete;
+        void operator=(const Logger&&) = delete;
 
         ~Logger() = default;
 
-        template <typename T, typename U = int, typename W = int>
-        void log(unsigned int level, const T& message,
+
+        template <typename... Ts>
+        void log(unsigned int level,
             const char* name, unsigned int line,
-            const U& i1 = -1, bool i1Used = false,
-            const W& i2 = -1, bool i2Used = false) {
+            Ts... args) {
             count_ += 1;
 
             if (level >= level_) {
-                std::cout << count_;
-                if (level == 0) { std::cout << " [debug] "; }
-                else if (level == 1) { std::cout << "  [info] "; }
-                else if (level == 2) { std::cout << "  [warn] "; }
-                else if (level == 3) { std::cout << " [error] "; }
-                else if (level >= 4) { std::cout << "  [crit] "; }
-                std::cout << "@ " << name << ":" << line << ": " << message;
 
-                if (i1Used) std::cout << " (" << i1;
-                if (i2Used) std::cout << ", " << i2;
-                if (i1Used) std::cout << ")";
+                std::cout << count_;
+                if (level == 0) { std::cout << " [debug]"; }
+                else if (level == 1) { std::cout << "  [info]"; }
+                else if (level == 2) { std::cout << "  [warn]"; }
+                else if (level == 3) { std::cout << " [error]"; }
+                else if (level >= 4) { std::cout << "  [crit]"; }
+                std::cout << " @ " << name << ":" << line << ":";
+
+                // Recursively print everything from variadic template
+                print(args...);
 
                 std::cout << std::endl;
             }
@@ -52,32 +65,11 @@ inline Logger& logger() {
     return logger;
 }
 
-#define LOG(level, message_) \
+#define LOG(level, messages...) \
     logger().log( \
         level, \
-        message_, \
-        __func__, \
-        __LINE__ \
-    );
-
-#define LOGI(level, message_, i1_) \
-    logger().log( \
-        level, \
-        message_, \
         __func__, \
         __LINE__, \
-        i1_, \
-        true \
+        messages \
     );
 
-#define LOGII(level, message_, i1_, i2_) \
-    logger().log( \
-        level, \
-        message_, \
-        __func__, \
-        __LINE__, \
-        i1_, \
-        true, \
-        i2_, \
-        true \
-    );

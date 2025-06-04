@@ -103,7 +103,7 @@ std::istream& operator>>(std::istream& is, EventCard& ec) {
     if (is) {
         ec.filled_ = true;
 
-        LOGI(0, "EventCard loaded with ID:", ec.cardId_);
+        LOG(0, "EventCard loaded with ID:", ec.cardId_);
     } else {
         LOG(3, "Attempted to deserialize an EventCard, but istream failed");
     }

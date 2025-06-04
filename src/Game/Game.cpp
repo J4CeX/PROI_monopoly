@@ -12,7 +12,7 @@ namespace Monopoly {
             setFields();
         }
         catch (std::exception& exc) {
-            LOGI(3, "While trying to deserialize Fields:", exc.what());
+            LOG(3, "While trying to deserialize Fields:", exc.what());
             return;
         }
 
@@ -27,7 +27,7 @@ namespace Monopoly {
             chancesCounter = chances.length();
         }
         catch (std::exception& exc) {
-            LOGI(3, "While trying to deserialize EventCards:", exc.what());
+            LOG(3, "While trying to deserialize EventCards:", exc.what());
             return;
         }
 
@@ -116,7 +116,7 @@ namespace Monopoly {
         dice.first = randomNumber();
         dice.second = randomNumber();
 
-        LOGII(0, "Dice rolled", dice.first, dice.second);
+        LOG(0, "Dice rolled", dice.first, dice.second);
 
         if (dice.first == dice.second) {
             diceDoubleCounter++;
@@ -177,7 +177,7 @@ namespace Monopoly {
             }
         } while (players[currentPlayer].getIsBankrupt());
 
-        LOGI(1, "Next player found:", currentPlayer);
+        LOG(1, "Next player found:", currentPlayer);
         return true;
     }
 
@@ -185,7 +185,7 @@ namespace Monopoly {
         if (players.size() < 4) {
             players.push_back(newPlayer);
 
-            LOGI(1, "Player added:", newPlayer.getPlayerId());
+            LOG(1, "Player added:", newPlayer.getPlayerId());
 
             return true;
         }
@@ -200,7 +200,7 @@ namespace Monopoly {
     }
 
     int Game::playerMortgageField(size_t& player, size_t& fieldPosition, bool unMortgage) {
-        LOGII(1, "Player trying to mortgage/unmortgage an OwnableField", player, fieldPosition);
+        LOG(1, "Player trying to mortgage/unmortgage an OwnableField", player, fieldPosition);
         for (auto& field: fields) {
             if (field->getPosition() == fieldPosition) {
                 if (OwnableField* ownableField = dynamic_cast<OwnableField*>(field.get())) {
@@ -235,7 +235,7 @@ namespace Monopoly {
     }
 
     int Game::playerBuyHouse(size_t& player, size_t& fieldPosition, bool sellHouse) {
-        LOGII(1, "Player trying to buy/sell a house", player, fieldPosition);
+        LOG(1, "Player trying to buy/sell a house", player, fieldPosition);
 
         for (auto& field: fields) {
             if (field->getPosition() == fieldPosition) {
@@ -262,7 +262,7 @@ namespace Monopoly {
     }
 
     int Game::buyOwnableField() {
-        LOGII(1, "Player trying to buy the current Field", currentPlayer, players[currentPlayer].getPosition());
+        LOG(1, "Player trying to buy the current Field", currentPlayer, players[currentPlayer].getPosition());
 
         for (auto& field: fields) {
             if (field->getPosition() == players[currentPlayer].getPosition()) {
@@ -286,7 +286,7 @@ namespace Monopoly {
     }
 
     int Game::sellOwnableField(size_t& player, size_t& fieldPosition) {
-        LOGII(1, "Player trying to sell the current Field", currentPlayer, players[currentPlayer].getPosition());
+        LOG(1, "Player trying to sell the current Field", currentPlayer, players[currentPlayer].getPosition());
 
         for (auto& field: fields) {
             if (field->getPosition() == fieldPosition) {
@@ -319,7 +319,7 @@ namespace Monopoly {
     }
 
     void Game::movePlayer(size_t newPosition, bool goFieldCollectable) {
-        LOGII(1, "Attempting to move a Player to new Field", currentPlayer, newPosition);
+        LOG(1, "Attempting to move a Player to new Field", currentPlayer, newPosition);
 
         if (goFieldCollectable) {
             size_t currentPosition = players[currentPlayer].getPosition();
@@ -426,13 +426,13 @@ namespace Monopoly {
             players[currentPlayer].setGetOutOfJailCard(false);
             players[currentPlayer].setInJailRounds(0);
 
-            LOGI(1, "Get out of jail free card applied", currentPlayer);
+            LOG(1, "Get out of jail free card applied", currentPlayer);
 
 
             return true;
         }
 
-        LOGII(2, "Attempted to use the Get out of jail free card under incorrect conditions",
+        LOG(2, "Attempted to use the Get out of jail free card under incorrect conditions",
             players[currentPlayer].getGetOutOfJailCard(), players[currentPlayer].getInJailRounds());
         return false;
     }
@@ -542,7 +542,7 @@ namespace Monopoly {
     }
 
     void Game::executeEventCard(const EventCard& eventCard) {
-        LOGI(0, "Processing EventCard with ID:", eventCard.getCardId());
+        LOG(0, "Processing EventCard with ID:", eventCard.getCardId());
 
         // Settle balances
         players[currentPlayer].setBalance(players[currentPlayer].getBalance() + eventCard.getBankBalance());
@@ -558,7 +558,7 @@ namespace Monopoly {
 
             players[currentPlayer].setBalance(players[currentPlayer].getBalance() + balanceDiff);
 
-            LOGI(0, "Player balance settled to:", balanceDiff);
+            LOG(0, "Player balance settled to:", balanceDiff);
         }
 
         // Check for houses and hotels
@@ -569,10 +569,10 @@ namespace Monopoly {
                     if (street->getHouseCount() == 5) {  // 5 houses means exactly one hotel
                         houseHotelCost += eventCard.getPerHotelBalance();
 
-                        LOGI(0, "Balance counted for a hotel:", houseHotelCost);
+                        LOG(0, "Balance counted for a hotel:", houseHotelCost);
                     } else {
                         houseHotelCost += eventCard.getPerHouseBalance() * street->getHouseCount();
-                        LOGI(0, "Balance counted for house(es)", houseHotelCost);
+                        LOG(0, "Balance counted for house(es)", houseHotelCost);
                     }
                 }
             }
@@ -590,7 +590,7 @@ namespace Monopoly {
             size_t targetField = eventCard.movementTarget(players[currentPlayer].getPosition(), fields.size());
             movePlayer(targetField, eventCard.isGoFieldCollectable());
 
-            LOGI(0, "Player moved to field at position:", targetField);
+            LOG(0, "Player moved to field at position:", targetField);
         }
     }
 

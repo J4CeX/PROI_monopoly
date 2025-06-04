@@ -42,7 +42,7 @@ void EventCardContainer::shuffle() {
 void EventCardContainer::addCard(const EventCard& newCard) {
     cards_.push_back(newCard);
 
-    LOGI(0, "EventCard added to container:", newCard.getCardId());
+    LOG(0, "EventCard added to container:", newCard.getCardId());
 }
 
 EventCard& EventCardContainer::operator[](int index) {
