@@ -16,6 +16,8 @@ FetchContent_MakeAvailable(googletest)
 enable_testing()
 
 include_directories(${PROJECT_SOURCE_DIR}/include)
+include_directories(${PROJECT_BINARY_DIR}/include)
+
 add_compile_definitions(fieldsPath="${CMAKE_CURRENT_SOURCE_DIR}/data/fields.txt")
 add_compile_definitions(eventCardsPath="${CMAKE_CURRENT_SOURCE_DIR}/data/eventCards.txt")
 add_compile_definitions(savePath="${CMAKE_CURRENT_SOURCE_DIR}/saves/save.txt")
@@ -23,3 +25,6 @@ add_compile_definitions(savePath="${CMAKE_CURRENT_SOURCE_DIR}/saves/save.txt")
 add_subdirectory(src)
 add_subdirectory(tests)
 add_subdirectory(app)
+
+set(RICHPP_LOG_LEVEL 0)
+add_subdirectory(include)

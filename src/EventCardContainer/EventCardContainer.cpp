@@ -1,4 +1,5 @@
 #include "EventCardContainer.hpp"
+#include "Logger.hpp"
 
 namespace Events {
 
@@ -34,18 +35,23 @@ void EventCardContainer::shuffle() {
     std::mt19937 randomGenerator(randomDevice());
 
     std::shuffle(cards_.begin(), cards_.end(), randomGenerator);
+
+    LOG(0, "EventCardContainer shuffled");
 };
 
 void EventCardContainer::addCard(const EventCard& newCard) {
     cards_.push_back(newCard);
+
+    LOG(0, "EventCard added to container:", newCard.getCardId());
 }
 
 EventCard& EventCardContainer::operator[](int index) {
     try {
         return cards_[index];
     }
-    catch (std::exception& exc) {
-        std::cerr << "Out of index error! (EventCardContainer)" << std::endl;
+    catch (...) {
+        LOG(3, "Accessed EventCardContainer with a out-of-bounds index");
+        throw;
     }
 }
 }
