@@ -214,6 +214,26 @@ std::vector<std::pair<QString, size_t>> GameController::currentPlayerOwnedFields
     return this->playerOwnedFields(idx);
 }
 
+std::vector<int> GameController::fieldHouses() const
+{
+    std::vector<int> housesAmounts{};
+    const auto& fields = this->_game.getFields();
+    for (const auto& field : fields)
+    {
+        TYPE type = field->getInfo();
+        if (type == TYPE::STREET)
+        {
+            if (Street* street = dynamic_cast<Street*>(field.get()))
+            {
+                int houses = street->getHouseCount();
+                housesAmounts.push_back(houses);
+            }
+        }
+        else housesAmounts.push_back(0);
+    }
+    return housesAmounts;
+}
+
 QString GameController::currentPlayerField()
 {
     int idx = this->_game.getCurrentPlayerId()-1;
@@ -325,7 +345,7 @@ QString GameController::currentPlayerField()
 QStringList GameController::getOwnedFieldInfo(int position)
 {
     const auto& fields = this->_game.getFields();
-    const auto& field = *(fields[position]); // zakładamy, że position jest poprawne
+    const auto& field = *(fields[position]);
     TYPE type = field.getInfo();
 
     QString name = "Unknown";

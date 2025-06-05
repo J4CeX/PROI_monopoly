@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     controller = new GameController(this);
 
     ui->stackedInterface->setCurrentIndex(0);
-    this->board = new BoardWidget(ui->widget_board);
+    this->board = new BoardWidget(700, ui->widget_board);
     this->board->setGeometry(ui->widget_board->rect());
     this->board->show();
 
@@ -124,6 +124,21 @@ void MainWindow::onStartedGame()
     this->board->setPlayers(controller->getPlayers());
     this->updatePlayerLabels();
     this->updatePlayersPositions();
+    std::vector<int> fieldHouses = controller->fieldHouses();
+    for(int i=0; i<40; i++)
+    {
+        if(fieldHouses[i] > 0)
+        {
+            for(int j = 0; j < fieldHouses[i]; j++)
+            {
+                this->board->removeHouse(i);
+            }
+        }
+        for(int j = 0; j < fieldHouses[i]; j++)
+        {
+            this->board->addHouse(i, 1);
+        }
+    }
 }
 
 void MainWindow::onBalanceChanged(int difference)
@@ -257,6 +272,7 @@ void MainWindow::on_push_exit_game_clicked()
 {
     int code = controller->saveGame();
     std::cout << code << std::endl;
+    QMessageBox::information(this, "info", "Game saved. You can load it from menu.");
     ui->stackedInterface->setCurrentIndex(0);
 }
 
@@ -393,6 +409,7 @@ void MainWindow::onFinishedGameSignal(const QString& winnerName)
 
     if (msgBox.clickedButton() == backButton) {
         ui->stackedInterface->setCurrentIndex(0);
+        controller->saveGame();
     }
 }
 
@@ -409,19 +426,6 @@ void MainWindow::loadButtons()
         "}"
         "QPushButton:pressed {"
         "   background-image: url(:/board/button_start);"
-        "}"
-    );
-    ui->push_options->setFixedSize(300, 75);
-    ui->push_options->setStyleSheet(
-        "QPushButton {"
-        "   border: none;"
-        "   background-image: url(:/board/button_options);"
-        "}"
-        "QPushButton:hover {"
-        "   background-image: url(:/board/button_options_hover);"
-        "}"
-        "QPushButton:pressed {"
-        "   background-image: url(:/board/button_options);"
         "}"
     );
     ui->push_load->setFixedSize(300, 75);
@@ -454,6 +458,11 @@ void MainWindow::loadButtons()
 void MainWindow::on_push_load_clicked()
 {
     int code = controller->loadGame();
-    if(code) this->onStartedGame();
+    if(code)
+    {
+        this->onStartedGame();
+        QMessageBox::information(this, "info", "Game loaded successfully.");
+    }
+    else QMessageBox::information(this, "info", "No saved game found. Start a new game.");
 }
 
