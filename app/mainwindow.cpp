@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->board->setGeometry(ui->widget_board->rect());
     this->board->show();
 
-    QPixmap logo(":/board/monopoly_logo.png");
+    QPixmap logo(":/board/MONOPOLY.png");
     ui->label_logo->setPixmap(logo);
 
     this->setStyleSheet("background-image: url(:/board/background.png); background-repeat: no-repeat; background-position: center;");

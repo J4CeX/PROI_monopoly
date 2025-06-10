@@ -1,6 +1,6 @@
 #include "BoardWidget.h"
 BoardWidget::BoardWidget(int size, QWidget *parent) : QWidget(parent) {
-    board.load(":/board/monopoly_board.png");
+    board.load(":/board/board_thick_logo.png");
     board = board.scaled(size, size, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
     setFixedSize(size, size);
 }

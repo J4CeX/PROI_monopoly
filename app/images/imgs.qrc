@@ -20,5 +20,7 @@
         <file>rubberduck.png</file>
         <file>monopoly_board.png</file>
         <file>house1.png</file>
+        <file>board_thick_logo.png</file>
+        <file>MONOPOLY.png</file>
     </qresource>
 </RCC>
