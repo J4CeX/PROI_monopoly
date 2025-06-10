@@ -228,6 +228,11 @@ void MainWindow::updatePlayerLabels()
     ui->label_balance_p->setText(controller->currentPlayerBalance() + " zł");
     ui->label_token_p->setText(controller->currentPlayerToken());
     ui->label_field_p->setText(controller->currentPlayerField());
+
+    // Token current_token = controller->_game.getPlayers()[]
+    // QPixmap token_img(":/board/MONOPOLY.png");
+    // ui->label_token_img->setPixmap(token_img);
+
     this->updatePlayerOwnedFields();
 }
 

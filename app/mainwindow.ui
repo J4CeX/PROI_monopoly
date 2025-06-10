@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="page_main">
      <widget class="QLabel" name="label_logo">
@@ -606,6 +606,19 @@
        </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_token_img">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>20</y>
+         <width>50</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>&lt;token_img&gt;</string>
        </property>
       </widget>
      </widget>
